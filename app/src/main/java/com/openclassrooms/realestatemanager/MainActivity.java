@@ -16,11 +16,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
-        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
-
-        this.configureTextViewMain();
-        this.configureTextViewQuantity();
+//        this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
+//        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
+//
+//        this.configureTextViewMain();
+//        this.configureTextViewQuantity();
     }
 
     private void configureTextViewMain(){
