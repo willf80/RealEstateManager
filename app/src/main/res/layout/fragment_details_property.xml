@@ -10,76 +10,86 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_media"
+            android:padding="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mediaRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/title_description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-        <TextView
-            android:id="@+id/propertyDescriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lorem" />
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <com.openclassrooms.realestatemanager.views.PropertyOptionView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:prop_opt_description="450 sq m"
-                app:prop_opt_icon="@drawable/ic_surface_black_24dp"
-                app:prop_opt_title="Surface" />
 
-            <com.openclassrooms.realestatemanager.views.PropertyOptionView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:prop_opt_description="8"
-                app:prop_opt_icon="@drawable/ic_home_black_24dp"
-                app:prop_opt_title="Number of rooms" />
 
-            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:prop_opt_description="2"
-                app:prop_opt_icon="@drawable/hot_tub_black_24x24"
-                app:prop_opt_title="Number of bathrooms" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/title_description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+            <TextView
+                android:id="@+id/propertyDescriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:prop_opt_description="4"
-                app:prop_opt_icon="@drawable/hotel_black_24x24"
-                app:prop_opt_title="Number of bedrooms" />
+                android:text="@string/lorem" />
 
-            <com.openclassrooms.realestatemanager.views.PropertyOptionView
-                android:id="@+id/propertyOptionView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:prop_opt_description="740 Park Avenue\nApt 6/7A\nNew York\nNY 10021\nUnited States"
-                app:prop_opt_title="Location" />
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prop_opt_description="450 sq m"
+                    app:prop_opt_icon="@drawable/ic_surface_black_24dp"
+                    app:prop_opt_title="Surface" />
+
+                <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prop_opt_description="8"
+                    app:prop_opt_icon="@drawable/ic_home_black_24dp"
+                    app:prop_opt_title="Number of rooms" />
+
+                <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prop_opt_description="2"
+                    app:prop_opt_icon="@drawable/hot_tub_black_24x24"
+                    app:prop_opt_title="Number of bathrooms" />
+
+                <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prop_opt_description="4"
+                    app:prop_opt_icon="@drawable/hotel_black_24x24"
+                    app:prop_opt_title="Number of bedrooms" />
+
+                <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                    android:id="@+id/propertyOptionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prop_opt_description="740 Park Avenue\nApt 6/7A\nNew York\nNY 10021\nUnited States"
+                    app:prop_opt_title="Location" />
+            </LinearLayout>
         </LinearLayout>
-
 
     </LinearLayout>
 
