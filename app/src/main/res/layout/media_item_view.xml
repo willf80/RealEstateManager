@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#90000000"
-            android:padding="16dp"
+            android:padding="8dp"
             android:text="@string/title_media"
             android:textColor="@android:color/white" />
     </FrameLayout>

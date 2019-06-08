@@ -1,12 +1,14 @@
 package com.openclassrooms.realestatemanager;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.openclassrooms.realestatemanager.fragments.DetailsPropertyFragment;
 import com.openclassrooms.realestatemanager.fragments.PropertyListFragment;
@@ -21,15 +23,26 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     @BindView(R.id.details_property_fragment)
     FrameLayout mDetailsFrameLayout;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
+
         if(mDetailsFrameLayout != null) {
             Log.i("Estate", "mDetailsFrameLayout cool !");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
