@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.openclassrooms.realestatemanager.SecondActivity"></activity>
+        <activity android:name="com.openclassrooms.realestatemanager.PropertyDetailsActivity"></activity>
     </application>
 
 </manifest>
