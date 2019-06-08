@@ -1,22 +1,24 @@
 package com.openclassrooms.realestatemanager;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import java.util.Locale;
+import com.openclassrooms.realestatemanager.fragments.DetailsPropertyFragment;
+import com.openclassrooms.realestatemanager.fragments.PropertyListFragment;
+import com.openclassrooms.realestatemanager.models.Property;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements PropertyListFragment.OnFragmentDispatchListener {
 
     @Nullable
-    @BindView(R.id.details_bien_fragment)
+    @BindView(R.id.details_property_fragment)
     FrameLayout mDetailsFrameLayout;
 
     @Override
@@ -30,14 +32,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void configureTextViewMain(){
-//        this.textViewMain.setTextSize(15);
-//        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
-//    }
-//
-//    private void configureTextViewQuantity(){
-//        int quantity = Utils.convertDollarToEuro(100);
-//        this.textViewQuantity.setTextSize(20);
-//        this.textViewQuantity.setText(String.format(Locale.getDefault(), "%d", quantity));
-//    }
+    @Override
+    public void onItemClick(Property property) {
+        manageViewing(property);
+    }
+
+    private void manageViewing(Property property) {
+        if(mDetailsFrameLayout == null) {
+            showDetailsInActivity(property.getId());
+            return;
+        }
+
+        showDetailsInFragment(property.getId());
+    }
+
+    private void showDetailsInActivity(String id) {
+        Intent intent = new Intent(this, PropertyDetailsActivity.class);
+        intent.putExtra(PropertyDetailsActivity.EXTRA_PROPERTY_ID, id);
+        startActivity(intent);
+    }
+
+    private void showDetailsInFragment(String id) {
+        if(mDetailsFrameLayout == null) return;
+
+        DetailsPropertyFragment fragment = DetailsPropertyFragment.newInstance(id);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.details_property_fragment, fragment);
+        transaction.commit();
+    }
+
 }

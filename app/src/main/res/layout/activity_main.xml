@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <fragment
-        android:id="@+id/list_bien_fragment"
+        android:id="@+id/list_property_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"

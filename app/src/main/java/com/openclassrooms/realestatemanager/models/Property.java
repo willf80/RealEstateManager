@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.models;
 import java.util.List;
 
 public class Property {
+    private String mId;
     private Type mType;
     private double mPrice;
     private double mArea;
@@ -128,5 +129,13 @@ public class Property {
 
     public void setNumberOfBedrooms(int numberOfBedrooms) {
         mNumberOfBedrooms = numberOfBedrooms;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 }

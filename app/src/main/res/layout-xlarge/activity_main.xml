@@ -8,14 +8,14 @@
     android:baselineAligned="false">
 
     <fragment
-        android:id="@+id/list_bien_fragment"
+        android:id="@+id/list_property_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:name="com.openclassrooms.realestatemanager.fragments.PropertyListFragment"/>
 
     <FrameLayout
-        android:id="@+id/details_bien_fragment"
+        android:id="@+id/details_property_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"/>

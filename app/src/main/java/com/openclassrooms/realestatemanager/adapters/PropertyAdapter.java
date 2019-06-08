@@ -15,9 +15,11 @@ import java.util.List;
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
 
     List<Property> mPropertyList;
+    OnDispatchListener mDispatchListener;
 
-    public PropertyAdapter(List<Property> propertyList) {
+    public PropertyAdapter(List<Property> propertyList, OnDispatchListener dispatchListener) {
         mPropertyList = propertyList;
+        mDispatchListener = dispatchListener;
     }
 
     @NonNull
@@ -32,7 +34,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
+        Property property = mPropertyList.get(position);
 
+        holder.itemView.setOnClickListener(v -> mDispatchListener.onItemClick(property));
     }
 
     @Override
@@ -40,10 +44,13 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         return mPropertyList.size();
     }
 
-    public class PropertyViewHolder extends RecyclerView.ViewHolder{
-
-        public PropertyViewHolder(@NonNull View itemView) {
+    class PropertyViewHolder extends RecyclerView.ViewHolder{
+        PropertyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public interface OnDispatchListener {
+        void onItemClick(Property property);
     }
 }

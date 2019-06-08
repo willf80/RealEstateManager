@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +12,6 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.R;
 
-import java.util.UUID;
-
 import butterknife.ButterKnife;
 
 public class DetailsPropertyFragment extends Fragment {
@@ -22,7 +19,7 @@ public class DetailsPropertyFragment extends Fragment {
 
     private String mPropertyId;
 
-    private OnFragmentInteractionListener mListener;
+    private OnDetailsDispatchListener mListener;
 
     public static DetailsPropertyFragment newInstance(String propertyId) {
         DetailsPropertyFragment fragment = new DetailsPropertyFragment();
@@ -53,11 +50,11 @@ public class DetailsPropertyFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnDetailsDispatchListener) {
+            mListener = (OnDetailsDispatchListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnDetailsDispatchListener");
         }
     }
 
@@ -67,7 +64,7 @@ public class DetailsPropertyFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
+    public interface OnDetailsDispatchListener {
         void onPropertyMarkAsSell();
     }
 }

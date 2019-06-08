@@ -44,6 +44,7 @@ public class PropertyOptionView extends LinearLayout {
         titleTextView = view.findViewById(R.id.titleTextView);
         descriptionTextView = view.findViewById(R.id.descriptionTextView);
 
+
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.PropertyOptionView, defStyle, 0);
@@ -72,7 +73,7 @@ public class PropertyOptionView extends LinearLayout {
         descriptionTextView.setText(mDescriptionString);
 
         if(mIconDrawable != null) {
-            titleTextView.setCompoundDrawables(mIconDrawable, null, null, null);
+            titleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(mIconDrawable, null, null, null);
         }
     }
 }

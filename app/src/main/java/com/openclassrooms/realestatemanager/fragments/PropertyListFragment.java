@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class PropertyListFragment extends Fragment {
+public class PropertyListFragment extends Fragment implements PropertyAdapter.OnDispatchListener {
 
     PropertyAdapter mPropertyAdapter;
     List<Property> mPropertyList;
+
+    OnFragmentDispatchListener mDispatchListener;
 
     public static PropertyListFragment newInstance() {
         PropertyListFragment fragment = new PropertyListFragment();
@@ -56,12 +59,38 @@ public class PropertyListFragment extends Fragment {
             mPropertyList.add(new Property());
         }
 
-        mPropertyAdapter = new PropertyAdapter(mPropertyList);
+        mPropertyAdapter = new PropertyAdapter(mPropertyList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPropertyAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnFragmentDispatchListener){
+            mDispatchListener = (OnFragmentDispatchListener) context;
+        }else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentDispatchListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mDispatchListener =  null;
+    }
+
+    @Override
+    public void onItemClick(Property property) {
+        mDispatchListener.onItemClick(property);
+    }
+
+    public interface OnFragmentDispatchListener {
+        void onItemClick(Property property);
     }
 
 }

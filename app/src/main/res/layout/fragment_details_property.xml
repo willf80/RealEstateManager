@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
     tools:context=".fragments.DetailsPropertyFragment">
 
     <LinearLayout
@@ -11,16 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@string/title_media" />
+            android:text="@string/title_media"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mediaRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="120dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,8 +36,7 @@
             android:id="@+id/propertyDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_description"
-            tools:text="@tools:sample/lorem/random[1]" />
+            android:text="@string/lorem" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,29 +48,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:prop_opt_description="450 sq m"
-                app:prop_opt_title="Surface"
-                app:prop_opt_icon="@drawable/ic_surface_black_24dp"/>
+                app:prop_opt_icon="@drawable/ic_surface_black_24dp"
+                app:prop_opt_title="Surface" />
 
             <com.openclassrooms.realestatemanager.views.PropertyOptionView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:prop_opt_title="Number of rooms"
                 app:prop_opt_description="8"
-                app:prop_opt_icon="@drawable/ic_home_black_24dp"/>
+                app:prop_opt_icon="@drawable/ic_home_black_24dp"
+                app:prop_opt_title="Number of rooms" />
 
             <com.openclassrooms.realestatemanager.views.PropertyOptionView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:prop_opt_description="2"
-                app:prop_opt_title="Number of bathrooms"
-                app:prop_opt_icon="@drawable/hot_tub_black_24x24"/>
+                app:prop_opt_icon="@drawable/hot_tub_black_24x24"
+                app:prop_opt_title="Number of bathrooms" />
 
             <com.openclassrooms.realestatemanager.views.PropertyOptionView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:prop_opt_description="4"
-                app:prop_opt_title="Number of bedrooms"
-                app:prop_opt_icon="@drawable/hotel_black_24x24"/>
+                app:prop_opt_icon="@drawable/hotel_black_24x24"
+                app:prop_opt_title="Number of bedrooms" />
 
             <com.openclassrooms.realestatemanager.views.PropertyOptionView
                 android:id="@+id/propertyOptionView"
