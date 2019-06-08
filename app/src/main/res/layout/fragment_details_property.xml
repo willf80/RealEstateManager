@@ -1,14 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DetailsPropertyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:text="@string/title_media" />
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mediaRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/title_description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/propertyDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_description"
+            tools:text="@tools:sample/lorem/random[1]" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prop_opt_description="450 sq m"
+                app:prop_opt_title="Surface"
+                app:prop_opt_icon="@drawable/ic_surface_black_24dp"/>
+
+            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prop_opt_title="Number of rooms"
+                app:prop_opt_description="8"
+                app:prop_opt_icon="@drawable/ic_home_black_24dp"/>
+
+            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prop_opt_description="2"
+                app:prop_opt_title="Number of bathrooms"
+                app:prop_opt_icon="@drawable/hot_tub_black_24x24"/>
+
+            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prop_opt_description="4"
+                app:prop_opt_title="Number of bedrooms"
+                app:prop_opt_icon="@drawable/hotel_black_24x24"/>
+
+            <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                android:id="@+id/propertyOptionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prop_opt_description="740 Park Avenue\nApt 6/7A\nNew York\nNY 10021\nUnited States"
+                app:prop_opt_title="Location" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
