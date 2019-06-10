@@ -72,6 +72,19 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/nearby_points_of_interest"
+                        android:inputType="textCapSentences" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_surface_black_24dp"
                         android:drawablePadding="16dp"
                         android:hint="@string/surface"

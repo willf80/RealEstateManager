@@ -16,4 +16,5 @@
     <string name="price">Price</string>
     <string name="image_description">Image description</string>
     <string name="list_of_media_added">List of media added</string>
+    <string name="nearby_points_of_interest">Nearby points of interest</string>
 </resources>
