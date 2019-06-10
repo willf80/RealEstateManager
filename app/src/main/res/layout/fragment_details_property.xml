@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".fragments.DetailsPropertyFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_media"
+                android:padding="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mediaRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/title_description"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/propertyDescriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="vertical">
+
+                    <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prop_opt_description="450 sq m"
+                        app:prop_opt_icon="@drawable/ic_surface_black_24dp"
+                        app:prop_opt_title="@string/surface" />
+
+                    <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prop_opt_description="8"
+                        app:prop_opt_icon="@drawable/ic_home_black_24dp"
+                        app:prop_opt_title="@string/number_of_rooms" />
+
+                    <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prop_opt_description="2"
+                        app:prop_opt_icon="@drawable/hot_tub_black_24x24"
+                        app:prop_opt_title="@string/number_of_bathrooms" />
+
+                    <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prop_opt_description="4"
+                        app:prop_opt_icon="@drawable/hotel_black_24x24"
+                        app:prop_opt_title="@string/number_of_bedrooms" />
+
+                    <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:id="@+id/propertyOptionView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:prop_opt_description="@string/location_example"
+                        app:prop_opt_title="@string/location" />
+
+                    <ImageView
+                        android:id="@+id/staticMapImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editPropertyFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_edit_black_24dp"
+        android:tint="@android:color/white"
+        android:layout_gravity="bottom|end"/>
+
+</FrameLayout>
