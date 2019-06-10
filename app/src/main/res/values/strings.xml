@@ -4,4 +4,16 @@
     <string name="title_media">Media</string>
     <string name="title_description">Description</string>
     <string name="lorem">We and our partners use technology such as cookies on our site to personalise content and ads, provide social media features, and analyse our traffic. Click below to consent to the use of this technology across the web. You can change your mind and change your consent choices at anytime by returning to this site.</string>
+    <string name="surface">Surface</string>
+    <string name="number_of_rooms">Number of rooms</string>
+    <string name="number_of_bathrooms">Number of bathrooms</string>
+    <string name="number_of_bedrooms">Number of bedrooms</string>
+    <string name="location">Location</string>
+    <string name="location_example">740 Park Avenue Apt 6/7A New York NY 10021 United States</string>
+    <string name="type_of_property">Type of property</string>
+    <string name="property_details">Property details</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+    <string name="image_description">Image description</string>
+    <string name="list_of_media_added">List of media added</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
@@ -43,6 +44,24 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.app_bar_add:
+                createNewProperty();
+                return true;
+            case R.id.app_bar_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void createNewProperty() {
+        Intent intent = new Intent(this, PropertyEditionActivity.class);
+        startActivity(intent);
     }
 
     @Override

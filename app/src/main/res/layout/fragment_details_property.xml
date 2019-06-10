@@ -63,35 +63,43 @@
                         android:layout_height="wrap_content"
                         app:prop_opt_description="450 sq m"
                         app:prop_opt_icon="@drawable/ic_surface_black_24dp"
-                        app:prop_opt_title="Surface" />
+                        app:prop_opt_title="@string/surface" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="8"
                         app:prop_opt_icon="@drawable/ic_home_black_24dp"
-                        app:prop_opt_title="Number of rooms" />
+                        app:prop_opt_title="@string/number_of_rooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="2"
                         app:prop_opt_icon="@drawable/hot_tub_black_24x24"
-                        app:prop_opt_title="Number of bathrooms" />
+                        app:prop_opt_title="@string/number_of_bathrooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="4"
                         app:prop_opt_icon="@drawable/hotel_black_24x24"
-                        app:prop_opt_title="Number of bedrooms" />
+                        app:prop_opt_title="@string/number_of_bedrooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
                         android:id="@+id/propertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:prop_opt_description="740 Park Avenue\nApt 6/7A\nNew York\nNY 10021\nUnited States"
-                        app:prop_opt_title="Location" />
+                        app:prop_opt_description="@string/location_example"
+                        app:prop_opt_title="@string/location" />
+
+                    <ImageView
+                        android:id="@+id/staticMapImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic"
+                        tools:ignore="ContentDescription" />
                 </LinearLayout>
             </LinearLayout>
 
