@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PropertyEditionActivity"></activity>
+        <activity android:name=".CreatePropertyActivity"></activity>
+        <activity android:name=".EditPropertyActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

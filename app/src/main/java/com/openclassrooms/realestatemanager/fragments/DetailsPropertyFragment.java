@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.openclassrooms.realestatemanager.EditPropertyActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.MediaAdapter;
 import com.openclassrooms.realestatemanager.models.Media;
@@ -27,6 +30,7 @@ public class DetailsPropertyFragment extends Fragment {
     private static final String ARG_PROPERTY_ID = "propertyId";
 
     RecyclerView mMediaRecyclerView;
+    FloatingActionButton mEditPropertyFab;
 
     private String mPropertyId;
 
@@ -56,6 +60,7 @@ public class DetailsPropertyFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details_property, container, false);
         mMediaRecyclerView = view.findViewById(R.id.mediaRecyclerView);
+        mEditPropertyFab = view.findViewById(R.id.editPropertyFab);
 
         mMediaList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -66,7 +71,18 @@ public class DetailsPropertyFragment extends Fragment {
         mMediaRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         mMediaRecyclerView.setAdapter(mMediaAdapter);
 
+        listeners();
+
         return view;
+    }
+
+    private void listeners() {
+        mEditPropertyFab.setOnClickListener(v -> showEditActivity());
+    }
+
+    private void showEditActivity() {
+        Intent intent = new Intent(getContext(), EditPropertyActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     }
 
     private void createNewProperty() {
-        Intent intent = new Intent(this, PropertyEditionActivity.class);
+        Intent intent = new Intent(this, CreatePropertyActivity.class);
         startActivity(intent);
     }
 

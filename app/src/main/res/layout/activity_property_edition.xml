@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorLight50"
     android:scrollbars="vertical"
-    tools:context=".PropertyEditionActivity">
+    tools:context=".AbstractPropertyEditionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,12 +43,14 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    android:entries="@array/empty_list"
+                    android:spinnerMode="dropdown" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     app:boxBackgroundMode="filled"
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
@@ -174,6 +176,31 @@
                     android:text="@string/location"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="United States"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="New York"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -212,31 +239,6 @@
                         android:hint="Postal code"
                         android:inputType="textPostalAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="City"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="New York"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Country"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="United States"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:id="@+id/textView8"
@@ -303,7 +305,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnCreateProperty"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -316,7 +318,7 @@
             android:textAllCaps="true" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnEditProperty"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
