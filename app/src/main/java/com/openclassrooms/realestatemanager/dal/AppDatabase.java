@@ -47,8 +47,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    // ---
-
     private static Callback prepopulateDatabase(){
         return new Callback() {
 
