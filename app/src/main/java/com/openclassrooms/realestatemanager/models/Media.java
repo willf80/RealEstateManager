@@ -1,22 +1,42 @@
 package com.openclassrooms.realestatemanager.models;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(foreignKeys = @ForeignKey(entity = Property.class,
+                parentColumns = "mId",
+                childColumns = "mPropertyId")
+        )
 public class Media {
-    private String mName;
-    private String mData;
 
-    public String getName() {
-        return mName;
+    @PrimaryKey(autoGenerate = true)
+    private int mId;
+    private String mLabel;
+    private String mDataPath;
+    private int mPropertyId;
+
+    public int getId() {
+        return mId;
     }
 
-    public void setName(String name) {
-        mName = name;
+    public void setId(int id) {
+        mId = id;
     }
 
-    public String getData() {
-        return mData;
+    public String getLabel() {
+        return mLabel;
     }
 
-    public void setData(String data) {
-        mData = data;
+    public void setLabel(String label) {
+        mLabel = label;
+    }
+
+    public String getDataPath() {
+        return mDataPath;
+    }
+
+    public void setDataPath(String dataPath) {
+        mDataPath = dataPath;
     }
 }
