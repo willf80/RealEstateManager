@@ -1,11 +1,15 @@
 package com.openclassrooms.realestatemanager;
 
+import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.dal.AppDatabase;
+import com.openclassrooms.realestatemanager.dal.PrepopulateHelper;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.models.User;
@@ -34,7 +38,21 @@ public class PropertyDbTest {
         this.mAppDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(),
                 AppDatabase.class)
                 .allowMainThreadQueries()
+                .addCallback(prepopulateDatabase())
                 .build();
+    }
+
+    private static RoomDatabase.Callback prepopulateDatabase() {
+        return new RoomDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+
+                PrepopulateHelper.prepopulateUser(db);
+                PrepopulateHelper.prepopulateInterestPointList(db);
+                PrepopulateHelper.prepopulatePropertyTypeList(db);
+            }
+        };
     }
 
     @After
@@ -42,30 +60,9 @@ public class PropertyDbTest {
         mAppDatabase.close();
     }
 
-    private PropertyType getPropertyType() {
-        PropertyType propertyType = new PropertyType();
-        propertyType.setId(1);
-        propertyType.setLabel("Home");
-
-        return propertyType;
-    }
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1);
-        user.setEmail("willyfkouadio@gmail.com");
-
-        return user;
-    }
-
     @Test
     public void insertAndGetType() throws InterruptedException {
         // Arrange
-        PropertyType propertyType = new PropertyType();
-        propertyType.setId(1);
-        propertyType.setLabel("Home");
-
-        this.mAppDatabase.propertyTypeDao().insert(propertyType);
 
         // Action
         List<PropertyType> propertyTypeList =
@@ -75,22 +72,17 @@ public class PropertyDbTest {
 
         // Assert
         assertTrue(propertyTypeList.size() > 0);
-        assertEquals("Home", propertyTypeList.get(0).getLabel());
+        assertEquals("Apartment", propertyTypeList.get(0).getLabel());
     }
 
     @Test
     public void insertAndGetProperty() throws InterruptedException {
         // Arrange
-        PropertyType propertyType = getPropertyType();
-        User user = getUser();
-
-        long propertyTypeId = this.mAppDatabase.propertyTypeDao().insert(propertyType);
-        long userId = this.mAppDatabase.userDao().insert(user);
-
         Property property = new Property();
         property.setId(1);
-        property.setPropertyTypeId(propertyTypeId);
-        property.setUserId(userId);
+        property.setDescription("Test");
+        property.setPropertyTypeId(1);
+        property.setUserId(1);
 
         this.mAppDatabase.propertyDao().insert(property);
 

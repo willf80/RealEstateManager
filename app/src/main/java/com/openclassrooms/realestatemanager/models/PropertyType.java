@@ -7,22 +7,22 @@ import androidx.room.PrimaryKey;
 public class PropertyType {
 
     @PrimaryKey(autoGenerate = true)
-    private long mId;
-    private String mLabel;
+    private long id;
+    private String label;
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public String getLabel() {
-        return mLabel;
+        return label;
     }
 
     public void setLabel(String label) {
-        mLabel = label;
+        this.label = label;
     }
 }

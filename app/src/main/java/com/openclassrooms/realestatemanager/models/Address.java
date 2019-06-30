@@ -7,33 +7,33 @@ import androidx.room.PrimaryKey;
 public class Address {
 
     @PrimaryKey(autoGenerate = true)
-    private long mId;
+    private long id;
 
-    private String mNumberAndStreet;
+    private String numberAndStreet;
 
-    private String mPostalCode;
+    private String postalCode;
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public String getNumberAndStreet() {
-        return mNumberAndStreet;
+        return numberAndStreet;
     }
 
     public void setNumberAndStreet(String numberAndStreet) {
-        mNumberAndStreet = numberAndStreet;
+        this.numberAndStreet = numberAndStreet;
     }
 
     public String getPostalCode() {
-        return mPostalCode;
+        return postalCode;
     }
 
     public void setPostalCode(String postalCode) {
-        mPostalCode = postalCode;
+        this.postalCode = postalCode;
     }
 }

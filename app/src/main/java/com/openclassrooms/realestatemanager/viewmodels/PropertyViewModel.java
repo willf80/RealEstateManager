@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
-import com.openclassrooms.realestatemanager.repositories.TypeRepository;
+import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -14,11 +14,11 @@ public class PropertyViewModel extends ViewModel {
 
     //Repositories
     private final PropertyRepository mPropertySource;
-    private final TypeRepository mTypeSource;
+    private final PropertyTypeRepository mTypeSource;
     private final Executor mExecutor;
 
     public PropertyViewModel(PropertyRepository propertySource,
-                             TypeRepository typeSource,
+                             PropertyTypeRepository typeSource,
                              Executor executor) {
         mPropertySource = propertySource;
         mTypeSource = typeSource;

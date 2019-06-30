@@ -8,6 +8,7 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.openclassrooms.realestatemanager.dal.dao.AddressDao;
@@ -58,10 +59,23 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static AppDatabase create(final Context context) {
-        return Room.databaseBuilder(
-                context,
-                AppDatabase.class,
-                DB_NAME).build();
+        return Room.databaseBuilder(context,
+                AppDatabase.class, DB_NAME)
+                .addCallback(prepopulateDatabase())
+                .build();
+    }
+
+    private static Callback prepopulateDatabase() {
+        return new Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+
+                PrepopulateHelper.prepopulateUser(db);
+                PrepopulateHelper.prepopulateInterestPointList(db);
+                PrepopulateHelper.prepopulatePropertyTypeList(db);
+            }
+        };
     }
 
     @NonNull

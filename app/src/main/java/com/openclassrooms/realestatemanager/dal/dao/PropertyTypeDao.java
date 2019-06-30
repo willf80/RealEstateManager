@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public abstract class PropertyTypeDao implements BaseDao<PropertyType>{
 
-    @Query("SELECT * FROM PropertyType ORDER BY mLabel ASC")
+    @Query("SELECT * FROM PropertyType ORDER BY label ASC")
     public abstract LiveData<List<PropertyType>> getPropertyTypes();
 
 }

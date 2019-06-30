@@ -4,39 +4,39 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
 @Entity(
-        primaryKeys = {"mPropertyId", "mAddressId"},
+        primaryKeys = {"propertyId", "addressId"},
         foreignKeys = {
                 @ForeignKey( entity = Property.class,
-                        parentColumns = "mId",
-                        childColumns = "mPropertyId"),
+                        parentColumns = "id",
+                        childColumns = "propertyId"),
                 @ForeignKey(entity = Address.class,
-                        parentColumns = "mId",
-                        childColumns = "mAddressId")
+                        parentColumns = "id",
+                        childColumns = "addressId")
         }
 )
 public class AddressProperties {
 
-    private long mPropertyId; // PK|FK
-    private long mAddressId; // PK|FK
+    private long propertyId; // PK|FK
+    private long addressId; // PK|FK
 
     public AddressProperties(long propertyId, long addressId) {
-        mPropertyId = propertyId;
-        mAddressId = addressId;
+        this.propertyId = propertyId;
+        this.addressId = addressId;
     }
 
     public long getPropertyId() {
-        return mPropertyId;
+        return propertyId;
     }
 
     public void setPropertyId(long propertyId) {
-        mPropertyId = propertyId;
+        this.propertyId = propertyId;
     }
 
     public long getAddressId() {
-        return mAddressId;
+        return addressId;
     }
 
     public void setAddressId(long addressId) {
-        mAddressId = addressId;
+        this.addressId = addressId;
     }
 }

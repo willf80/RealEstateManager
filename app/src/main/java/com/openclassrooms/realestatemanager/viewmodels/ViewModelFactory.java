@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
-import com.openclassrooms.realestatemanager.repositories.TypeRepository;
+import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
 import com.openclassrooms.realestatemanager.repositories.UserRepository;
 
 import java.util.concurrent.Executor;
@@ -13,12 +13,12 @@ import java.util.concurrent.Executor;
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final PropertyRepository mPropertySource;
-    private final TypeRepository mTypeSource;
+    private final PropertyTypeRepository mTypeSource;
     private final UserRepository mUserSource;
     private final Executor mExecutor;
 
     public ViewModelFactory(PropertyRepository propertySource,
-                            TypeRepository typeSource,
+                            PropertyTypeRepository typeSource,
                             UserRepository userSource, Executor executor) {
         mPropertySource = propertySource;
         mTypeSource = typeSource;

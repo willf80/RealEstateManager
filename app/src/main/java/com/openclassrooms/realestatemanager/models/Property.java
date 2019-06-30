@@ -6,133 +6,133 @@ import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = {
         @ForeignKey(entity = PropertyType.class,
-        parentColumns = "mId",
-        childColumns = "mPropertyTypeId"),
+        parentColumns = "id",
+        childColumns = "propertyTypeId"),
 
         @ForeignKey(entity = User.class,
-        parentColumns = "mId",
-        childColumns = "mUserId")
+        parentColumns = "id",
+        childColumns = "userId")
     }
 )
 public class Property {
 
     @PrimaryKey(autoGenerate = true)
-    private long mId;
+    private long id;
 
-    private double mPrice;
-    private double mArea;
-    private int mNumberOfRooms;
-    private int mNumberOfBathrooms;
-    private int mNumberOfBedrooms;
-    private String mDescription;
-    private String mAddress;
-    private boolean mStatus;
-    private String mEntryOfMarketDate;
-    private String mSaleDate;
-    private long mPropertyTypeId; //FK
-    private long mUserId; //FK
+    private double price;
+    private double area;
+    private int numberOfRooms;
+    private int numberOfBathrooms;
+    private int numberOfBedrooms;
+    private String description;
+    private String address;
+    private boolean status;
+    private String entryOfMarketDate;
+    private String saleDate;
+    private long propertyTypeId; //FK
+    private long userId; //FK
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getPropertyTypeId() {
-        return mPropertyTypeId;
+        return propertyTypeId;
     }
 
     public void setPropertyTypeId(long propertyTypeId) {
-        mPropertyTypeId = propertyTypeId;
+        this.propertyTypeId = propertyTypeId;
     }
 
     public double getPrice() {
-        return mPrice;
+        return price;
     }
 
     public void setPrice(double price) {
-        mPrice = price;
+        this.price = price;
     }
 
     public double getArea() {
-        return mArea;
+        return area;
     }
 
     public void setArea(double area) {
-        mArea = area;
+        this.area = area;
     }
 
     public int getNumberOfRooms() {
-        return mNumberOfRooms;
+        return numberOfRooms;
     }
 
     public void setNumberOfRooms(int numberOfRooms) {
-        mNumberOfRooms = numberOfRooms;
+        this.numberOfRooms = numberOfRooms;
     }
 
     public int getNumberOfBathrooms() {
-        return mNumberOfBathrooms;
+        return numberOfBathrooms;
     }
 
     public void setNumberOfBathrooms(int numberOfBathrooms) {
-        mNumberOfBathrooms = numberOfBathrooms;
+        this.numberOfBathrooms = numberOfBathrooms;
     }
 
     public int getNumberOfBedrooms() {
-        return mNumberOfBedrooms;
+        return numberOfBedrooms;
     }
 
     public void setNumberOfBedrooms(int numberOfBedrooms) {
-        mNumberOfBedrooms = numberOfBedrooms;
+        this.numberOfBedrooms = numberOfBedrooms;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public String getAddress() {
-        return mAddress;
+        return address;
     }
 
     public void setAddress(String address) {
-        mAddress = address;
+        this.address = address;
     }
 
     public boolean isStatus() {
-        return mStatus;
+        return status;
     }
 
     public void setStatus(boolean status) {
-        mStatus = status;
+        this.status = status;
     }
 
     public String getEntryOfMarketDate() {
-        return mEntryOfMarketDate;
+        return entryOfMarketDate;
     }
 
     public void setEntryOfMarketDate(String entryOfMarketDate) {
-        mEntryOfMarketDate = entryOfMarketDate;
+        this.entryOfMarketDate = entryOfMarketDate;
     }
 
     public String getSaleDate() {
-        return mSaleDate;
+        return saleDate;
     }
 
     public void setSaleDate(String saleDate) {
-        mSaleDate = saleDate;
+        this.saleDate = saleDate;
     }
 
     public long getUserId() {
-        return mUserId;
+        return userId;
     }
 
     public void setUserId(long userId) {
-        mUserId = userId;
+        this.userId = userId;
     }
 }

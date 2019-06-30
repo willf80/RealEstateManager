@@ -7,11 +7,11 @@ import com.openclassrooms.realestatemanager.models.PropertyType;
 
 import java.util.List;
 
-public class TypeRepository {
+public class PropertyTypeRepository {
 
     private final PropertyTypeDao mPropertyTypeDao;
 
-    public TypeRepository(PropertyTypeDao propertyTypeDao) {
+    public PropertyTypeRepository(PropertyTypeDao propertyTypeDao) {
         mPropertyTypeDao = propertyTypeDao;
     }
 

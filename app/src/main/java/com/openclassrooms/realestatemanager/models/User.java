@@ -7,32 +7,32 @@ import androidx.room.PrimaryKey;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    private long mId;
-    private String mFullName;
-    private String mEmail;
+    private long id;
+    private String fullName;
+    private String email;
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public String getFullName() {
-        return mFullName;
+        return fullName;
     }
 
     public void setFullName(String fullName) {
-        mFullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     public void setEmail(String email) {
-        mEmail = email;
+        this.email = email;
     }
 
 }
