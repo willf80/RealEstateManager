@@ -71,11 +71,11 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
     private void manageViewing(Property property) {
         if(mDetailsFrameLayout == null) {
-            showDetailsInActivity(property.getId());
+            showDetailsInActivity(property.getId() + "");
             return;
         }
 
-        showDetailsInFragment(property.getId());
+        showDetailsInFragment(property.getId() + "");
     }
 
     private void showDetailsInActivity(String id) {

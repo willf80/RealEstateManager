@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Type {
+public class PropertyType {
 
     @PrimaryKey(autoGenerate = true)
     private long mId;

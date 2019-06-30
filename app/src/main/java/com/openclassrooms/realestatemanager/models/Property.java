@@ -5,13 +5,13 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = {
-        @ForeignKey(entity = Type.class,
+        @ForeignKey(entity = PropertyType.class,
         parentColumns = "mId",
-        childColumns = "mTypeId"),
+        childColumns = "mPropertyTypeId"),
 
-        @ForeignKey(entity = EstateAgent.class,
+        @ForeignKey(entity = User.class,
         parentColumns = "mId",
-        childColumns = "mEstateAgentId")
+        childColumns = "mUserId")
     }
 )
 public class Property {
@@ -29,23 +29,23 @@ public class Property {
     private boolean mStatus;
     private String mEntryOfMarketDate;
     private String mSaleDate;
-    private long mTypeId; //FK
-    private long mEstateAgentId; //FK
+    private long mPropertyTypeId; //FK
+    private long mUserId; //FK
 
     public long getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
-    public long getTypeId() {
-        return mTypeId;
+    public long getPropertyTypeId() {
+        return mPropertyTypeId;
     }
 
-    public void setTypeId(long typeId) {
-        mTypeId = typeId;
+    public void setPropertyTypeId(long propertyTypeId) {
+        mPropertyTypeId = propertyTypeId;
     }
 
     public double getPrice() {
@@ -128,11 +128,11 @@ public class Property {
         mSaleDate = saleDate;
     }
 
-    public long getEstateAgentId() {
-        return mEstateAgentId;
+    public long getUserId() {
+        return mUserId;
     }
 
-    public void setEstateAgentId(long estateAgentId) {
-        mEstateAgentId = estateAgentId;
+    public void setUserId(long userId) {
+        mUserId = userId;
     }
 }

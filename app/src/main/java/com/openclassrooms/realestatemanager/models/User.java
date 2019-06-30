@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class EstateAgent {
+public class User {
 
     @PrimaryKey(autoGenerate = true)
     private long mId;
