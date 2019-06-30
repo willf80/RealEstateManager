@@ -16,27 +16,27 @@ import androidx.room.ForeignKey;
 )
 public class PropertyInterestPoints {
 
-    private int mPropertyId;
-    private int mInterestId;
+    private long mPropertyId;
+    private long mInterestId;
 
-    public PropertyInterestPoints(int propertyId, int interestId) {
+    public PropertyInterestPoints(long propertyId, long interestId) {
         mPropertyId = propertyId;
         mInterestId = interestId;
     }
 
-    public int getPropertyId() {
+    public long getPropertyId() {
         return mPropertyId;
     }
 
-    public void setPropertyId(int propertyId) {
+    public void setPropertyId(long propertyId) {
         mPropertyId = propertyId;
     }
 
-    public int getInterestId() {
+    public long getInterestId() {
         return mInterestId;
     }
 
-    public void setInterestId(int interestId) {
+    public void setInterestId(long interestId) {
         mInterestId = interestId;
     }
 }

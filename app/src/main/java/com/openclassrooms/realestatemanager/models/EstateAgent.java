@@ -7,15 +7,15 @@ import androidx.room.PrimaryKey;
 public class EstateAgent {
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private long mId;
     private String mFullName;
     private String mEmail;
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
@@ -34,4 +34,5 @@ public class EstateAgent {
     public void setEmail(String email) {
         mEmail = email;
     }
+
 }

@@ -11,16 +11,16 @@ import androidx.room.PrimaryKey;
 public class Media {
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private long mId;
     private String mLabel;
     private String mDataPath;
-    private int mPropertyId;
+    private long mPropertyId; // FK
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
@@ -38,5 +38,13 @@ public class Media {
 
     public void setDataPath(String dataPath) {
         mDataPath = dataPath;
+    }
+
+    public long getPropertyId() {
+        return mPropertyId;
+    }
+
+    public void setPropertyId(long propertyId) {
+        mPropertyId = propertyId;
     }
 }

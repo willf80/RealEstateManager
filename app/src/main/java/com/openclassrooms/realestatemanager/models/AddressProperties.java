@@ -16,27 +16,27 @@ import androidx.room.ForeignKey;
 )
 public class AddressProperties {
 
-    private int mPropertyId;
-    private int mAddressId;
+    private long mPropertyId; // PK|FK
+    private long mAddressId; // PK|FK
 
-    public AddressProperties(int propertyId, int addressId) {
+    public AddressProperties(long propertyId, long addressId) {
         mPropertyId = propertyId;
         mAddressId = addressId;
     }
 
-    public int getPropertyId() {
+    public long getPropertyId() {
         return mPropertyId;
     }
 
-    public void setPropertyId(int propertyId) {
+    public void setPropertyId(long propertyId) {
         mPropertyId = propertyId;
     }
 
-    public int getAddressId() {
+    public long getAddressId() {
         return mAddressId;
     }
 
-    public void setAddressId(int addressId) {
+    public void setAddressId(long addressId) {
         mAddressId = addressId;
     }
 }

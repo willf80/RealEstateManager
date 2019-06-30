@@ -7,17 +7,17 @@ import androidx.room.PrimaryKey;
 public class Address {
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private long mId;
 
     private String mNumberAndStreet;
 
     private String mPostalCode;
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
