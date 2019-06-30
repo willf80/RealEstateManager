@@ -40,7 +40,7 @@
                     android:text="@string/type_of_property" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/propertyTypeSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -65,18 +65,51 @@
                         android:minLines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/pointsOfInterestAutoComplete"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/nearby_points_of_interest"
-                        android:inputType="textCapSentences" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="1"
+                        android:inputType="textAutoComplete"
+                        tools:ignore="LabelFor" />
+
+                    <Button
+                        android:id="@+id/addPointOfInterestTagButton"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add"/>
+                </LinearLayout>
+
+                <co.lujun.androidtagview.TagContainerLayout
+                    android:id="@+id/tagContainerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="16dp"
+                    android:padding="10dp"
+                    app:container_enable_drag="false"
+                    app:container_background_color="@color/colorLight50"
+                    app:container_border_color="@android:color/transparent"
+                    app:container_border_radius="0dp"
+                    app:horizontal_interval="10dp"
+                    app:vertical_interval="10dp"
+                    app:tag_enable_cross="true"
+                    app:tag_cross_color="@color/colorAccent"
+                    app:tag_background_color="@color/colorPrimary"
+                    app:tag_border_color="@color/colorPrimaryDark"
+                    app:tag_text_color="@android:color/white"
+                    app:tag_clickable="true"
+                    app:tag_selectable="true"
+                    app:tag_theme="none" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -179,26 +212,26 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Country"
+                    android:text="@string/country"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="United States"
+                    android:text="@string/united_states"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="City"
+                    android:text="@string/city"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="New York"
+                    android:text="@string/new_york"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -210,7 +243,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Address line"
+                        android:hint="@string/address_line"
                         android:inputType="textPostalAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,7 +256,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Apartment, floor, others"
+                        android:hint="@string/address_line2"
                         android:inputType="textPostalAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -236,7 +269,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Postal code"
+                        android:hint="@string/postal_code"
                         android:inputType="textPostalAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -246,7 +279,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Invalid address"
+                    android:text="@string/invalid_address"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
 
@@ -255,7 +288,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                    tools:srcCompat="@tools:sample/backgrounds/scenic"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -290,7 +324,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_add_black_24dp"
-                        android:text="Add"
+                        android:text="@string/add"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
                 </LinearLayout>
@@ -311,7 +345,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Create"
+            android:text="@string/create"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:padding="16dp"
@@ -324,7 +358,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Save modifications"
+            android:text="@string/save_modifications"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:padding="16dp"

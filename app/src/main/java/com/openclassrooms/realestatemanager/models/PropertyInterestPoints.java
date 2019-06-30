@@ -2,8 +2,10 @@ package com.openclassrooms.realestatemanager.models;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 @Entity(
+        indices = {@Index("propertyId"), @Index("interestId")},
         primaryKeys = {"propertyId", "interestId"},
         foreignKeys = {
                 @ForeignKey( entity = Property.class,

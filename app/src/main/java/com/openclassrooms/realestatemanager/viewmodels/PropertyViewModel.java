@@ -3,7 +3,10 @@ package com.openclassrooms.realestatemanager.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyType;
+import com.openclassrooms.realestatemanager.repositories.InterestPointRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
 
@@ -15,13 +18,15 @@ public class PropertyViewModel extends ViewModel {
     //Repositories
     private final PropertyRepository mPropertySource;
     private final PropertyTypeRepository mTypeSource;
+    private final InterestPointRepository mInterestPointRepository;
     private final Executor mExecutor;
 
     public PropertyViewModel(PropertyRepository propertySource,
                              PropertyTypeRepository typeSource,
-                             Executor executor) {
+                             InterestPointRepository interestPointSource, Executor executor) {
         mPropertySource = propertySource;
         mTypeSource = typeSource;
+        mInterestPointRepository = interestPointSource;
         mExecutor = executor;
     }
 
@@ -33,5 +38,13 @@ public class PropertyViewModel extends ViewModel {
         mExecutor.execute(() -> {
             mPropertySource.createProperty(property);
         });
+    }
+
+    public LiveData<List<PropertyType>> getPropertyTypes() {
+        return mTypeSource.getAllTypes();
+    }
+
+    public LiveData<List<InterestPoint>> getInterestPoints() {
+        return mInterestPointRepository.getInterestPoints();
     }
 }

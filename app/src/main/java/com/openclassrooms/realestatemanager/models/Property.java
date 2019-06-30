@@ -2,9 +2,11 @@ package com.openclassrooms.realestatemanager.models;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {
+@Entity(indices = {@Index("propertyTypeId"), @Index("userId")},
+        foreignKeys = {
         @ForeignKey(entity = PropertyType.class,
         parentColumns = "id",
         childColumns = "propertyTypeId"),
