@@ -3,8 +3,6 @@ package com.openclassrooms.realestatemanager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -16,14 +14,13 @@ import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
+import com.openclassrooms.realestatemanager.views.InterestPointsAddingView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import co.lujun.androidtagview.TagContainerLayout;
-import co.lujun.androidtagview.TagView;
 
 public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
@@ -38,7 +35,6 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private PropertyViewModel mPropertyViewModel;
 
     private PropertyTypeSpinnerAdapter mTypeSpinnerAdapter;
-    private ArrayAdapter<String> mPointOfInterestAdapter;
 
     @BindView(R.id.btnCreateProperty)
     Button mCreatePropertyButton;
@@ -52,14 +48,10 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     @BindView(R.id.propertyTypeSpinner)
     Spinner mPropertyTypeSpinner;
 
-    @BindView(R.id.pointsOfInterestAutoComplete)
-    AutoCompleteTextView mPointsOfInterestAutoComplete;
-
-    @BindView(R.id.tagContainerLayout)
-    TagContainerLayout mTagContainerLayout;
+    @BindView(R.id.interestPointsAddingView)
+    InterestPointsAddingView mInterestPointsAddingView;
 
     protected PropertyType mCurrentPropertyType;
-    protected List<String> mPointOfInterestList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,44 +108,11 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             }
         });
 
-        mPointOfInterestList = new ArrayList<>();
-        mPointOfInterestAdapter = new ArrayAdapter<>(this,
-                android.R.layout.select_dialog_item, mPointOfInterestList);
-        mPointsOfInterestAutoComplete.setThreshold(1);
-        mPointsOfInterestAutoComplete.setAdapter(mPointOfInterestAdapter);
     }
 
     private void listeners() {
         mCreatePropertyButton.setOnClickListener(v -> save());
         mEditPropertyButton.setOnClickListener(v -> save());
-
-        mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onSelectedTagDrag(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-                mTagContainerLayout.removeTag(position);
-            }
-        });
-
-        mBtnAddPointOfInterestTag.setOnClickListener((v) -> {
-            String tag = mPointsOfInterestAutoComplete.getText().toString();
-
-            mTagContainerLayout.addTag(tag);
-            mPointsOfInterestAutoComplete.setText("");
-        });
     }
 
     private void configureViewModels() {
@@ -188,16 +147,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         mTypeSpinnerAdapter.setPropertyTypes(propertyTypeList);
     }
 
-    private void loadInterestPointAutoCompleteList(List<InterestPoint> interestPointList) {
-        mPointOfInterestList = new ArrayList<>();
-        for (InterestPoint point :
-                interestPointList) {
-            mPointOfInterestList.add(point.getLabel());
-        }
-
-        mPointOfInterestAdapter.clear();
-        mPointOfInterestAdapter.addAll(mPointOfInterestList);
-        mPointOfInterestAdapter.notifyDataSetChanged();
+    public void loadInterestPointAutoCompleteList(List<InterestPoint> interestPointList){
+        mInterestPointsAddingView.loadInterestPointAutoCompleteList(interestPointList);
     }
-
 }
