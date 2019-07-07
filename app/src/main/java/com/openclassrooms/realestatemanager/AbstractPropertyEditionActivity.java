@@ -1,21 +1,31 @@
 package com.openclassrooms.realestatemanager;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.adapters.PropertyTypeSpinnerAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.PropertyType;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 import com.openclassrooms.realestatemanager.views.InterestPointsAddingView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +60,25 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     @BindView(R.id.interestPointsAddingView)
     InterestPointsAddingView mInterestPointsAddingView;
+
+    @BindView(R.id.addressLine1EditText)
+    TextInputEditText addressLine1EditText;
+
+    @BindView(R.id.addressLine2EditText)
+    TextInputEditText addressLine2EditText;
+
+    @BindView(R.id.postalCodeEditText)
+    TextInputEditText postalCodeEditText;
+
+    @BindView(R.id.staticMapImageView)
+    ImageView staticMapImageView;
+
+    @BindView(R.id.invalidAddressTextView)
+    TextView invalidAddressTextView;
+
+    protected String addressLine1;
+    protected String addressLine2;
+    protected String postalCode;
 
     protected PropertyType mCurrentPropertyType;
 
@@ -113,6 +142,104 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private void listeners() {
         mCreatePropertyButton.setOnClickListener(v -> save());
         mEditPropertyButton.setOnClickListener(v -> save());
+
+        addressLine1EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                addressLine1 = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                makeFullAddressAndGetMapImage();
+            }
+        });
+
+        addressLine2EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                addressLine2 = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                makeFullAddressAndGetMapImage();
+            }
+        });
+
+        postalCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                postalCode = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                makeFullAddressAndGetMapImage();
+            }
+        });
+    }
+
+    private void makeFullAddressAndGetMapImage() {
+        if(addressLine1 == null || postalCode == null) {
+            return;
+        }
+
+        if(addressLine1.isEmpty() || postalCode.isEmpty()){
+            return;
+        }
+
+        String fullAddress = addressLine1 + ", " + postalCode + ", New York";
+        try {
+            fullAddress = URLEncoder.encode(fullAddress, "utf-8");
+            getAddressMapImage(fullAddress);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getAddressMapImage(String fullAddress) {
+        // 1. Check if user are connected
+
+        // 2. Call google map static maps API
+        // 3. Show Map image
+        Picasso.get()
+                .load(Utils.buildFullAddressMapImageUrl(this, fullAddress))
+                .resize(400, 400)
+                .centerCrop()
+                .into(staticMapImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        invalidAddressTextView.setVisibility(View.GONE);
+                        staticMapImageView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        staticMapImageView.setVisibility(View.GONE);
+                        invalidAddressTextView.setVisibility(View.VISIBLE);
+
+                        // Invalid address
+                        // TODO : show standard message error for invalid address
+                        invalidAddressTextView.setText(e.getLocalizedMessage());
+                    }
+                });
     }
 
     private void configureViewModels() {

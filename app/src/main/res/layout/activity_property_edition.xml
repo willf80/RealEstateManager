@@ -232,6 +232,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addressLine1EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_line"
@@ -245,6 +246,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addressLine2EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_line2"
@@ -258,10 +260,11 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/postalCodeEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/postal_code"
-                        android:inputType="textPostalAddress" />
+                        android:inputType="numberSigned" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -275,7 +278,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/staticMapImageView"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop"
@@ -323,7 +326,6 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             </LinearLayout>

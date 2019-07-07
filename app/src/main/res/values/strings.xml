@@ -30,6 +30,9 @@
     <string name="save_modifications">Save modifications</string>
     <string name="measure_sq_m">sq m</string>
 
+    <string name="url_static_map">"https://maps.googleapis.com/maps/api/staticmap?center=%s&amp;zoom=14&amp;size=400x400&amp;key=%s"</string>
+    <string name="google_api_key">AIzaSyBZcojlWxC2NYd9sgPiEWfL4WCpNi7Ve9c</string>
+
     <string-array name="empty_list">
         <item>Type list no loaded</item>
     </string-array>

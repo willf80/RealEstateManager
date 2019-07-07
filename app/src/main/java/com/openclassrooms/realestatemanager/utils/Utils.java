@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.utils;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
+import com.openclassrooms.realestatemanager.R;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,5 +44,11 @@ public class Utils {
     public static Boolean isInternetAvailable(Context context){
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
+    }
+
+    public static String buildFullAddressMapImageUrl(Context context, String fullAddress){
+
+        return String.format(context.getString(R.string.url_static_map), fullAddress,
+                context.getString(R.string.google_api_key));
     }
 }
