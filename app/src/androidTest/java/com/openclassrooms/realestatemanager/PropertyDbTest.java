@@ -12,7 +12,7 @@ import com.openclassrooms.realestatemanager.dal.AppDatabase;
 import com.openclassrooms.realestatemanager.dal.PrepopulateHelper;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
-import com.openclassrooms.realestatemanager.models.User;
+import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
