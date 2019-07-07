@@ -28,6 +28,7 @@
     <string name="invalid_address">Invalid address</string>
     <string name="create">Create</string>
     <string name="save_modifications">Save modifications</string>
+    <string name="measure_sq_m">sq m</string>
 
     <string-array name="empty_list">
         <item>Type list no loaded</item>

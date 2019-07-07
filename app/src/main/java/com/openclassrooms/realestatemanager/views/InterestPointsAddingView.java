@@ -98,6 +98,10 @@ public class InterestPointsAddingView extends LinearLayout {
         btnAdd.setOnClickListener((v) -> {
             String tag = completeTextView.getText().toString();
 
+            if(tag.isEmpty()){
+                return;
+            }
+
             if(mPointsAddingViewService.isKeyExist(tag)) {
                 Toast.makeText(getContext(),
                         String.format("Can't add duplicated interest point : [%s] already added", tag),
