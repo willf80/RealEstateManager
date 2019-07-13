@@ -1,6 +1,13 @@
 package com.openclassrooms.realestatemanager;
 
+import android.Manifest;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -10,20 +17,29 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.openclassrooms.realestatemanager.adapters.PropertyTypeSpinnerAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.models.InterestPoint;
+import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 import com.openclassrooms.realestatemanager.views.InterestPointsAddingView;
+import com.openclassrooms.realestatemanager.views.MediaBoxView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -76,6 +92,9 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     @BindView(R.id.invalidAddressTextView)
     TextView invalidAddressTextView;
 
+    @BindView(R.id.mediaBoxView)
+    MediaBoxView mMediaBoxView;
+
     protected String addressLine1;
     protected String addressLine2;
     protected String postalCode;
@@ -93,6 +112,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         if(mMode == null) {
             throw new RuntimeException(toString() + " mode cannot be null.");
         }
+
+        setPermissions();
 
         // 1.Configuration
         configureViews();
@@ -117,6 +138,9 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             mEditPropertyButton.setVisibility(View.VISIBLE);
         }
 
+        // Attach Media view with this activity
+        mMediaBoxView.setActivity(this);
+
         adapterInit();
         listeners();
     }
@@ -136,6 +160,44 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
             }
         });
+
+    }
+
+    private void setPermissions(){
+//        PermissionListener dialogPermissionListener =
+//                DialogOnDeniedPermissionListener.Builder
+//                        .withContext(this)
+//                        .withTitle("Camera permission")
+//                        .withMessage("Camera permission is needed to take pictures")
+//                        .withButtonText(android.R.string.ok)
+//                        .withIcon(R.mipmap.ic_launcher)
+//                        .build();
+
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.CAMERA,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                })
+                .withErrorListener(error -> {
+
+                })
+                .check();
+
+//        Dexter.withActivity(this)
+//                .withPermission(Manifest.permission.CAMERA)
+//                .withListener(dialogPermissionListener).check();
+
 
     }
 
@@ -277,4 +339,78 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     public void loadInterestPointAutoCompleteList(List<InterestPoint> interestPointList){
         mInterestPointsAddingView.loadInterestPointAutoCompleteList(interestPointList);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(data == null) return;
+
+        if(resultCode == RESULT_OK) {
+
+            switch (requestCode) {
+                case MediaBoxView.RESULT_ACTION_IMAGE_CAPTURE:
+                    Bitmap tempSelectedBitmap = (Bitmap) data.getExtras().get("data");
+                    showEditMediaActivity(tempSelectedBitmap);
+                    break;
+
+                case MediaBoxView.RESULT_ACTION_PICK:
+                    showEditMediaActivity(getBitmapFromGallery(data));
+                    break;
+            }
+
+            return;
+        }
+
+        if(resultCode == MediaBoxView.RESULT_MEDIA_EDIT) {
+            getMediaEditedData(data);
+        }
+    }
+
+    private void showEditMediaActivity(Bitmap tempSelectedBitmap) {
+        if(tempSelectedBitmap == null ) return;
+
+        //Compress image
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        tempSelectedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+
+        //show edit media activity
+        Intent intent = new Intent(this, EditMediaActivity.class);
+        intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, stream.toByteArray());
+        startActivityForResult(intent, MediaBoxView.RESULT_MEDIA_EDIT);
+    }
+
+    private Bitmap getBitmapFromGallery(Intent data){
+        Uri selectedImageUri = data.getData();
+
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        if(selectedImageUri == null) return null;
+
+        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn,
+                null, null, null);
+
+        if(cursor == null) return null;
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+
+        cursor.close();
+
+        return bitmap;
+    }
+
+    private void getMediaEditedData(Intent data) {
+        byte[] photoBytes = data.getByteArrayExtra(EditMediaActivity.MEDIA_EXTRA_KEY);
+        String description = data.getStringExtra(EditMediaActivity.DESCRIPTION_EXTRA_KEY);
+
+        Bitmap photo = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
+
+        MediaTemp mediaTemp = new MediaTemp();
+        mediaTemp.description = description;
+        mediaTemp.photo = photo;
+
+        mMediaBoxView.addMedia(mediaTemp);
+    }
+
 }
