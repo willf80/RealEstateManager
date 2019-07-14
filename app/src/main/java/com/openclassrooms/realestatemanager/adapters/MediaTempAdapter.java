@@ -16,21 +16,32 @@ import java.util.List;
 
 public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.MediaViewHolder> {
 
-    List<MediaTemp> mMediaTempList;
+    public interface MediaClickListener{
+        void onDeleteMedia(MediaTemp mediaTemp, int position);
+        void onEditMedia(MediaTemp mediaTemp, int position);
+    }
 
-    public MediaTempAdapter(List<MediaTemp> mediaTempList) {
+    private List<MediaTemp> mMediaTempList;
+    private MediaClickListener mMediaClickListener;
+
+    public MediaTempAdapter(List<MediaTemp> mediaTempList, MediaClickListener mediaClickListener) {
         mMediaTempList = mediaTempList;
+        mMediaClickListener = mediaClickListener;
     }
 
     public void setMediaTempList(List<MediaTemp> mediaTempList) {
         mMediaTempList = mediaTempList;
-        notifyDataSetChanged();
+        udpateMedia();
     }
 
 //    public void addMediaTemp(MediaTemp mediaTemp){
 //        mMediaTempList.add(mediaTemp);
 //        notifyItemInserted(mMediaTempList.size());
 //    }
+
+    public void udpateMedia() {
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -45,6 +56,18 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
 
         holder.descriptionTextView.setText(mediaTemp.description);
         holder.photoImageView.setImageBitmap(mediaTemp.photo);
+
+        if(mediaTemp.isUseAsCoverPhoto) {
+            holder.useAsCoverImageView.setVisibility(View.VISIBLE);
+        }else {
+            holder.useAsCoverImageView.setVisibility(View.GONE);
+        }
+
+        holder.deleteMediaImageView.setOnClickListener(
+                v -> mMediaClickListener.onDeleteMedia(mediaTemp, position));
+
+        holder.itemView.setOnClickListener(
+                v -> mMediaClickListener.onEditMedia(mediaTemp, position));
     }
 
     @Override
@@ -56,12 +79,16 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
 
         ImageView photoImageView;
         TextView descriptionTextView;
+        ImageView deleteMediaImageView;
+        ImageView useAsCoverImageView;
 
         MediaViewHolder(@NonNull View itemView) {
             super(itemView);
 
             photoImageView = itemView.findViewById(R.id.photoImageView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            deleteMediaImageView = itemView.findViewById(R.id.deleteMediaImageView);
+            useAsCoverImageView = itemView.findViewById(R.id.useAsCoverImageView);
         }
     }
 }

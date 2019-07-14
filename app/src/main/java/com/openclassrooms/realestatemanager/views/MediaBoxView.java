@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +16,18 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.realestatemanager.EditMediaActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.MediaTempAdapter;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
-public class MediaBoxView extends LinearLayout {
+public class MediaBoxView extends LinearLayout implements MediaTempAdapter.MediaClickListener {
 
     public static final int RESULT_MEDIA_EDIT = 9001;
     public static final int RESULT_ACTION_IMAGE_CAPTURE = 0;
@@ -70,7 +73,7 @@ public class MediaBoxView extends LinearLayout {
         mRecyclerView = view.findViewById(R.id.mediaRecyclerView);
         btnAddMedia = view.findViewById(R.id.btnAddMedia);
 
-        mMediaTempAdapter = new MediaTempAdapter(mMediaTempList);
+        mMediaTempAdapter = new MediaTempAdapter(mMediaTempList, this);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         mRecyclerView.setAdapter(mMediaTempAdapter);
@@ -118,8 +121,58 @@ public class MediaBoxView extends LinearLayout {
         alertDialog.show();
     }
 
-    public void addMedia(MediaTemp mediaTemp){
-        mMediaTempList.add(mediaTemp);
+    public void addMedia(MediaTemp mediaTemp, int position){
+
+        if(mediaTemp.isUseAsCoverPhoto) {
+            for (MediaTemp temp : mMediaTempList) {
+                temp.isUseAsCoverPhoto = false;
+            }
+        }
+
+        if(position < 0){
+            // If it is the first media, set isUseAsCoverPhoto to selected
+            if(mMediaTempList.size() <= 0) mediaTemp.isUseAsCoverPhoto = true;
+            mMediaTempList.add(mediaTemp);
+        }else{
+
+            // If it is the first media, set isUseAsCoverPhoto to selected
+            if(mMediaTempList.size() <= 1) mediaTemp.isUseAsCoverPhoto = true;
+            mMediaTempList.set(position, mediaTemp);
+        }
+
+        mMediaTempAdapter.udpateMedia();
+    }
+
+    @Override
+    public void onDeleteMedia(MediaTemp mediaTemp, int position) {
+        mMediaTempList.remove(mediaTemp);
+
+        if(mediaTemp.isUseAsCoverPhoto && mMediaTempList.size() > 0) {
+            mMediaTempList.get(0).isUseAsCoverPhoto = true;
+        }
+
         mMediaTempAdapter.setMediaTempList(mMediaTempList);
+    }
+
+    @Override
+    public void onEditMedia(MediaTemp mediaTemp, int position) {
+        Intent intent = new Intent(getContext(), EditMediaActivity.class);
+
+        intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, bitmapToBytes(mediaTemp.photo));
+        intent.putExtra(EditMediaActivity.DESCRIPTION_EXTRA_KEY, mediaTemp.description);
+        intent.putExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, mediaTemp.isUseAsCoverPhoto);
+        intent.putExtra(EditMediaActivity.EDIT_DATA_POSITION_EXTRA_KEY, position);
+
+        mActivity.startActivityForResult(intent, MediaBoxView.RESULT_MEDIA_EDIT);
+    }
+
+    private byte[] bitmapToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    public List<MediaTemp> getMediaTempList() {
+        return mMediaTempList;
     }
 }

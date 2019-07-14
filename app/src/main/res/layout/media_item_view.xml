@@ -31,5 +31,30 @@
             android:padding="8dp"
             android:text="@string/title_media"
             android:textColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/deleteMediaImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorAccent"
+            android:layout_gravity="end|top"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:background="#90000000"
+            app:srcCompat="@drawable/ic_delete_black_24dp"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/useAsCoverImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorGreen600"
+            android:layout_gravity="start|top"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:background="#90000000"
+            app:srcCompat="@drawable/ic_offline_pin_black_24dp"
+            tools:ignore="ContentDescription" />
     </FrameLayout>
+
 </androidx.cardview.widget.CardView>

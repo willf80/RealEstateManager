@@ -403,14 +403,17 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private void getMediaEditedData(Intent data) {
         byte[] photoBytes = data.getByteArrayExtra(EditMediaActivity.MEDIA_EXTRA_KEY);
         String description = data.getStringExtra(EditMediaActivity.DESCRIPTION_EXTRA_KEY);
+        boolean isUseAsCoverPhoto = data.getBooleanExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, false);
+        int mediaEditedPosition = data.getIntExtra(EditMediaActivity.EDIT_DATA_POSITION_EXTRA_KEY, -1);
 
         Bitmap photo = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
 
         MediaTemp mediaTemp = new MediaTemp();
         mediaTemp.description = description;
         mediaTemp.photo = photo;
+        mediaTemp.isUseAsCoverPhoto = isUseAsCoverPhoto;
 
-        mMediaBoxView.addMedia(mediaTemp);
+        mMediaBoxView.addMedia(mediaTemp, mediaEditedPosition);
     }
 
 }
