@@ -25,7 +25,7 @@
     <string name="address_line">Address line</string>
     <string name="address_line2">Apartment, floor, others</string>
     <string name="postal_code">Postal code</string>
-    <string name="invalid_address">Invalid address</string>
+    <string name="invalid_address">Invalid addressLine2</string>
     <string name="create">Create</string>
     <string name="save_modifications">Save modifications</string>
     <string name="measure_sq_m">sq m</string>

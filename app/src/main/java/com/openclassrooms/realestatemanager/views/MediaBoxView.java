@@ -169,7 +169,10 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
     private byte[] bitmapToBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        return stream.toByteArray();
+        byte[] bytes = stream.toByteArray();
+        bitmap.recycle();
+
+        return  bytes;
     }
 
     public List<MediaTemp> getMediaTempList() {
