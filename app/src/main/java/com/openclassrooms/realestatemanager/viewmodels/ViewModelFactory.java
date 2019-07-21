@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.openclassrooms.realestatemanager.repositories.AddressRepository;
 import com.openclassrooms.realestatemanager.repositories.InterestPointRepository;
+import com.openclassrooms.realestatemanager.repositories.MediaRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
 import com.openclassrooms.realestatemanager.repositories.UserRepository;
@@ -17,16 +19,20 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     private final PropertyTypeRepository mTypeSource;
     private final InterestPointRepository mInterestPointSource;
     private final UserRepository mUserSource;
+    private final MediaRepository mMediaSource;
+    private final AddressRepository mAddressRepository;
     private final Executor mExecutor;
 
     public ViewModelFactory(PropertyRepository propertySource,
                             PropertyTypeRepository typeSource,
                             InterestPointRepository interestPointSource,
-                            UserRepository userSource, Executor executor) {
+                            UserRepository userSource, MediaRepository mediaSource, AddressRepository addressRepository, Executor executor) {
         mPropertySource = propertySource;
         mTypeSource = typeSource;
         mInterestPointSource = interestPointSource;
         mUserSource = userSource;
+        mMediaSource = mediaSource;
+        mAddressRepository = addressRepository;
         mExecutor = executor;
     }
 
@@ -34,7 +40,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if(modelClass.isAssignableFrom(PropertyViewModel.class)) {
-            return (T) new PropertyViewModel(mPropertySource, mTypeSource, mInterestPointSource, mExecutor);
+            return (T) new PropertyViewModel(mPropertySource, mTypeSource, mInterestPointSource,
+                    mMediaSource, mAddressRepository, mExecutor);
         }
 
         if(modelClass.isAssignableFrom(UserViewModel.class)) {

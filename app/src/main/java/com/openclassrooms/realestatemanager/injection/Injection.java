@@ -3,7 +3,9 @@ package com.openclassrooms.realestatemanager.injection;
 import android.content.Context;
 
 import com.openclassrooms.realestatemanager.dal.AppDatabase;
+import com.openclassrooms.realestatemanager.repositories.AddressRepository;
 import com.openclassrooms.realestatemanager.repositories.InterestPointRepository;
+import com.openclassrooms.realestatemanager.repositories.MediaRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
 import com.openclassrooms.realestatemanager.repositories.UserRepository;
@@ -34,6 +36,16 @@ public class Injection {
         return new UserRepository(appDatabase.userDao());
     }
 
+    public static MediaRepository provideMediaDataSource(Context context) {
+        AppDatabase appDatabase = AppDatabase.getInstance(context);
+        return new MediaRepository(appDatabase.mediaDao());
+    }
+
+    public static AddressRepository provideAddressDataSource(Context context) {
+        AppDatabase appDatabase = AppDatabase.getInstance(context);
+        return new AddressRepository(appDatabase.addressDao());
+    }
+
     public static Executor provideExecutor() {
         return Executors.newSingleThreadExecutor();
     }
@@ -43,11 +55,13 @@ public class Injection {
         UserRepository dataSourceUser = provideUserDataSource(context);
         PropertyTypeRepository dataSourcePropertyType = providePropertyTypeDataSource(context);
         InterestPointRepository dataSourceInterestPoint = provideInterestPointDataSource(context);
+        MediaRepository dataSourceMedia = provideMediaDataSource(context);
+        AddressRepository dataSourceAddress = provideAddressDataSource(context);
 
         Executor executor = provideExecutor();
 
         return new ViewModelFactory(dataSourceProperty, dataSourcePropertyType,
-                dataSourceInterestPoint, dataSourceUser, executor);
+                dataSourceInterestPoint, dataSourceUser, dataSourceMedia, dataSourceAddress, executor);
     }
 
 }

@@ -8,6 +8,7 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
@@ -25,6 +26,7 @@ import com.openclassrooms.realestatemanager.models.Media;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
 import com.openclassrooms.realestatemanager.models.PropertyType;
+import com.openclassrooms.realestatemanager.utils.DateConverters;
 
 @Database(version = 1,
         entities = {
@@ -34,6 +36,7 @@ import com.openclassrooms.realestatemanager.models.PropertyType;
         },
         exportSchema = false
 )
+@TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "AppDatabase.db";

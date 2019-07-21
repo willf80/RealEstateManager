@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(indices = {@Index("propertyTypeId"), @Index("userId")},
         foreignKeys = {
         @ForeignKey(entity = PropertyType.class,
@@ -30,7 +32,9 @@ public class Property {
     private String addressLine2;
     private boolean status;
     private String entryOfMarketDate;
-    private String saleDate;
+    private Date createdDate;
+    private Date modifiedDate;
+    private Date saleDate;
     private long propertyTypeId; //FK
     private long userId; //FK
 
@@ -122,11 +126,27 @@ public class Property {
         this.entryOfMarketDate = entryOfMarketDate;
     }
 
-    public String getSaleDate() {
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Date getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(String saleDate) {
+    public void setSaleDate(Date saleDate) {
         this.saleDate = saleDate;
     }
 

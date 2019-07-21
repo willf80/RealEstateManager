@@ -36,7 +36,7 @@ public class InterestPointsAddingViewServiceTest {
         String expectedText = "Hello";
 
         // Act
-        mPointsAddingViewService.addTagWithState("Hello", true);
+        mPointsAddingViewService.addTag("Hello");
 
         // Assert
         assertEquals(expectedText, mPointsAddingViewService.getTagList().get(0));
@@ -48,8 +48,8 @@ public class InterestPointsAddingViewServiceTest {
         int expectedTotalCount = 1;
 
         // Act
-        mPointsAddingViewService.addTagWithState("Hello", true);
-        mPointsAddingViewService.addTagWithState("Hello", true);
+        mPointsAddingViewService.addTag("Hello");
+        mPointsAddingViewService.addTag("Hello");
 
         // Assert
         assertEquals(expectedTotalCount, mPointsAddingViewService.getTagList().size());
@@ -60,10 +60,10 @@ public class InterestPointsAddingViewServiceTest {
         // Arrange
 
         // Act
-        mPointsAddingViewService.addTagWithState("Hello", true);
+        mPointsAddingViewService.addTag("Hello");
         mPointsAddingViewService.removeTagInHashTable("Hello");
 
         // Assert
-        assertEquals(0, mPointsAddingViewService.getInterestPointAddedState().size());
+        assertEquals(0, mPointsAddingViewService.getInterestPointSelectedList().size());
     }
 }

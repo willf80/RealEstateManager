@@ -33,6 +33,7 @@ import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyInfo;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
@@ -47,7 +48,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import butterknife.BindView;
@@ -505,13 +505,5 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         }
 
         return true;
-    }
-
-    public class PropertyInfo {
-        public PropertyType propertyType;
-        public Property property;
-        public Address address;
-        public Dictionary<String, Boolean> interestPoints;
-        public List<MediaTemp> mediaTempList;
     }
 }

@@ -34,11 +34,6 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
         udpateMedia();
     }
 
-//    public void addMediaTemp(MediaTemp mediaTemp){
-//        mMediaTempList.add(mediaTemp);
-//        notifyItemInserted(mMediaTempList.size());
-//    }
-
     public void udpateMedia() {
         notifyDataSetChanged();
     }

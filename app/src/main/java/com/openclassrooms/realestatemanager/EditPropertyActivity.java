@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.openclassrooms.realestatemanager.models.PropertyInfo;
+
 public class EditPropertyActivity extends AbstractPropertyEditionActivity {
 
     @Override

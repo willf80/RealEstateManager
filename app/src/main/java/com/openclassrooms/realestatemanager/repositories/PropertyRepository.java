@@ -21,11 +21,11 @@ public class PropertyRepository {
         mPropertyDao = propertyDao;
     }
 
-    public PropertyRepository(PropertyDao propertyDao, UserDao userDao, PropertyTypeDao propertyTypeDao) {
-        mPropertyDao = propertyDao;
-        mUserDao = userDao;
-        mPropertyTypeDao = propertyTypeDao;
-    }
+//    public PropertyRepository(PropertyDao propertyDao, UserDao userDao, PropertyTypeDao propertyTypeDao) {
+//        mPropertyDao = propertyDao;
+//        mUserDao = userDao;
+//        mPropertyTypeDao = propertyTypeDao;
+//    }
 
     public LiveData<List<Property>> getAllProperties() {
         return mPropertyDao.getProperties();
@@ -35,17 +35,17 @@ public class PropertyRepository {
         return mPropertyDao.insert(property);
     }
 
-    public long createProperty(Property property, User user, PropertyType type) {
-        if(mUserDao == null || mPropertyTypeDao == null) {
-            throw new NullPointerException("UserDao or PropertyTypeDao are not initialized");
-        }
-
-        long userId = mUserDao.insert(user);
-        long typeId = mPropertyTypeDao.insert(type);
-
-        property.setUserId(userId);
-        property.setPropertyTypeId(typeId);
-
-        return mPropertyDao.insert(property);
-    }
+//    public long createProperty(Property property, User user, PropertyType type) {
+//        if(mUserDao == null || mPropertyTypeDao == null) {
+//            throw new NullPointerException("UserDao or PropertyTypeDao are not initialized");
+//        }
+//
+//        long userId = mUserDao.insert(user);
+//        long typeId = mPropertyTypeDao.insert(type);
+//
+//        property.setUserId(userId);
+//        property.setPropertyTypeId(typeId);
+//
+//        return mPropertyDao.insert(property);
+//    }
 }

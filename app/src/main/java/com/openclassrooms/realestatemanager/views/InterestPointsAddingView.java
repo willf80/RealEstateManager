@@ -19,7 +19,6 @@ import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.services.InterestPointsAddingViewService;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -101,7 +100,7 @@ public class InterestPointsAddingView extends LinearLayout {
                 return;
             }
 
-            if(mPointsAddingViewService.isKeyExist(tag)) {
+            if(mPointsAddingViewService.isAlreadyAdded(tag)) {
                 Toast.makeText(getContext(),
                         String.format("Can't add duplicated interest point : [%s] already added", tag),
                         Toast.LENGTH_LONG)
@@ -114,13 +113,13 @@ public class InterestPointsAddingView extends LinearLayout {
                 return;
             }
 
-            addTagView(tag, false);
+            addTagView(tag);
         });
     }
 
-    private void addTagView(String tag, boolean isNew) {
+    private void addTagView(String tag) {
         tagLayout.addTag(tag);
-        mPointsAddingViewService.addTagWithState(tag, isNew);
+        mPointsAddingViewService.addTag(tag);
         completeTextView.setText("");
     }
 
@@ -146,12 +145,12 @@ public class InterestPointsAddingView extends LinearLayout {
                 .setMessage(message)
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes, add",
-                        (dialog1, which) -> addTagView(interestPoint, true))
+                        (dialog1, which) -> addTagView(interestPoint))
                 .create();
         dialog.show();
     }
 
-    public Dictionary<String, Boolean> getInterestPointList() {
-        return mPointsAddingViewService.getInterestPointAddedState();
+    public List<InterestPoint> getInterestPointList() {
+        return mPointsAddingViewService.getInterestPointSelectedList();
     }
 }
