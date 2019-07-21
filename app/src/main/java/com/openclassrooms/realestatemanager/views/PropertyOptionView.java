@@ -75,4 +75,9 @@ public class PropertyOptionView extends LinearLayout {
             titleTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(mIconDrawable, null, null, null);
         }
     }
+
+    public void setDescription(String descriptionString) {
+        mDescriptionString = descriptionString;
+        descriptionTextView.setText(mDescriptionString);
+    }
 }
