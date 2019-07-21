@@ -7,11 +7,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.models.Address;
+import com.openclassrooms.realestatemanager.models.AddressDisplayedInfo;
 import com.openclassrooms.realestatemanager.models.AddressProperties;
 import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.Media;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
 import com.openclassrooms.realestatemanager.models.PropertyType;
@@ -52,6 +54,14 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<List<Property>> getProperties() {
         return mPropertySource.getAllProperties();
+    }
+
+    public LiveData<List<PropertyAllDisplayedInfo>> getAllPropertyDisplayedInfos(){
+        return mPropertySource.getAllPropertyDisplayedInfo();
+    }
+
+    public LiveData<PropertyAllDisplayedInfo> getPropertyDisplayedInfo(long propertyId){
+        return mPropertySource.getPropertyDisplayedInfo(propertyId);
     }
 
     public void createProperty(Context context, final PropertyInfo propertyInfo) {
@@ -124,6 +134,7 @@ public class PropertyViewModel extends ViewModel {
             media.setLabel(mediaTemp.description);
             media.setDataPath(photoPath);
             media.setPropertyId(propertyId);
+            media.setCover(mediaTemp.isUseAsCoverPhoto);
 
             mMediaRepository.createProperty(media);
         }
@@ -145,5 +156,17 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<List<InterestPoint>> getInterestPoints() {
         return mInterestPointRepository.getInterestPoints();
+    }
+
+    public LiveData<Media> getSelectedMedia(long propertyId) {
+        return mMediaRepository.getSelectedMedia(propertyId);
+    }
+
+    public LiveData<AddressDisplayedInfo> getPropertyAddress(long propertyId) {
+        return mAddressRepository.getAddress(propertyId);
+    }
+
+    public LiveData<PropertyType> getPropertyType(long propertyTypeId) {
+        return mTypeSource.getPropertyType(propertyTypeId);
     }
 }

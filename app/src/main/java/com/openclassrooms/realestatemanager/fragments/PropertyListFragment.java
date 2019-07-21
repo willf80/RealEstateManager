@@ -16,24 +16,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.PropertyAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.models.Address;
+import com.openclassrooms.realestatemanager.models.Media;
+import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
+import com.openclassrooms.realestatemanager.utils.FileHelper;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class PropertyListFragment extends Fragment implements PropertyAdapter.OnDispatchListener {
 
-    PropertyAdapter mPropertyAdapter;
-    List<Property> mPropertyList;
+    private PropertyAdapter mPropertyAdapter;
+    private List<PropertyAllDisplayedInfo> mPropertyList;
 
-    OnFragmentDispatchListener mDispatchListener;
+    private OnFragmentDispatchListener mDispatchListener;
 
-    UserViewModel mUserViewModel;
-    PropertyViewModel mPropertyViewModel;
+    private UserViewModel mUserViewModel;
+    private PropertyViewModel mPropertyViewModel;
+
+    private boolean addressLoaded = false;
+    private boolean propertyTypeLoaded = false;
+    private boolean InterestedPointLoaded = false;
 
     public static PropertyListFragment newInstance() {
         PropertyListFragment fragment = new PropertyListFragment();
@@ -45,7 +55,6 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     private void configureViewModels() {
@@ -70,15 +79,11 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
         mPropertyList = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
-            mPropertyList.add(new Property());
-        }
+        configureViewModels();
 
-        mPropertyAdapter = new PropertyAdapter(mPropertyList, this);
+        mPropertyAdapter = new PropertyAdapter(mPropertyList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPropertyAdapter);
-
-        configureViewModels();
 
         loadData();
 
@@ -86,11 +91,55 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     }
 
     private void loadData() {
-        mPropertyViewModel.getProperties().observe(this, this::onPropertyListLoaded);
+        mPropertyViewModel.getAllPropertyDisplayedInfos()
+                .observe(this, this::onPropertyListLoaded);
     }
 
-    private void onPropertyListLoaded(List<Property> propertyList) {
-        mPropertyAdapter.setPropertyList(propertyList);
+    private void onPropertyListLoaded(List<PropertyAllDisplayedInfo> propertyList) {
+
+        for (PropertyAllDisplayedInfo padi : propertyList) {
+            Property property = padi.getProperty();
+
+            mPropertyViewModel.getSelectedMedia(property.getId())
+                .observe(this, media -> {
+                    if(media != null) {
+                        MediaTemp mediaTemp = new MediaTemp();
+                        mediaTemp.isUseAsCoverPhoto = media.isCover();
+                        mediaTemp.description = media.getLabel();
+                        mediaTemp.photoPath = media.getDataPath();
+                        mediaTemp.photo = FileHelper.loadImageFromStorage(getContext(), media.getDataPath());
+
+                        padi.setMediaTemp(mediaTemp);
+                    }
+                });
+
+            mPropertyViewModel.getPropertyAddress(property.getId())
+                    .observe(this, addressDisplayedInfo -> {
+                if(addressDisplayedInfo != null) {
+                    Iterator<Address> it = addressDisplayedInfo.getAddress().iterator();
+                    Address address = it.next();
+                    padi.setAddress(address);
+
+                    addressLoaded = true;
+                    reloadData();
+                }
+            });
+
+            mPropertyViewModel.getPropertyType(property.getPropertyTypeId())
+                            .observe(this, propertyType -> {
+                padi.setPropertyType(propertyType);
+                propertyTypeLoaded = true;
+                reloadData();
+            });
+
+        }
+
+        mPropertyList = propertyList;
+    }
+
+    private void reloadData() {
+        if(propertyTypeLoaded && addressLoaded)
+            mPropertyAdapter.setPropertyList(mPropertyList);
     }
 
     @Override

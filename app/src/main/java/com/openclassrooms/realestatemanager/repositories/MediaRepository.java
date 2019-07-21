@@ -25,4 +25,8 @@ public class MediaRepository {
     public long createProperty(Media media) {
         return mMediaDao.insert(media);
     }
+
+    public LiveData<Media> getSelectedMedia(long propertyId) {
+        return mMediaDao.getOneMedia(propertyId, true);
+    }
 }

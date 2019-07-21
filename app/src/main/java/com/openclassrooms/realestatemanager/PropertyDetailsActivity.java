@@ -10,7 +10,7 @@ public class PropertyDetailsActivity extends BaseActivity implements DetailsProp
 
     public static final String EXTRA_PROPERTY_ID = "propertyId";
 
-    String propertyId;
+    long propertyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class PropertyDetailsActivity extends BaseActivity implements DetailsProp
         setContentView(R.layout.activity_property_details);
         showReturnHome();
 
-        propertyId = getIntent().getStringExtra(EXTRA_PROPERTY_ID);
+        propertyId = getIntent().getLongExtra(EXTRA_PROPERTY_ID, 0);
 
         configFrameLayout();
     }

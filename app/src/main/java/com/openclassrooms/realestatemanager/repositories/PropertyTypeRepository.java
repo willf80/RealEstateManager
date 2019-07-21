@@ -18,4 +18,8 @@ public class PropertyTypeRepository {
     public LiveData<List<PropertyType>> getAllTypes() {
         return mPropertyTypeDao.getPropertyTypes();
     }
+
+    public LiveData<PropertyType> getPropertyType(long propertyTypeId) {
+        return mPropertyTypeDao.getPropertyType(propertyTypeId);
+    }
 }

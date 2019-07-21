@@ -14,4 +14,6 @@ public abstract class PropertyTypeDao implements BaseDao<PropertyType>{
     @Query("SELECT * FROM PropertyType ORDER BY label ASC")
     public abstract LiveData<List<PropertyType>> getPropertyTypes();
 
+    @Query("SELECT * FROM PropertyType WHERE id = :propertyTypeId")
+    public abstract LiveData<PropertyType> getPropertyType(long propertyTypeId);
 }

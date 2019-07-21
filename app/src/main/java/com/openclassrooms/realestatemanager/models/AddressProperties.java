@@ -17,7 +17,6 @@ import androidx.room.Index;
         }
 )
 public class AddressProperties {
-
     private long propertyId; // PK|FK
     private long addressId; // PK|FK
 
@@ -41,4 +40,5 @@ public class AddressProperties {
     public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
+
 }

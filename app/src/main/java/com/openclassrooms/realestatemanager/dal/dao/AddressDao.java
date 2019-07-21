@@ -6,8 +6,10 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.openclassrooms.realestatemanager.models.Address;
+import com.openclassrooms.realestatemanager.models.AddressDisplayedInfo;
 import com.openclassrooms.realestatemanager.models.AddressProperties;
 
 @Dao
@@ -22,4 +24,8 @@ public abstract class AddressDao implements BaseDao<Address>{
 
     @Delete
     public abstract void delete(AddressProperties addressProperties);
+
+    @Transaction
+    @Query("SELECT * FROM AddressProperties WHERE propertyId = :propertyId")
+    public abstract LiveData<AddressDisplayedInfo> getAddressWithPropertyId(long propertyId);
 }

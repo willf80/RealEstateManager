@@ -17,6 +17,7 @@ public class Media {
     private long id;
     private String label;
     private String dataPath;
+    private boolean isCover;
 
     @ColumnInfo
     private long propertyId; // FK
@@ -51,5 +52,13 @@ public class Media {
 
     public void setPropertyId(long propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public boolean isCover() {
+        return isCover;
+    }
+
+    public void setCover(boolean cover) {
+        isCover = cover;
     }
 }

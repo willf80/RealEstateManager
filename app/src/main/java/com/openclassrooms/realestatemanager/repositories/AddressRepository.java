@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.dal.dao.AddressDao;
 import com.openclassrooms.realestatemanager.models.Address;
+import com.openclassrooms.realestatemanager.models.AddressDisplayedInfo;
 import com.openclassrooms.realestatemanager.models.AddressProperties;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
 
@@ -25,5 +26,9 @@ public class AddressRepository {
 
     public long linkedAddressWithProperty(AddressProperties addressProperty) {
         return mAddressDao.insert(addressProperty);
+    }
+
+    public LiveData<AddressDisplayedInfo> getAddress(long propertyId) {
+        return mAddressDao.getAddressWithPropertyId(propertyId);
     }
 }

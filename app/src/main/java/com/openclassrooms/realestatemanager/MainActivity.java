@@ -71,23 +71,23 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
     private void manageViewing(Property property) {
         if(mDetailsFrameLayout == null) {
-            showDetailsInActivity(property.getId() + "");
+            showDetailsInActivity(property.getId());
             return;
         }
 
-        showDetailsInFragment(property.getId() + "");
+        showDetailsInFragment(property.getId());
     }
 
-    private void showDetailsInActivity(String id) {
+    private void showDetailsInActivity(long propertyId) {
         Intent intent = new Intent(this, PropertyDetailsActivity.class);
-        intent.putExtra(PropertyDetailsActivity.EXTRA_PROPERTY_ID, id);
+        intent.putExtra(PropertyDetailsActivity.EXTRA_PROPERTY_ID, propertyId);
         startActivity(intent);
     }
 
-    private void showDetailsInFragment(String id) {
+    private void showDetailsInFragment(long propertyId) {
         if(mDetailsFrameLayout == null) return;
 
-        DetailsPropertyFragment fragment = DetailsPropertyFragment.newInstance(id);
+        DetailsPropertyFragment fragment = DetailsPropertyFragment.newInstance(propertyId);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.details_property_fragment, fragment);
