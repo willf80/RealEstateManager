@@ -9,7 +9,7 @@ public class Address {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private String numberAndStreet;
+    private String addressLine1;
 
     private String postalCode;
 
@@ -21,12 +21,12 @@ public class Address {
         this.id = id;
     }
 
-    public String getNumberAndStreet() {
-        return numberAndStreet;
+    public String getAddressLine1() {
+        return addressLine1;
     }
 
-    public void setNumberAndStreet(String numberAndStreet) {
-        this.numberAndStreet = numberAndStreet;
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
     }
 
     public String getPostalCode() {

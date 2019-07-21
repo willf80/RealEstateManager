@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,11 +29,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.openclassrooms.realestatemanager.adapters.PropertyTypeSpinnerAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
+import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
+import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 import com.openclassrooms.realestatemanager.views.InterestPointsAddingView;
 import com.openclassrooms.realestatemanager.views.MediaBoxView;
@@ -43,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,8 +62,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private Mode mMode;
 
     // For data
-//    private UserViewModel mUserViewModel;
-    private PropertyViewModel mPropertyViewModel;
+    protected UserViewModel mUserViewModel;
+    protected PropertyViewModel mPropertyViewModel;
 
     private PropertyTypeSpinnerAdapter mTypeSpinnerAdapter;
 
@@ -76,6 +81,24 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     @BindView(R.id.interestPointsAddingView)
     InterestPointsAddingView mInterestPointsAddingView;
+
+    @BindView(R.id.descriptionEditText)
+    TextInputEditText descriptionEditText;
+
+    @BindView(R.id.surfaceEditText)
+    TextInputEditText surfaceEditText;
+
+    @BindView(R.id.numberOfRoomsEditText)
+    TextInputEditText numberOfRoomsEditText;
+
+    @BindView(R.id.numberOfBathroomsEditText)
+    TextInputEditText numberOfBathroomsEditText;
+
+    @BindView(R.id.numberOfBedroomsEditText)
+    TextInputEditText numberOfBedroomsEditText;
+
+    @BindView(R.id.priceEditText)
+    TextInputEditText priceEditText;
 
     @BindView(R.id.addressLine1EditText)
     TextInputEditText addressLine1EditText;
@@ -95,11 +118,13 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     @BindView(R.id.mediaBoxView)
     MediaBoxView mMediaBoxView;
 
-    protected String addressLine1;
-    protected String addressLine2;
-    protected String postalCode;
+    private String addressLine1;
+    private String addressLine2;
+    private String postalCode;
 
-    protected PropertyType mCurrentPropertyType;
+    private PropertyType mCurrentPropertyType;
+
+    private PropertyInfo mPropertyInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +152,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     public abstract Mode definedMode();
 
-    public abstract void save();
+    public abstract void save(PropertyInfo propertyInfo);
 
     private void configureViews() {
         if(mMode == Mode.Creation) {
@@ -164,15 +189,6 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     }
 
     private void setPermissions(){
-//        PermissionListener dialogPermissionListener =
-//                DialogOnDeniedPermissionListener.Builder
-//                        .withContext(this)
-//                        .withTitle("Camera permission")
-//                        .withMessage("Camera permission is needed to take pictures")
-//                        .withButtonText(android.R.string.ok)
-//                        .withIcon(R.mipmap.ic_launcher)
-//                        .build();
-
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.READ_CONTACTS,
@@ -193,17 +209,15 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
                 })
                 .check();
-
-//        Dexter.withActivity(this)
-//                .withPermission(Manifest.permission.CAMERA)
-//                .withListener(dialogPermissionListener).check();
-
-
     }
 
     private void listeners() {
-        mCreatePropertyButton.setOnClickListener(v -> save());
-        mEditPropertyButton.setOnClickListener(v -> save());
+        mCreatePropertyButton.setOnClickListener(v -> {
+            if(canSave()) save(mPropertyInfo);
+        });
+        mEditPropertyButton.setOnClickListener(v -> {
+            if(canSave()) save(mPropertyInfo);
+        });
 
         addressLine1EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -307,9 +321,9 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private void configureViewModels() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
 
-//        this.mUserViewModel = ViewModelProviders
-//                .of(this, viewModelFactory)
-//                .get(UserViewModel.class);
+        this.mUserViewModel = ViewModelProviders
+                .of(this, viewModelFactory)
+                .get(UserViewModel.class);
 
         this.mPropertyViewModel = ViewModelProviders
                 .of(this, viewModelFactory)
@@ -376,6 +390,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         Intent intent = new Intent(this, EditMediaActivity.class);
         intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, stream.toByteArray());
         startActivityForResult(intent, MediaBoxView.RESULT_MEDIA_EDIT);
+
+        tempSelectedBitmap.recycle();
     }
 
     private Bitmap getBitmapFromGallery(Intent data){
@@ -416,4 +432,86 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         mMediaBoxView.addMedia(mediaTemp, mediaEditedPosition);
     }
 
+    private double parseToDouble(String s){
+        if(s == null || s.isEmpty()) return 0;
+        return Double.parseDouble(s);
+    }
+
+    private int parseToInt(String s){
+        if(s == null || s.isEmpty()) return 0;
+        return Integer.parseInt(s);
+    }
+
+    private void extractData() {
+        mPropertyInfo = new PropertyInfo();
+        mPropertyInfo.property = new Property();
+        mPropertyInfo.address = new Address();
+
+        Property property = mPropertyInfo.property;
+        Address address = mPropertyInfo.address;
+
+        property.setDescription(descriptionEditText.getText().toString());
+
+        property.setArea(parseToDouble(surfaceEditText.getText().toString()));
+        property.setNumberOfRooms(parseToInt(numberOfRoomsEditText.getText().toString()));
+        property.setNumberOfBathrooms(parseToInt(numberOfBathroomsEditText.getText().toString()));
+        property.setNumberOfBedrooms(parseToInt(numberOfBedroomsEditText.getText().toString()));
+        property.setPrice(parseToDouble(priceEditText.getText().toString()));
+        property.setAddressLine2(addressLine2);
+
+        address.setAddressLine1(addressLine1);
+        address.setPostalCode(postalCode);
+
+        mPropertyInfo.propertyType = mCurrentPropertyType;
+        mPropertyInfo.interestPoints = mInterestPointsAddingView.getInterestPointList();
+        mPropertyInfo.mediaTempList = mMediaBoxView.getMediaTempList();
+    }
+
+    private boolean canSave() {
+        extractData();
+
+        if(mPropertyInfo.propertyType == null) {
+            Toast.makeText(this, "Please, select the type of property", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(mPropertyInfo.property.getDescription() == null ||
+                mPropertyInfo.property.getDescription().isEmpty()) {
+            Toast.makeText(this, "Please, enter description of the property", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(mPropertyInfo.address.getAddressLine1() == null       ||
+            mPropertyInfo.address.getPostalCode() == null        ||
+            mPropertyInfo.address.getAddressLine1().isEmpty()    ||
+            mPropertyInfo.address.getPostalCode().isEmpty()) {
+            Toast.makeText(this, "Address and postal code is required", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(mPropertyInfo.mediaTempList.size() <= 0) {
+            Toast.makeText(this, "Please, add at least one media (photo) ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(mPropertyInfo.property.getArea() <= 0) {
+            Toast.makeText(this, "Please, enter the property area", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(mPropertyInfo.property.getPrice() <= 0) {
+            Toast.makeText(this, "Please, enter the property price", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    public class PropertyInfo {
+        public PropertyType propertyType;
+        public Property property;
+        public Address address;
+        public Dictionary<String, Boolean> interestPoints;
+        public List<MediaTemp> mediaTempList;
+    }
 }

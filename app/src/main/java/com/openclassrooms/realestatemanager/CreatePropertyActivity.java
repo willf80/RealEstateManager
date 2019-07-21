@@ -3,6 +3,9 @@ package com.openclassrooms.realestatemanager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
+
 public class CreatePropertyActivity extends AbstractPropertyEditionActivity {
 
     @Override
@@ -18,7 +21,17 @@ public class CreatePropertyActivity extends AbstractPropertyEditionActivity {
     }
 
     @Override
-    public void save() {
-        Log.i("CreatePropertyActivity", "CreatePropertyActivity save");
+    public void save(PropertyInfo propertyInfo) {
+        Log.i("EditPropertyActivity", "CreatePropertyActivity save");
+//        User user = mUserViewModel.getCurrentUser().getValue();
+
+        //Save
+        Property property = propertyInfo.property;
+        property.setPropertyTypeId(propertyInfo.propertyType.getId());
+        property.setUserId(UserViewModel.USER_ID);
+
+        mPropertyViewModel.createProperty(property);
+
+        finish();
     }
 }

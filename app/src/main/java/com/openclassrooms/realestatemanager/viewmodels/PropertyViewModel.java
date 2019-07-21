@@ -35,9 +35,7 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public void createProperty(Property property) {
-        mExecutor.execute(() -> {
-            mPropertySource.createProperty(property);
-        });
+        mExecutor.execute(() -> mPropertySource.createProperty(property));
     }
 
     public LiveData<List<PropertyType>> getPropertyTypes() {

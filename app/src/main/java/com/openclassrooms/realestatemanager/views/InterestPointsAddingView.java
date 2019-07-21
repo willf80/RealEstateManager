@@ -20,7 +20,6 @@ import com.openclassrooms.realestatemanager.services.InterestPointsAddingViewSer
 
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -150,5 +149,9 @@ public class InterestPointsAddingView extends LinearLayout {
                         (dialog1, which) -> addTagView(interestPoint, true))
                 .create();
         dialog.show();
+    }
+
+    public Dictionary<String, Boolean> getInterestPointList() {
+        return mPointsAddingViewService.getInterestPointAddedState();
     }
 }

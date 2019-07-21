@@ -11,6 +11,8 @@ import java.util.concurrent.Executor;
 
 public class UserViewModel extends ViewModel {
 
+    public final static int USER_ID = 1;
+
     //Repositories
     private final UserRepository mUserSource;
     private final Executor mExecutor;
@@ -18,8 +20,7 @@ public class UserViewModel extends ViewModel {
     @Nullable
     private LiveData<User> currentUser;
 
-    public UserViewModel(UserRepository userSource,
-                         Executor executor) {
+    public UserViewModel(UserRepository userSource, Executor executor) {
         mUserSource = userSource;
         mExecutor = executor;
     }

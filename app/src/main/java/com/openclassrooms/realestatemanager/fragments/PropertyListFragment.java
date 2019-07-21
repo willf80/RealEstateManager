@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.PropertyAdapter;
+import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
+import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,9 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
     OnFragmentDispatchListener mDispatchListener;
 
+    UserViewModel mUserViewModel;
+    PropertyViewModel mPropertyViewModel;
+
     public static PropertyListFragment newInstance() {
         PropertyListFragment fragment = new PropertyListFragment();
         Bundle args = new Bundle();
@@ -38,6 +46,18 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    private void configureViewModels() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
+
+        this.mUserViewModel = ViewModelProviders
+                .of(this, viewModelFactory)
+                .get(UserViewModel.class);
+
+        this.mPropertyViewModel = ViewModelProviders
+                .of(this, viewModelFactory)
+                .get(PropertyViewModel.class);
     }
 
     @Override
@@ -58,7 +78,19 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPropertyAdapter);
 
+        configureViewModels();
+
+        loadData();
+
         return view;
+    }
+
+    private void loadData() {
+        mPropertyViewModel.getProperties().observe(this, this::onPropertyListLoaded);
+    }
+
+    private void onPropertyListLoaded(List<Property> propertyList) {
+        mPropertyAdapter.setPropertyList(propertyList);
     }
 
     @Override

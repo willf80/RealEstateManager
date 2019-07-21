@@ -9,7 +9,7 @@ import com.openclassrooms.realestatemanager.models.Address;
 @Dao
 public abstract class AddressDao implements BaseDao<Address>{
 
-    @Query("SELECT * FROM Address WHERE Address.numberAndStreet LIKE :address " +
+    @Query("SELECT * FROM Address WHERE Address.addressLine1 LIKE :address " +
             "AND Address.postalCode = :postalCode")
     public abstract LiveData<Address> searchWithAddressAndPostalCode(String address, String postalCode);
 

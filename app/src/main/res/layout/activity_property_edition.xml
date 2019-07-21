@@ -56,6 +56,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top|start"
@@ -81,6 +82,7 @@
                         app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/surfaceEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_surface_black_24dp"
@@ -110,6 +112,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/numberOfRoomsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_home_black_24dp"
@@ -125,6 +128,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/numberOfBathroomsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/hot_tub_black_24x24"
@@ -140,6 +144,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/numberOfBedroomsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/hotel_black_24x24"
@@ -158,6 +163,7 @@
                         app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/priceEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_money_cash_black_24dp"
@@ -169,7 +175,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_attach_money_black_24dp"
+                        app:srcCompat="@drawable/ic_attach_money_black_24dp"
                         android:layout_centerInParent="true"
                         android:layout_alignParentEnd="true"
                         tools:ignore="ContentDescription" />

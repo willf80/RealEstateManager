@@ -27,7 +27,7 @@ public class Property {
     private int numberOfBathrooms;
     private int numberOfBedrooms;
     private String description;
-    private String address;
+    private String addressLine2;
     private boolean status;
     private String entryOfMarketDate;
     private String saleDate;
@@ -98,12 +98,12 @@ public class Property {
         this.description = description;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressLine2() {
+        return addressLine2;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
     }
 
     public boolean isStatus() {

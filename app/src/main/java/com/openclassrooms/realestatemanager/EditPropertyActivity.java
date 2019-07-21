@@ -18,7 +18,7 @@ public class EditPropertyActivity extends AbstractPropertyEditionActivity {
     }
 
     @Override
-    public void save() {
+    public void save(PropertyInfo propertyInfo) {
         Log.i("EditPropertyActivity", "EditPropertyActivity save");
     }
 }

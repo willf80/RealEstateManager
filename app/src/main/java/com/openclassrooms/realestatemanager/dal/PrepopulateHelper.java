@@ -22,7 +22,7 @@ public class PrepopulateHelper {
 
         ContentValues contentValues1 = new ContentValues();
         contentValues1.put("id", 1);
-        contentValues1.put("label", "Apartment");
+        contentValues1.put("label", "Flat");
 
         ContentValues contentValues2 = new ContentValues();
         contentValues2.put("id", 2);

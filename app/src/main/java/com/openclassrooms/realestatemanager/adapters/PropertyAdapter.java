@@ -22,6 +22,11 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         mDispatchListener = dispatchListener;
     }
 
+    public void setPropertyList(List<Property> propertyList) {
+        mPropertyList = propertyList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public PropertyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
