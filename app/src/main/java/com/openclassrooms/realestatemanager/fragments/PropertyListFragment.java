@@ -17,11 +17,9 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.PropertyAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.models.Address;
-import com.openclassrooms.realestatemanager.models.Media;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
-import com.openclassrooms.realestatemanager.utils.FileHelper;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
@@ -34,7 +32,7 @@ import java.util.List;
 public class PropertyListFragment extends Fragment implements PropertyAdapter.OnDispatchListener {
 
     private PropertyAdapter mPropertyAdapter;
-    private List<PropertyAllDisplayedInfo> mPropertyList;
+    private List<PropertyDisplayAllInfo> mPropertyList;
 
     private OnFragmentDispatchListener mDispatchListener;
 
@@ -91,14 +89,15 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     }
 
     private void loadData() {
-        mPropertyViewModel.getAllPropertyDisplayedInfos()
+        mPropertyViewModel.getAllPropertyDisplayedInfo()
                 .observe(this, this::onPropertyListLoaded);
     }
 
-    private void onPropertyListLoaded(List<PropertyAllDisplayedInfo> propertyList) {
+    private void onPropertyListLoaded(List<PropertyDisplayAllInfo> propertyList) {
 
-        for (PropertyAllDisplayedInfo padi : propertyList) {
+        for (PropertyDisplayAllInfo padi : propertyList) {
             Property property = padi.getProperty();
+            assert property != null;
 
             mPropertyViewModel.getSelectedMedia(property.getId())
                 .observe(this, media -> {
@@ -107,7 +106,6 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
                         mediaTemp.isUseAsCoverPhoto = media.isCover();
                         mediaTemp.description = media.getLabel();
                         mediaTemp.photoPath = media.getDataPath();
-                        mediaTemp.photo = FileHelper.loadImageFromStorage(getContext(), media.getDataPath());
 
                         padi.setMediaTemp(mediaTemp);
                     }

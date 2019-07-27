@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Ignore
 import androidx.room.Relation
 
-class PropertyAllDisplayedInfo {
+class PropertyDisplayAllInfo {
 
     @Embedded
     var property: Property? = null

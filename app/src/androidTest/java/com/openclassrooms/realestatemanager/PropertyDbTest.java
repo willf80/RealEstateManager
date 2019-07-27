@@ -10,7 +10,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.dal.AppDatabase;
 import com.openclassrooms.realestatemanager.dal.PrepopulateHelper;
+import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
+import com.openclassrooms.realestatemanager.models.PropertyInterestPointsDisplayInfo;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil;
 
@@ -22,6 +25,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
@@ -75,22 +79,63 @@ public class PropertyDbTest {
         assertEquals("Apartment", propertyTypeList.get(0).getLabel());
     }
 
-    @Test
-    public void insertAndGetProperty() throws InterruptedException {
-        // Arrange
+    private Property createNewProperty() {
         Property property = new Property();
-        property.setId(1);
         property.setDescription("Test");
         property.setPropertyTypeId(1);
         property.setUserId(1);
 
-        this.mAppDatabase.propertyDao().insert(property);
+        return property;
+    }
+
+    @Test
+    public void insertAndGetProperty() throws InterruptedException {
+        // Arrange
+        Property property = createNewProperty();
 
         // Action
+        this.mAppDatabase.propertyDao().insert(property);
         List<Property> propertyList = LiveDataTestUtil.getValue(this.mAppDatabase.propertyDao().getProperties());
 
         // Assert
         assertTrue(propertyList.size() > 0);
         assertEquals(1, propertyList.get(0).getUserId());
+    }
+
+    @Test
+    public void should_create_two_propertyInterestPoints() throws InterruptedException {
+        // Arrange
+        final long INTEREST_POINT_1_ID = 1;
+        final long INTEREST_POINT_2_ID = 2;
+
+        Property property = createNewProperty();
+
+        // Action
+        long propertyId = this.mAppDatabase.propertyDao().insert(property);
+
+        PropertyInterestPoints propertyInterestPoints1 =
+                new PropertyInterestPoints(propertyId, INTEREST_POINT_1_ID);
+
+        PropertyInterestPoints propertyInterestPoints2 =
+                new PropertyInterestPoints(propertyId, INTEREST_POINT_2_ID);
+
+        long ipId1 = this.mAppDatabase.interestPointDao().insert(propertyInterestPoints1);
+        long ipId2 = this.mAppDatabase.interestPointDao().insert(propertyInterestPoints2);
+
+        List<Long> propertyInterestPointIds
+                = LiveDataTestUtil.getValue(this.mAppDatabase
+                    .interestPointDao()
+                    .getPropertyInterestPointsIds(propertyId));
+
+        List<InterestPoint> interestPointsList = LiveDataTestUtil.getValue(
+                this.mAppDatabase
+                        .interestPointDao()
+                        .getInterestPointList(propertyInterestPointIds));
+
+        // Assert
+        assertEquals(1, ipId1);
+        assertEquals(2, ipId2);
+        assertEquals(2, interestPointsList.size());
+        assertEquals(2, interestPointsList.get(1).getId());
     }
 }

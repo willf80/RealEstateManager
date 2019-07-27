@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.dal.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class PropertyRepository {
         return mPropertyDao.getProperties();
     }
 
-    public LiveData<List<PropertyAllDisplayedInfo>> getAllPropertyDisplayedInfo(){
+    public LiveData<List<PropertyDisplayAllInfo>> getAllPropertyDisplayedInfo(){
         return mPropertyDao.getPropertyAllDisplayedInfo();
     }
 
@@ -28,7 +28,7 @@ public class PropertyRepository {
         return mPropertyDao.insert(property);
     }
 
-    public LiveData<PropertyAllDisplayedInfo> getPropertyDisplayedInfo(long propertyId) {
+    public LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId) {
         return mPropertyDao.getPropertyDisplayedInfo(propertyId);
     }
 }

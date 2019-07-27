@@ -6,8 +6,8 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
-import com.openclassrooms.realestatemanager.models.PropertyDisplayedInfo;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayInfo;
 
 import java.util.List;
 
@@ -19,13 +19,13 @@ public abstract class PropertyDao implements BaseDao<Property>{
 
     @Transaction
     @Query("SELECT * FROM Property")
-    public abstract LiveData<List<PropertyAllDisplayedInfo>> getPropertyAllDisplayedInfo();
+    public abstract LiveData<List<PropertyDisplayAllInfo>> getPropertyAllDisplayedInfo();
 
     @Transaction
     @Query("SELECT id, area, status FROM Property")
-    public abstract LiveData<List<PropertyDisplayedInfo>> getPropertyDisplayedInfo();
+    public abstract LiveData<List<PropertyDisplayInfo>> getPropertyDisplayedInfo();
 
     @Transaction
     @Query("SELECT * FROM Property WHERE id = :propertyId")
-    public abstract LiveData<PropertyAllDisplayedInfo> getPropertyDisplayedInfo(long propertyId);
+    public abstract LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId);
 }

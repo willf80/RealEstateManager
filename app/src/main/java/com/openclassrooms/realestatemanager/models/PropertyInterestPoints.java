@@ -42,3 +42,25 @@ public class PropertyInterestPoints {
         this.interestId = interestId;
     }
 }
+
+//class PropertyInterestPointId {
+//    private long propertyId;
+//    private long interestId;
+//
+//    public long getPropertyId() {
+//        return propertyId;
+//    }
+//
+//    public void setPropertyId(long propertyId) {
+//        this.propertyId = propertyId;
+//    }
+//
+//    public long getInterestId() {
+//        return interestId;
+//    }
+//
+//    public void setInterestId(long interestId) {
+//        this.interestId = interestId;
+//    }
+//}
+

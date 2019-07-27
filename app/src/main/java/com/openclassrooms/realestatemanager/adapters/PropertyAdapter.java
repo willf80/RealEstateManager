@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,39 +8,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Address;
-import com.openclassrooms.realestatemanager.models.Media;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.models.PropertyType;
+import com.openclassrooms.realestatemanager.utils.FileHelper;
 import com.openclassrooms.realestatemanager.utils.Utils;
-import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
 
-    private List<PropertyAllDisplayedInfo> mPropertyList;
+    private List<PropertyDisplayAllInfo> mPropertyList;
     private final OnDispatchListener mDispatchListener;
 
-    public PropertyAdapter(List<PropertyAllDisplayedInfo> propertyList, OnDispatchListener dispatchListener) {
+    public PropertyAdapter(List<PropertyDisplayAllInfo> propertyList, OnDispatchListener dispatchListener) {
         mPropertyList = propertyList;
         mDispatchListener = dispatchListener;
     }
 
-    public void setPropertyList(List<PropertyAllDisplayedInfo> propertyList) {
+    public void setPropertyList(List<PropertyDisplayAllInfo> propertyList) {
         mPropertyList = propertyList;
         notifyDataSetChanged();
     }
@@ -56,7 +52,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
-        PropertyAllDisplayedInfo propertyDisplayedInfo = mPropertyList.get(position);
+        PropertyDisplayAllInfo propertyDisplayedInfo = mPropertyList.get(position);
 
         Property property = propertyDisplayedInfo.getProperty();
         assert property != null;
@@ -67,9 +63,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         Address address = propertyDisplayedInfo.getAddress();
         MediaTemp mediaTemp = propertyDisplayedInfo.getMediaTemp();
 
-        String title = String.format(Locale.getDefault(),
-                "%s with %d bedrooms %.2f sq m", propertyType.getLabel(),
-                property.getNumberOfBedrooms(), property.getArea());
+        String title = Utils.getPropertyTitle(property, propertyType);
 
         String price = Utils.getEnglishCurrencyFormatted(property.getPrice());
 
@@ -79,7 +73,10 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         }
 
         if(mediaTemp != null) {
-            holder.imageView.setImageBitmap(mediaTemp.photo);
+            Picasso.get()
+                    .load(FileHelper.getFile(holder.mContext, mediaTemp.photoPath))
+                    .resize(124, 124)
+                    .into(holder.imageView);
         }
 
         holder.priceTextView.setText(price);
@@ -106,9 +103,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         @BindView(R.id.addressLine1TextView)
         TextView addressLine1TextView;
 
+        Context mContext;
+
         PropertyViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mContext = itemView.getContext();
         }
     }
 

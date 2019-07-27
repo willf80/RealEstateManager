@@ -56,7 +56,7 @@ public class InterestPointsAddingViewService {
 
     private InterestPoint searchSelectedInterestPoint(String tag) {
         InterestPoint interestPoint = null;
-        for (InterestPoint ip : mInterestPointSelectedList) {
+        for (InterestPoint ip : mInterestPointList) {
             if (!ip.getLabel().equalsIgnoreCase(tag)) continue;
             interestPoint = ip;
             break;

@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.net.wifi.WifiManager;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Address;
+import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyType;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,5 +78,20 @@ public class Utils {
         DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
 
         return decimalFormat.format(money);
+    }
+
+    public static String getPropertyTitle(Property property, PropertyType propertyType) {
+        if(property == null || propertyType == null ) return "";
+        return String.format(Locale.getDefault(),
+                "%s with %d rooms %.0f sq m", propertyType.getLabel(),
+                property.getNumberOfRooms(), property.getArea());
+    }
+
+    public static String getPropertyCompleteAddress(Property property, Address address) {
+        return String.format(Locale.getDefault(),
+                "%s, %s, New York, NY %s, United States",
+                address.getAddressLine1(),
+                property.getAddressLine2(),
+                address.getPostalCode());
     }
 }

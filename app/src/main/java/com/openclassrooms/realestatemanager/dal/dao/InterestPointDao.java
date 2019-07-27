@@ -5,9 +5,11 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
+import com.openclassrooms.realestatemanager.models.PropertyInterestPointsDisplayInfo;
 
 import java.util.List;
 
@@ -17,6 +19,12 @@ public abstract class InterestPointDao implements BaseDao<InterestPoint>{
     @Query("SELECT * FROM InterestPoint")
     public abstract LiveData<List<InterestPoint>> getInterestPointList();
 
+    @Query("SELECT * FROM InterestPoint WHERE id IN (:interestPointIds)")
+    public abstract LiveData<List<InterestPoint>> getInterestPointList(List<Long> interestPointIds);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract long insert(PropertyInterestPoints propertyInterestPoints);
+
+    @Query("SELECT interestId FROM PropertyInterestPoints WHERE propertyId = :propertyId")
+    public abstract LiveData<List<Long>> getPropertyInterestPointsIds(long propertyId);
 }

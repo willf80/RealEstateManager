@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,8 +12,9 @@
         android:drawableStart="@drawable/ic_location_on_black_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:text="TextView"
-        android:textStyle="bold" />
+        android:text="@string/title"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <TextView
         android:id="@+id/descriptionTextView"
@@ -22,5 +22,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="32dp"
         android:paddingLeft="32dp"
-        android:text="TextView" />
+        android:textColor="@color/colorPrimary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/title_description" />
 </LinearLayout>

@@ -13,9 +13,10 @@ import com.openclassrooms.realestatemanager.models.InterestPoint;
 import com.openclassrooms.realestatemanager.models.Media;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.PropertyAllDisplayedInfo;
+import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
+import com.openclassrooms.realestatemanager.models.PropertyInterestPointsDisplayInfo;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.repositories.AddressRepository;
 import com.openclassrooms.realestatemanager.repositories.InterestPointRepository;
@@ -52,15 +53,15 @@ public class PropertyViewModel extends ViewModel {
         mExecutor = executor;
     }
 
-    public LiveData<List<Property>> getProperties() {
-        return mPropertySource.getAllProperties();
-    }
+//    public LiveData<List<Property>> getProperties() {
+//        return mPropertySource.getAllProperties();
+//    }
 
-    public LiveData<List<PropertyAllDisplayedInfo>> getAllPropertyDisplayedInfos(){
+    public LiveData<List<PropertyDisplayAllInfo>> getAllPropertyDisplayedInfo(){
         return mPropertySource.getAllPropertyDisplayedInfo();
     }
 
-    public LiveData<PropertyAllDisplayedInfo> getPropertyDisplayedInfo(long propertyId){
+    public LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId){
         return mPropertySource.getPropertyDisplayedInfo(propertyId);
     }
 
@@ -168,5 +169,13 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<PropertyType> getPropertyType(long propertyTypeId) {
         return mTypeSource.getPropertyType(propertyTypeId);
+    }
+
+    public LiveData<List<InterestPoint>> getInterestPoints(List<Long> interestPointIds) {
+        return mInterestPointRepository.getInterestPoints(interestPointIds);
+    }
+
+    public LiveData<List<Long>> getPropertyInterestPointsIds(long propertyId) {
+        return mInterestPointRepository.getPropertyInterestPoints(propertyId);
     }
 }

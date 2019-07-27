@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FileHelper {
 
     public static String saveToInternalStorage(Context context, Bitmap bitmap, String fileName) {
-        File directory = getFile(context);
+        File directory = getFileDirectory(context);
 
         //Create media path
         File mediaPath = new File(directory, fileName);
@@ -39,15 +39,21 @@ public class FileHelper {
         return directory.getAbsolutePath();
     }
 
-    private static File getFile(Context context) {
+    private static File getFileDirectory(Context context) {
         ContextWrapper cw = new ContextWrapper(context);
 
         // Path to /data/data/com.openclassrooms/realestatemanager/media
         return cw.getDir("media", Context.MODE_PRIVATE);
     }
 
+    public static File getFile(Context context, String fileName) {
+        File directory = getFileDirectory(context);
+        String path = directory.getAbsolutePath();
+        return new File(path, fileName);
+    }
+
     public static Bitmap loadImageFromStorage(Context context, String fileName) {
-        File directory = getFile(context);
+        File directory = getFileDirectory(context);
 
         String path = directory.getAbsolutePath();
 
