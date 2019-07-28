@@ -431,13 +431,13 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
         MediaTemp mediaTemp = new MediaTemp();
         if(photoBytes != null) {
-            mediaTemp.photo = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
+            mediaTemp.setPhoto(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length));
         }
 
-        mediaTemp.id = id;
-        mediaTemp.fileName = fileName;
-        mediaTemp.label = description;
-        mediaTemp.isCover = isUseAsCoverPhoto;
+        mediaTemp.setId(id);
+        mediaTemp.setFileName(fileName);
+        mediaTemp.setLabel(description);
+        mediaTemp.setCover(isUseAsCoverPhoto);
 
         mMediaBoxView.addMedia(mediaTemp, mediaEditedPosition);
     }
@@ -454,11 +454,11 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     private void extractData() {
         mPropertyInfo = new PropertyInfo();
-        mPropertyInfo.property = new Property();
-        mPropertyInfo.address = new Address();
+        mPropertyInfo.setProperty(new Property());
+        mPropertyInfo.setAddress(new Address());
 
-        Property property = mPropertyInfo.property;
-        Address address = mPropertyInfo.address;
+        Property property = mPropertyInfo.getProperty();
+        Address address = mPropertyInfo.getAddress();
 
         property.setDescription(descriptionEditText.getText().toString());
 
@@ -472,44 +472,44 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         address.setAddressLine1(addressLine1);
         address.setPostalCode(postalCode);
 
-        mPropertyInfo.propertyType = mCurrentPropertyType;
-        mPropertyInfo.interestPoints = mInterestPointsAddingView.getInterestPointList();
-        mPropertyInfo.mediaTempList = mMediaBoxView.getMediaTempList();
+        mPropertyInfo.setPropertyType(mCurrentPropertyType);
+        mPropertyInfo.setInterestPoints(mInterestPointsAddingView.getInterestPointList());
+        mPropertyInfo.setMediaTempList(mMediaBoxView.getMediaTempList());
     }
 
     private boolean canSave() {
         extractData();
 
-        if(mPropertyInfo.propertyType == null) {
+        if(mPropertyInfo.getPropertyType() == null) {
             Toast.makeText(this, "Please, select the type of property", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(mPropertyInfo.property.getDescription() == null ||
-                mPropertyInfo.property.getDescription().isEmpty()) {
+        if(mPropertyInfo.getProperty().getDescription() == null ||
+                mPropertyInfo.getProperty().getDescription().isEmpty()) {
             Toast.makeText(this, "Please, enter label of the property", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(mPropertyInfo.address.getAddressLine1() == null       ||
-            mPropertyInfo.address.getPostalCode() == null        ||
-            mPropertyInfo.address.getAddressLine1().isEmpty()    ||
-            mPropertyInfo.address.getPostalCode().isEmpty()) {
+        if(mPropertyInfo.getAddress().getAddressLine1() == null       ||
+            mPropertyInfo.getAddress().getPostalCode() == null        ||
+            mPropertyInfo.getAddress().getAddressLine1().isEmpty()    ||
+            mPropertyInfo.getAddress().getPostalCode().isEmpty()) {
             Toast.makeText(this, "Address and postal code is required", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(mPropertyInfo.mediaTempList.size() <= 0) {
+        if(mPropertyInfo.getMediaTempList().size() <= 0) {
             Toast.makeText(this, "Please, add at least one media (photo) ", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(mPropertyInfo.property.getArea() <= 0) {
+        if(mPropertyInfo.getProperty().getArea() <= 0) {
             Toast.makeText(this, "Please, enter the property area", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(mPropertyInfo.property.getPrice() <= 0) {
+        if(mPropertyInfo.getProperty().getPrice() <= 0) {
             Toast.makeText(this, "Please, enter the property price", Toast.LENGTH_LONG).show();
             return false;
         }

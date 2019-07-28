@@ -77,7 +77,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
         if(mediaTemp != null) {
             Picasso.get()
-                    .load(FileHelper.getFile(holder.mContext, mediaTemp.fileName))
+                    .load(FileHelper.getFile(holder.mContext, mediaTemp.getFileName()))
                     .resize(124, 124)
                     .into(holder.imageView);
         }

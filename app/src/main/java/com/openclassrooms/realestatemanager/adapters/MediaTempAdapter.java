@@ -15,6 +15,7 @@ import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.utils.FileHelper;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.MediaViewHolder> {
@@ -52,14 +53,15 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
     public void onBindViewHolder(@NonNull MediaViewHolder holder, int position) {
         MediaTemp mediaTemp = mMediaTempList.get(position);
 
-        holder.descriptionTextView.setText(mediaTemp.label);
+        holder.descriptionTextView.setText(mediaTemp.getLabel());
 
+        File file = FileHelper.getFile(holder.context, mediaTemp.getFileName());
         Picasso.get()
-                .load(FileHelper.getFile(holder.context, mediaTemp.fileName))
+                .load(file)
                 .resize(200, 200)
                 .into(holder.photoImageView);
 
-        if(mediaTemp.isCover) {
+        if(mediaTemp.isCover()) {
             holder.useAsCoverImageView.setVisibility(View.VISIBLE);
         }else {
             holder.useAsCoverImageView.setVisibility(View.GONE);

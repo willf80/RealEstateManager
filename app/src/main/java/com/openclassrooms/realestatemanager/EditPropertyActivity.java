@@ -69,11 +69,11 @@ public class EditPropertyActivity extends AbstractPropertyEditionActivity {
 
         for (Media media : displayAllInfo.getMediaList()) {
             MediaTemp mediaTemp = new MediaTemp();
-            mediaTemp.id = media.getId();
-            mediaTemp.fileName = media.getFileName();
-            mediaTemp.label = media.getLabel();
-            mediaTemp.isCover = media.isCover();
-            mediaTemp.photo = FileHelper.loadImageFromStorage(this, media.getFileName());
+            mediaTemp.setId(media.getId());
+            mediaTemp.setFileName(media.getFileName());
+            mediaTemp.setLabel(media.getLabel());
+            mediaTemp.setCover(media.isCover());
+            mediaTemp.setPhoto(FileHelper.loadImageFromStorage(this, media.getFileName()));
 
             mMediaBoxView.addMedia(mediaTemp);
         }
@@ -141,7 +141,7 @@ public class EditPropertyActivity extends AbstractPropertyEditionActivity {
     @Override
     public void save(PropertyInfo propertyInfo) {
         mPropertyInfo = propertyInfo;
-        mPropertyInfo.property.setId(mPropertyId);
+        mPropertyInfo.getProperty().setId(mPropertyId);
 
         mPropertyMediaListLiveData = mPropertyViewModel.getPropertyMediaList(mPropertyId);
         mPropertyMediaListLiveData.observe(this, this::fetchPropertyMediaList);

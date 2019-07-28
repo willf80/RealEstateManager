@@ -124,26 +124,26 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
 
     public void addMedia(MediaTemp mediaTemp, int position){
 
-        if(mediaTemp.id <= 0 && mediaTemp.fileName == null) {
-            mediaTemp.fileName = "temp_" + UUID.randomUUID().toString();
+        if(mediaTemp.getId() <= 0 && mediaTemp.getFileName() == null) {
+            mediaTemp.setFileName("temp_" + UUID.randomUUID().toString());
 
-            FileHelper.saveToInternalStorage(getContext(), mediaTemp.photo, mediaTemp.fileName);
+            FileHelper.saveToInternalStorage(getContext(), mediaTemp.getPhoto(), mediaTemp.getFileName());
         }
 
-        if(mediaTemp.isCover) {
+        if(mediaTemp.isCover()) {
             for (MediaTemp temp : mMediaTempList) {
-                temp.isCover = false;
+                temp.setCover(false);
             }
         }
 
         if(position < 0){
             // If it is the first media, set isCover to selected
-            if(mMediaTempList.size() <= 0) mediaTemp.isCover = true;
+            if(mMediaTempList.size() <= 0) mediaTemp.setCover(true);
             mMediaTempList.add(mediaTemp);
         }else{
 
             // If it is the first media, set isCover to selected
-            if(mMediaTempList.size() <= 1) mediaTemp.isCover = true;
+            if(mMediaTempList.size() <= 1) mediaTemp.setCover(true);
             mMediaTempList.set(position, mediaTemp);
         }
 
@@ -165,14 +165,14 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
     @Override
     public void onDeleteMedia(MediaTemp mediaTemp, int position) {
 
-        if(mediaTemp.id <= 0 && mediaTemp.fileName != null) {
-            FileHelper.deleteFile(getContext(), mediaTemp.fileName);
+        if(mediaTemp.getId() <= 0 && mediaTemp.getFileName() != null) {
+            FileHelper.deleteFile(getContext(), mediaTemp.getFileName());
         }
 
         mMediaTempList.remove(mediaTemp);
 
-        if(mediaTemp.isCover && mMediaTempList.size() > 0) {
-            mMediaTempList.get(0).isCover = true;
+        if(mediaTemp.isCover() && mMediaTempList.size() > 0) {
+            mMediaTempList.get(0).setCover(true);
         }
 
         mMediaTempAdapter.setMediaTempList(mMediaTempList);
@@ -183,9 +183,9 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
         Intent intent = new Intent(getContext(), EditMediaActivity.class);
 
 //        intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, mediaTemp.fileName);
-        intent.putExtra(EditMediaActivity.FILE_NAME_EXTRA_KEY, mediaTemp.fileName);
-        intent.putExtra(EditMediaActivity.LABEL_EXTRA_KEY, mediaTemp.label);
-        intent.putExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, mediaTemp.isCover);
+        intent.putExtra(EditMediaActivity.FILE_NAME_EXTRA_KEY, mediaTemp.getFileName());
+        intent.putExtra(EditMediaActivity.LABEL_EXTRA_KEY, mediaTemp.getLabel());
+        intent.putExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, mediaTemp.isCover());
         intent.putExtra(EditMediaActivity.EDIT_DATA_POSITION_EXTRA_KEY, position);
 
         mActivity.startActivityForResult(intent, MediaBoxView.RESULT_MEDIA_EDIT);
@@ -194,9 +194,9 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
     public List<MediaTemp> getMediaTempList() {
 
         for (MediaTemp mediaTemp : mMediaTempList) {
-            if (mediaTemp.photo != null) continue;
+            if (mediaTemp.getPhoto() != null) continue;
 
-            mediaTemp.photo = FileHelper.loadImageFromStorage(getContext(), mediaTemp.fileName);
+            mediaTemp.setPhoto(FileHelper.loadImageFromStorage(getContext(), mediaTemp.getFileName()));
         }
 
         return mMediaTempList;

@@ -72,8 +72,8 @@ public class PropertyViewModel extends ViewModel {
         mExecutor.execute(() -> {
 
             //Save property
-            Property property = propertyInfo.property;
-            property.setPropertyTypeId(propertyInfo.propertyType.getId());
+            Property property = propertyInfo.getProperty();
+            property.setPropertyTypeId(propertyInfo.getPropertyType().getId());
             property.setUserId(UserViewModel.USER_ID);
 
             Date now = Calendar.getInstance().getTime();
@@ -83,13 +83,13 @@ public class PropertyViewModel extends ViewModel {
             long propertyId = mPropertySource.createProperty(property);
 
             //Save media
-            saveMediaList(context, propertyId, propertyInfo.mediaTempList);
+            saveMediaList(context, propertyId, propertyInfo.getMediaTempList());
 
             //Save Address
-            saveAddress(propertyInfo.address, propertyId);
+            saveAddress(propertyInfo.getAddress(), propertyId);
 
             //Save interest points
-            saveInterestPoints(propertyInfo.interestPoints, propertyId);
+            saveInterestPoints(propertyInfo.getInterestPoints(), propertyId);
         });
     }
 
@@ -102,17 +102,17 @@ public class PropertyViewModel extends ViewModel {
             deletePropertyInterestPoints(propertyId);
 
             // Save media
-            saveMediaList(context, propertyId, propertyInfo.mediaTempList);
+            saveMediaList(context, propertyId, propertyInfo.getMediaTempList());
 
             // Save Address
-            saveAddress(propertyInfo.address, propertyId);
+            saveAddress(propertyInfo.getAddress(), propertyId);
 
             // Save interest points
-            saveInterestPoints(propertyInfo.interestPoints, propertyId);
+            saveInterestPoints(propertyInfo.getInterestPoints(), propertyId);
 
             // Update property
-            Property property = propertyInfo.property;
-            property.setPropertyTypeId(propertyInfo.propertyType.getId());
+            Property property = propertyInfo.getProperty();
+            property.setPropertyTypeId(propertyInfo.getPropertyType().getId());
             property.setUserId(UserViewModel.USER_ID);
 
             Date now = Calendar.getInstance().getTime();
@@ -160,18 +160,18 @@ public class PropertyViewModel extends ViewModel {
         for (MediaTemp mediaTemp: mediaTemps) {
             //Save photo and get url
 //            Bitmap bitmap = FileHelper.loadImageFromStorage(context, mediaTemp.fileName);
-            if(mediaTemp.fileName != null && mediaTemp.fileName.contains("temp_")) {
-                FileHelper.deleteFile(context, mediaTemp.fileName);
+            if(mediaTemp.getFileName() != null && mediaTemp.getFileName().contains("temp_")) {
+                FileHelper.deleteFile(context, mediaTemp.getFileName());
             }
 
-            String fileName = savePhoto(context, mediaTemp.photo);
+            String fileName = savePhoto(context, mediaTemp.getPhoto());
 
             //Save media
             Media media = new Media();
-            media.setLabel(mediaTemp.label);
+            media.setLabel(mediaTemp.getLabel());
             media.setFileName(fileName);
             media.setPropertyId(propertyId);
-            media.setCover(mediaTemp.isCover);
+            media.setCover(mediaTemp.isCover());
 
             mMediaRepository.createProperty(media);
         }

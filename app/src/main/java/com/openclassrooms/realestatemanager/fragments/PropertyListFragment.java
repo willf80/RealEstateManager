@@ -101,10 +101,10 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
                 .observe(this, media -> {
                     if(media != null) {
                         MediaTemp mediaTemp = new MediaTemp();
-                        mediaTemp.id = media.getId();
-                        mediaTemp.isCover = media.isCover();
-                        mediaTemp.label = media.getLabel();
-                        mediaTemp.fileName = media.getFileName();
+                        mediaTemp.setId(media.getId());
+                        mediaTemp.setCover(media.isCover());
+                        mediaTemp.setLabel(media.getLabel());
+                        mediaTemp.setFileName(media.getFileName());
 
                         padi.setMediaTemp(mediaTemp);
                     }
