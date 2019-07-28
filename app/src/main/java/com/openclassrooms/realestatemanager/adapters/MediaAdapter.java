@@ -48,7 +48,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         holder.descriptionTextView.setText(media.getLabel());
 
         Picasso.get()
-                .load(FileHelper.getFile(holder.mContext, media.getDataPath()))
+                .load(FileHelper.getFile(holder.mContext, media.getFileName()))
                 .centerCrop()
                 .error(R.drawable.maison1)
                 .placeholder(R.drawable.maison1)

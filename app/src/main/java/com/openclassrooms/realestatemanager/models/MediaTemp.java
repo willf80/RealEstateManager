@@ -3,8 +3,9 @@ package com.openclassrooms.realestatemanager.models;
 import android.graphics.Bitmap;
 
 public class MediaTemp {
+    public long id;
     public Bitmap photo;
-    public String description;
-    public String photoPath;
-    public boolean isUseAsCoverPhoto;
+    public String label;
+    public String fileName;
+    public boolean isCover;
 }

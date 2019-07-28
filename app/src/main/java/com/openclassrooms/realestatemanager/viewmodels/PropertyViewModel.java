@@ -16,7 +16,6 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInfo;
 import com.openclassrooms.realestatemanager.models.PropertyInterestPoints;
-import com.openclassrooms.realestatemanager.models.PropertyInterestPointsDisplayInfo;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 import com.openclassrooms.realestatemanager.repositories.AddressRepository;
 import com.openclassrooms.realestatemanager.repositories.InterestPointRepository;
@@ -65,6 +64,10 @@ public class PropertyViewModel extends ViewModel {
         return mPropertySource.getPropertyDisplayedInfo(propertyId);
     }
 
+    public LiveData<List<Media>> getPropertyMediaList(long propertyId) {
+        return mMediaRepository.getMediaList(propertyId);
+    }
+
     public void createProperty(Context context, final PropertyInfo propertyInfo) {
         mExecutor.execute(() -> {
 
@@ -87,6 +90,34 @@ public class PropertyViewModel extends ViewModel {
 
             //Save interest points
             saveInterestPoints(propertyInfo.interestPoints, propertyId);
+        });
+    }
+
+    public void updateProperty(Context context, final long propertyId, final PropertyInfo propertyInfo) {
+        mExecutor.execute(() -> {
+
+            // Delete all media, address and property interest points
+            deletePropertyMedia(propertyId);
+            deleteAddressProperties(propertyId);
+            deletePropertyInterestPoints(propertyId);
+
+            // Save media
+            saveMediaList(context, propertyId, propertyInfo.mediaTempList);
+
+            // Save Address
+            saveAddress(propertyInfo.address, propertyId);
+
+            // Save interest points
+            saveInterestPoints(propertyInfo.interestPoints, propertyId);
+
+            // Update property
+            Property property = propertyInfo.property;
+            property.setPropertyTypeId(propertyInfo.propertyType.getId());
+            property.setUserId(UserViewModel.USER_ID);
+
+            Date now = Calendar.getInstance().getTime();
+            property.setModifiedDate(now);
+            mPropertySource.updateProperty(property);
         });
     }
 
@@ -115,7 +146,7 @@ public class PropertyViewModel extends ViewModel {
 
         long addressId;
         if(existingAddress == null) {
-            addressId = mAddressRepository.createProperty(address);
+            addressId = mAddressRepository.createAddress(address);
         }else {
             addressId = existingAddress.getId();
         }
@@ -128,14 +159,19 @@ public class PropertyViewModel extends ViewModel {
 
         for (MediaTemp mediaTemp: mediaTemps) {
             //Save photo and get url
-            String photoPath = savePhoto(context, mediaTemp.photo);
+//            Bitmap bitmap = FileHelper.loadImageFromStorage(context, mediaTemp.fileName);
+            if(mediaTemp.fileName != null && mediaTemp.fileName.contains("temp_")) {
+                FileHelper.deleteFile(context, mediaTemp.fileName);
+            }
+
+            String fileName = savePhoto(context, mediaTemp.photo);
 
             //Save media
             Media media = new Media();
-            media.setLabel(mediaTemp.description);
-            media.setDataPath(photoPath);
+            media.setLabel(mediaTemp.label);
+            media.setFileName(fileName);
             media.setPropertyId(propertyId);
-            media.setCover(mediaTemp.isUseAsCoverPhoto);
+            media.setCover(mediaTemp.isCover);
 
             mMediaRepository.createProperty(media);
         }
@@ -177,5 +213,17 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<List<Long>> getPropertyInterestPointsIds(long propertyId) {
         return mInterestPointRepository.getPropertyInterestPoints(propertyId);
+    }
+
+    private void deletePropertyMedia(long propertyId) {
+        mMediaRepository.deletePropertyMedia(propertyId);
+    }
+
+    private void deleteAddressProperties(long propertyId) {
+        mAddressRepository.deleteAddressProperties(propertyId);
+    }
+
+    private void deletePropertyInterestPoints(long propertyId) {
+        mInterestPointRepository.deletePropertyInterestPoints(propertyId);
     }
 }

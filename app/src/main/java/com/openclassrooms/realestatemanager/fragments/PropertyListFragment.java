@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.models.MediaTemp;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
-import com.openclassrooms.realestatemanager.viewmodels.UserViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 
 import java.util.ArrayList;
@@ -36,12 +35,11 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
     private OnFragmentDispatchListener mDispatchListener;
 
-    private UserViewModel mUserViewModel;
+//    private UserViewModel mUserViewModel;
     private PropertyViewModel mPropertyViewModel;
 
     private boolean addressLoaded = false;
     private boolean propertyTypeLoaded = false;
-    private boolean InterestedPointLoaded = false;
 
     public static PropertyListFragment newInstance() {
         PropertyListFragment fragment = new PropertyListFragment();
@@ -58,9 +56,9 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     private void configureViewModels() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
 
-        this.mUserViewModel = ViewModelProviders
-                .of(this, viewModelFactory)
-                .get(UserViewModel.class);
+//        this.mUserViewModel = ViewModelProviders
+//                .of(this, viewModelFactory)
+//                .get(UserViewModel.class);
 
         this.mPropertyViewModel = ViewModelProviders
                 .of(this, viewModelFactory)
@@ -103,32 +101,35 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
                 .observe(this, media -> {
                     if(media != null) {
                         MediaTemp mediaTemp = new MediaTemp();
-                        mediaTemp.isUseAsCoverPhoto = media.isCover();
-                        mediaTemp.description = media.getLabel();
-                        mediaTemp.photoPath = media.getDataPath();
+                        mediaTemp.id = media.getId();
+                        mediaTemp.isCover = media.isCover();
+                        mediaTemp.label = media.getLabel();
+                        mediaTemp.fileName = media.getFileName();
 
                         padi.setMediaTemp(mediaTemp);
                     }
                 });
 
             mPropertyViewModel.getPropertyAddress(property.getId())
-                    .observe(this, addressDisplayedInfo -> {
-                if(addressDisplayedInfo != null) {
-                    Iterator<Address> it = addressDisplayedInfo.getAddress().iterator();
-                    Address address = it.next();
-                    padi.setAddress(address);
+                    .observe(this, addressDisplayedInfo ->
+                    {
+                        if(addressDisplayedInfo != null) {
+                            Iterator<Address> it = addressDisplayedInfo.getAddress().iterator();
+                            Address address = it.next();
+                            padi.setAddress(address);
 
-                    addressLoaded = true;
-                    reloadData();
-                }
-            });
+                            addressLoaded = true;
+                            reloadData();
+                        }
+                    });
 
             mPropertyViewModel.getPropertyType(property.getPropertyTypeId())
-                            .observe(this, propertyType -> {
-                padi.setPropertyType(propertyType);
-                propertyTypeLoaded = true;
-                reloadData();
-            });
+                    .observe(this, propertyType ->
+                    {
+                        padi.setPropertyType(propertyType);
+                        propertyTypeLoaded = true;
+                        reloadData();
+                    });
 
         }
 

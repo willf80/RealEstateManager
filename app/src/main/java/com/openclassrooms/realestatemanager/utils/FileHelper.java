@@ -47,16 +47,18 @@ public class FileHelper {
     }
 
     public static File getFile(Context context, String fileName) {
+        if(fileName == null) return null;
+
         File directory = getFileDirectory(context);
         String path = directory.getAbsolutePath();
         return new File(path, fileName);
     }
 
     public static Bitmap loadImageFromStorage(Context context, String fileName) {
+        if(fileName == null) return null;
+
         File directory = getFileDirectory(context);
-
         String path = directory.getAbsolutePath();
-
         FileInputStream fis = null;
 
         try {
@@ -77,5 +79,19 @@ public class FileHelper {
         }
 
         return null;
+    }
+
+    public static boolean deleteFile(Context context, String fileName) {
+        if(fileName == null) return false;
+
+        File directory = getFileDirectory(context);
+        String path = directory.getAbsolutePath();
+
+        File file = new File(path, fileName);
+        if(file.exists()) {
+            return file.delete();
+        }
+
+        return false;
     }
 }

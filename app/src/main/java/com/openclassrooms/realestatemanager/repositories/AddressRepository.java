@@ -20,8 +20,12 @@ public class AddressRepository {
         return mAddressDao.searchWithAddressAndPostalCode(address, postalCode);
     }
 
-    public long createProperty(Address address) {
+    public long createAddress(Address address) {
         return mAddressDao.insert(address);
+    }
+
+    public void deleteAddressProperties(long propertyId) {
+        mAddressDao.deleteAddressProperties(propertyId);
     }
 
     public long linkedAddressWithProperty(AddressProperties addressProperty) {

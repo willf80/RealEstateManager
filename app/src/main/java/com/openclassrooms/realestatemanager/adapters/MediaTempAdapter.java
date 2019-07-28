@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
+import com.openclassrooms.realestatemanager.utils.FileHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -31,10 +34,10 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
 
     public void setMediaTempList(List<MediaTemp> mediaTempList) {
         mMediaTempList = mediaTempList;
-        udpateMedia();
+        updateMedia();
     }
 
-    public void udpateMedia() {
+    public void updateMedia() {
         notifyDataSetChanged();
     }
 
@@ -49,10 +52,14 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
     public void onBindViewHolder(@NonNull MediaViewHolder holder, int position) {
         MediaTemp mediaTemp = mMediaTempList.get(position);
 
-        holder.descriptionTextView.setText(mediaTemp.description);
-        holder.photoImageView.setImageBitmap(mediaTemp.photo);
+        holder.descriptionTextView.setText(mediaTemp.label);
 
-        if(mediaTemp.isUseAsCoverPhoto) {
+        Picasso.get()
+                .load(FileHelper.getFile(holder.context, mediaTemp.fileName))
+                .resize(200, 200)
+                .into(holder.photoImageView);
+
+        if(mediaTemp.isCover) {
             holder.useAsCoverImageView.setVisibility(View.VISIBLE);
         }else {
             holder.useAsCoverImageView.setVisibility(View.GONE);
@@ -76,6 +83,7 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
         TextView descriptionTextView;
         ImageView deleteMediaImageView;
         ImageView useAsCoverImageView;
+        Context context;
 
         MediaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +92,8 @@ public class MediaTempAdapter extends RecyclerView.Adapter<MediaTempAdapter.Medi
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             deleteMediaImageView = itemView.findViewById(R.id.deleteMediaImageView);
             useAsCoverImageView = itemView.findViewById(R.id.useAsCoverImageView);
+
+            context = itemView.getContext();
         }
     }
 }

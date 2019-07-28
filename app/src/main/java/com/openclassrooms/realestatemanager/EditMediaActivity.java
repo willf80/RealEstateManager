@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import com.openclassrooms.realestatemanager.utils.FileHelper;
 import com.openclassrooms.realestatemanager.views.MediaBoxView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,12 +20,12 @@ import butterknife.OnClick;
 
 public class EditMediaActivity extends BaseActivity {
 
+    public static String MEDIA_ID_EXTRA_KEY = "media_id";
+    public static String FILE_NAME_EXTRA_KEY = "file_name_data";
     public static String MEDIA_EXTRA_KEY = "media_data";
-    public static String DESCRIPTION_EXTRA_KEY = "description_data";
+    public static String LABEL_EXTRA_KEY = "label";
     public static String USE_AS_COVER_PHOTO_EXTRA_KEY = "cover_photo";
     public static String EDIT_DATA_POSITION_EXTRA_KEY = "data_position";
-
-    Bitmap mMediaData;
 
     @BindView(R.id.mediaImageView)
     ImageView mMediaImageView;
@@ -37,6 +39,8 @@ public class EditMediaActivity extends BaseActivity {
     private byte[] mBytes;
     private boolean mIsUseAsCover;
     private int mDataPosition;
+    private String mFileName;
+    private long mediaId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +56,30 @@ public class EditMediaActivity extends BaseActivity {
     }
 
     private void getLoadMediaData() {
-        mBytes = getIntent().getByteArrayExtra(MEDIA_EXTRA_KEY);
-        mMediaData = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
-
-        String description = getIntent().getStringExtra(DESCRIPTION_EXTRA_KEY);
+        String description = getIntent().getStringExtra(LABEL_EXTRA_KEY);
         boolean isUseAsCover = getIntent().getBooleanExtra(USE_AS_COVER_PHOTO_EXTRA_KEY, false);
+
+        mBytes = getIntent().getByteArrayExtra(MEDIA_EXTRA_KEY);
+        mediaId = getIntent().getLongExtra(MEDIA_ID_EXTRA_KEY, 0);
+        mFileName = getIntent().getStringExtra(FILE_NAME_EXTRA_KEY);
         mDataPosition = getIntent().getIntExtra(EDIT_DATA_POSITION_EXTRA_KEY, -1);
 
-        mMediaImageView.setImageBitmap(mMediaData);
+        if(mBytes != null) {
+            Bitmap mediaDataBitmap = BitmapFactory.decodeByteArray(mBytes, 0, mBytes.length);
+            mMediaImageView.setImageBitmap(mediaDataBitmap);
+        }else {
+            Picasso.get()
+                    .load(FileHelper.getFile(this, mFileName))
+                    .resize(400, 400)
+                    .into(mMediaImageView);
+        }
+
         mDescriptionEditText.setText(description);
         mCoverPhotoSwitch.setChecked(isUseAsCover);
     }
 
     @OnCheckedChanged(R.id.isCoverPhotoSwitch)
-    void onSwith(CompoundButton buttonView, boolean isChecked) {
+    void onSwitch(CompoundButton buttonView, boolean isChecked) {
         mIsUseAsCover = isChecked;
     }
 
@@ -74,8 +88,10 @@ public class EditMediaActivity extends BaseActivity {
         String description = mDescriptionEditText.getText().toString();
 
         Intent intent = new Intent();
-        intent.putExtra(DESCRIPTION_EXTRA_KEY, description);
+        intent.putExtra(LABEL_EXTRA_KEY, description);
+        intent.putExtra(MEDIA_ID_EXTRA_KEY, mediaId);
         intent.putExtra(MEDIA_EXTRA_KEY, mBytes);
+        intent.putExtra(FILE_NAME_EXTRA_KEY, mFileName);
         intent.putExtra(USE_AS_COVER_PHOTO_EXTRA_KEY, mIsUseAsCover);
 
         if(mDataPosition >= 0) {

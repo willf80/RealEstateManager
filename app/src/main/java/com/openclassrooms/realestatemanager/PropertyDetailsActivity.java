@@ -32,7 +32,7 @@ public class PropertyDetailsActivity extends BaseActivity implements DetailsProp
     }
 
     @Override
-    public void onPropertyMarkAsSell() {
+    public void onPropertyMarkAsSell(long propertyId) {
 
     }
 }

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +20,12 @@ import com.openclassrooms.realestatemanager.EditMediaActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.MediaTempAdapter;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
+import com.openclassrooms.realestatemanager.utils.FileHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 
 public class MediaBoxView extends LinearLayout implements MediaTempAdapter.MediaClickListener {
@@ -100,16 +101,16 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
         }
 
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle("Choose your profile picture")
+                .setTitle("Choose type of action")
                 .setItems(options, (dialog, which) -> {
                     switch (which){
                         case 0:
-                            Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             mActivity.startActivityForResult(takePicture, RESULT_ACTION_IMAGE_CAPTURE);
                             break;
 
                         case 1:
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             mActivity.startActivityForResult(pickPhoto , RESULT_ACTION_PICK);
                             break;
 
@@ -123,32 +124,55 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
 
     public void addMedia(MediaTemp mediaTemp, int position){
 
-        if(mediaTemp.isUseAsCoverPhoto) {
+        if(mediaTemp.id <= 0 && mediaTemp.fileName == null) {
+            mediaTemp.fileName = "temp_" + UUID.randomUUID().toString();
+
+            FileHelper.saveToInternalStorage(getContext(), mediaTemp.photo, mediaTemp.fileName);
+        }
+
+        if(mediaTemp.isCover) {
             for (MediaTemp temp : mMediaTempList) {
-                temp.isUseAsCoverPhoto = false;
+                temp.isCover = false;
             }
         }
 
         if(position < 0){
-            // If it is the first media, set isUseAsCoverPhoto to selected
-            if(mMediaTempList.size() <= 0) mediaTemp.isUseAsCoverPhoto = true;
+            // If it is the first media, set isCover to selected
+            if(mMediaTempList.size() <= 0) mediaTemp.isCover = true;
             mMediaTempList.add(mediaTemp);
         }else{
 
-            // If it is the first media, set isUseAsCoverPhoto to selected
-            if(mMediaTempList.size() <= 1) mediaTemp.isUseAsCoverPhoto = true;
+            // If it is the first media, set isCover to selected
+            if(mMediaTempList.size() <= 1) mediaTemp.isCover = true;
             mMediaTempList.set(position, mediaTemp);
         }
 
-        mMediaTempAdapter.udpateMedia();
+        mMediaTempAdapter.updateMedia();
     }
+
+    public void addMedia(MediaTemp mediaTemp) {
+        addMedia(mediaTemp, -1);
+    }
+
+//    public void addMedia(List<MediaTemp> mediaTempList) {
+//        for (MediaTemp mediaTemp : mediaTempList) {
+//            addMedia(mediaTemp, -1);
+//        }
+//    }
+//
+//
 
     @Override
     public void onDeleteMedia(MediaTemp mediaTemp, int position) {
+
+        if(mediaTemp.id <= 0 && mediaTemp.fileName != null) {
+            FileHelper.deleteFile(getContext(), mediaTemp.fileName);
+        }
+
         mMediaTempList.remove(mediaTemp);
 
-        if(mediaTemp.isUseAsCoverPhoto && mMediaTempList.size() > 0) {
-            mMediaTempList.get(0).isUseAsCoverPhoto = true;
+        if(mediaTemp.isCover && mMediaTempList.size() > 0) {
+            mMediaTempList.get(0).isCover = true;
         }
 
         mMediaTempAdapter.setMediaTempList(mMediaTempList);
@@ -158,24 +182,24 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
     public void onEditMedia(MediaTemp mediaTemp, int position) {
         Intent intent = new Intent(getContext(), EditMediaActivity.class);
 
-        intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, bitmapToBytes(mediaTemp.photo));
-        intent.putExtra(EditMediaActivity.DESCRIPTION_EXTRA_KEY, mediaTemp.description);
-        intent.putExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, mediaTemp.isUseAsCoverPhoto);
+//        intent.putExtra(EditMediaActivity.MEDIA_EXTRA_KEY, mediaTemp.fileName);
+        intent.putExtra(EditMediaActivity.FILE_NAME_EXTRA_KEY, mediaTemp.fileName);
+        intent.putExtra(EditMediaActivity.LABEL_EXTRA_KEY, mediaTemp.label);
+        intent.putExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, mediaTemp.isCover);
         intent.putExtra(EditMediaActivity.EDIT_DATA_POSITION_EXTRA_KEY, position);
 
         mActivity.startActivityForResult(intent, MediaBoxView.RESULT_MEDIA_EDIT);
     }
 
-    private byte[] bitmapToBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bytes = stream.toByteArray();
-        bitmap.recycle();
-
-        return  bytes;
-    }
-
     public List<MediaTemp> getMediaTempList() {
+
+        for (MediaTemp mediaTemp : mMediaTempList) {
+            if (mediaTemp.photo != null) continue;
+
+            mediaTemp.photo = FileHelper.loadImageFromStorage(getContext(), mediaTemp.fileName);
+        }
+
         return mMediaTempList;
     }
+
 }

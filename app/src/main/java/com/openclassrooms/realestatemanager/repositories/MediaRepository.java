@@ -22,8 +22,16 @@ public class MediaRepository {
         return mMediaDao.getMediaList();
     }
 
+    public LiveData<List<Media>> getMediaList(long propertyId) {
+        return mMediaDao.getMediaList(propertyId);
+    }
+
     public long createProperty(Media media) {
         return mMediaDao.insert(media);
+    }
+
+    public void deletePropertyMedia(long propertyId) {
+        mMediaDao.deletePropertyMedia(propertyId);
     }
 
     public LiveData<Media> getSelectedMedia(long propertyId) {

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.EditPropertyActivity;
+import com.openclassrooms.realestatemanager.PropertyDetailsActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.MediaAdapter;
 import com.openclassrooms.realestatemanager.injection.Injection;
@@ -39,13 +40,16 @@ import butterknife.ButterKnife;
 import co.lujun.androidtagview.TagContainerLayout;
 
 public class DetailsPropertyFragment extends Fragment {
-    private static final String ARG_PROPERTY_ID = "propertyId";
+    public static final String ARG_PROPERTY_ID = "propertyId";
 
     @BindView(R.id.mediaRecyclerView)
     RecyclerView mMediaRecyclerView;
 
     @BindView(R.id.editPropertyFab)
     FloatingActionButton mEditPropertyFab;
+
+    @BindView(R.id.buyPropertyFab)
+    FloatingActionButton mBuyPropertyFab;
 
     @BindView(R.id.descriptionTextView)
     TextView descriptionTextView;
@@ -187,8 +191,7 @@ public class DetailsPropertyFragment extends Fragment {
 
     private void fetchInterestPoints(List<InterestPoint> interestPointList) {
         List<String> tagList = new ArrayList<>();
-        for (InterestPoint interestPoint :
-                interestPointList) {
+        for (InterestPoint interestPoint : interestPointList) {
             tagList.add(interestPoint.getLabel());
         }
 
@@ -197,10 +200,12 @@ public class DetailsPropertyFragment extends Fragment {
 
     private void listeners() {
         mEditPropertyFab.setOnClickListener(v -> showEditActivity());
+        mBuyPropertyFab.setOnClickListener(v -> mListener.onPropertyMarkAsSell(mPropertyId));
     }
 
     private void showEditActivity() {
         Intent intent = new Intent(getContext(), EditPropertyActivity.class);
+        intent.putExtra(PropertyDetailsActivity.EXTRA_PROPERTY_ID, mPropertyId);
         startActivity(intent);
     }
 
@@ -222,6 +227,6 @@ public class DetailsPropertyFragment extends Fragment {
     }
 
     public interface OnDetailsDispatchListener {
-        void onPropertyMarkAsSell();
+        void onPropertyMarkAsSell(long propertyId);
     }
 }

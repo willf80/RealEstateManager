@@ -77,37 +77,37 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     Button mBtnAddPointOfInterestTag;
 
     @BindView(R.id.propertyTypeSpinner)
-    Spinner mPropertyTypeSpinner;
+    protected Spinner mPropertyTypeSpinner;
 
     @BindView(R.id.interestPointsAddingView)
-    InterestPointsAddingView mInterestPointsAddingView;
+    protected InterestPointsAddingView mInterestPointsAddingView;
 
     @BindView(R.id.descriptionEditText)
-    TextInputEditText descriptionEditText;
+    protected TextInputEditText descriptionEditText;
 
     @BindView(R.id.surfaceEditText)
-    TextInputEditText surfaceEditText;
+    protected TextInputEditText surfaceEditText;
 
     @BindView(R.id.numberOfRoomsEditText)
-    TextInputEditText numberOfRoomsEditText;
+    protected TextInputEditText numberOfRoomsEditText;
 
     @BindView(R.id.numberOfBathroomsEditText)
-    TextInputEditText numberOfBathroomsEditText;
+    protected TextInputEditText numberOfBathroomsEditText;
 
     @BindView(R.id.numberOfBedroomsEditText)
-    TextInputEditText numberOfBedroomsEditText;
+    protected TextInputEditText numberOfBedroomsEditText;
 
     @BindView(R.id.priceEditText)
-    TextInputEditText priceEditText;
+    protected TextInputEditText priceEditText;
 
     @BindView(R.id.addressLine1EditText)
-    TextInputEditText addressLine1EditText;
+    protected TextInputEditText addressLine1EditText;
 
     @BindView(R.id.addressLine2EditText)
-    TextInputEditText addressLine2EditText;
+    protected TextInputEditText addressLine2EditText;
 
     @BindView(R.id.postalCodeEditText)
-    TextInputEditText postalCodeEditText;
+    protected TextInputEditText postalCodeEditText;
 
     @BindView(R.id.staticMapImageView)
     ImageView staticMapImageView;
@@ -116,7 +116,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     TextView invalidAddressTextView;
 
     @BindView(R.id.mediaBoxView)
-    MediaBoxView mMediaBoxView;
+    protected MediaBoxView mMediaBoxView;
 
     private String addressLine1;
     private String addressLine2;
@@ -125,6 +125,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     private PropertyType mCurrentPropertyType;
 
     private PropertyInfo mPropertyInfo;
+
+    protected List<PropertyType> mPropertyTypeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +173,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     }
 
     private void adapterInit() {
-        mTypeSpinnerAdapter = new PropertyTypeSpinnerAdapter(this, new ArrayList<>());
+        mPropertyTypeList = new ArrayList<>();
+        mTypeSpinnerAdapter = new PropertyTypeSpinnerAdapter(this, mPropertyTypeList);
         mPropertyTypeSpinner.setAdapter(mTypeSpinnerAdapter);
 
         mPropertyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -336,6 +339,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         getInterestPointList();
     }
 
+
     private void getPropertyTypeList() {
         this.mPropertyViewModel.getPropertyTypes()
                 .observe(this, this::loadSpinner);
@@ -347,6 +351,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
     }
 
     private void loadSpinner(List<PropertyType> propertyTypeList) {
+        mPropertyTypeList = propertyTypeList;
         mTypeSpinnerAdapter.setPropertyTypes(propertyTypeList);
     }
 
@@ -418,16 +423,21 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     private void getMediaEditedData(Intent data) {
         byte[] photoBytes = data.getByteArrayExtra(EditMediaActivity.MEDIA_EXTRA_KEY);
-        String description = data.getStringExtra(EditMediaActivity.DESCRIPTION_EXTRA_KEY);
+        long id = data.getLongExtra(EditMediaActivity.MEDIA_ID_EXTRA_KEY, 0);
+        String fileName = data.getStringExtra(EditMediaActivity.FILE_NAME_EXTRA_KEY);
+        String description = data.getStringExtra(EditMediaActivity.LABEL_EXTRA_KEY);
         boolean isUseAsCoverPhoto = data.getBooleanExtra(EditMediaActivity.USE_AS_COVER_PHOTO_EXTRA_KEY, false);
         int mediaEditedPosition = data.getIntExtra(EditMediaActivity.EDIT_DATA_POSITION_EXTRA_KEY, -1);
 
-        Bitmap photo = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
-
         MediaTemp mediaTemp = new MediaTemp();
-        mediaTemp.description = description;
-        mediaTemp.photo = photo;
-        mediaTemp.isUseAsCoverPhoto = isUseAsCoverPhoto;
+        if(photoBytes != null) {
+            mediaTemp.photo = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
+        }
+
+        mediaTemp.id = id;
+        mediaTemp.fileName = fileName;
+        mediaTemp.label = description;
+        mediaTemp.isCover = isUseAsCoverPhoto;
 
         mMediaBoxView.addMedia(mediaTemp, mediaEditedPosition);
     }
@@ -477,7 +487,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
         if(mPropertyInfo.property.getDescription() == null ||
                 mPropertyInfo.property.getDescription().isEmpty()) {
-            Toast.makeText(this, "Please, enter description of the property", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please, enter label of the property", Toast.LENGTH_LONG).show();
             return false;
         }
 

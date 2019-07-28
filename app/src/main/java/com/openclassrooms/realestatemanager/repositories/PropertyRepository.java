@@ -16,16 +16,16 @@ public class PropertyRepository {
         mPropertyDao = propertyDao;
     }
 
-    public LiveData<List<Property>> getAllProperties() {
-        return mPropertyDao.getProperties();
-    }
-
     public LiveData<List<PropertyDisplayAllInfo>> getAllPropertyDisplayedInfo(){
         return mPropertyDao.getPropertyAllDisplayedInfo();
     }
 
     public long createProperty(Property property) {
         return mPropertyDao.insert(property);
+    }
+
+    public long updateProperty(Property property) {
+        return mPropertyDao.update(property);
     }
 
     public LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId) {

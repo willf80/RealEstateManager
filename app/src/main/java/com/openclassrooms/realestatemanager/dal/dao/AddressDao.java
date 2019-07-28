@@ -25,6 +25,9 @@ public abstract class AddressDao implements BaseDao<Address>{
     @Delete
     public abstract void delete(AddressProperties addressProperties);
 
+    @Query("DELETE FROM AddressProperties WHERE propertyId = :propertyId")
+    public abstract void deleteAddressProperties(long propertyId);
+
     @Transaction
     @Query("SELECT * FROM AddressProperties WHERE propertyId = :propertyId")
     public abstract LiveData<AddressDisplayedInfo> getAddressWithPropertyId(long propertyId);

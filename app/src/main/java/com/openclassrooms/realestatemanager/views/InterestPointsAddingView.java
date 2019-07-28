@@ -96,25 +96,29 @@ public class InterestPointsAddingView extends LinearLayout {
         btnAdd.setOnClickListener((v) -> {
             String tag = completeTextView.getText().toString();
 
-            if(tag.isEmpty()){
-                return;
-            }
-
-            if(mPointsAddingViewService.isAlreadyAdded(tag)) {
-                Toast.makeText(getContext(),
-                        String.format("Can't add duplicated interest point : [%s] already added", tag),
-                        Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-
-            if(mPointsAddingViewService.isNewInterestPoint(tag)) {
-                showConfirmToAddNewInterestPointDialog(tag);
-                return;
-            }
-
-            addTagView(tag);
+            addTag(tag);
         });
+    }
+
+    public void addTag(String tag) {
+        if(tag.isEmpty()){
+            return;
+        }
+
+        if(mPointsAddingViewService.isAlreadyAdded(tag)) {
+            Toast.makeText(getContext(),
+                    String.format("Can't add duplicated interest point : [%s] already added", tag),
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
+        if(mPointsAddingViewService.isNewInterestPoint(tag)) {
+            showConfirmToAddNewInterestPointDialog(tag);
+            return;
+        }
+
+        addTagView(tag);
     }
 
     private void addTagView(String tag) {

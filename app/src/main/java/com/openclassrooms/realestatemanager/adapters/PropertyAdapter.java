@@ -21,6 +21,7 @@ import com.openclassrooms.realestatemanager.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,12 +70,14 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
 
         if(address != null) {
-            holder.addressLine1TextView.setText(address.getAddressLine1());
+            String fullAddress = String.format(Locale.getDefault(),
+                    "%s, %s", address.getAddressLine1(), address.getPostalCode());
+            holder.addressLine1TextView.setText(fullAddress);
         }
 
         if(mediaTemp != null) {
             Picasso.get()
-                    .load(FileHelper.getFile(holder.mContext, mediaTemp.photoPath))
+                    .load(FileHelper.getFile(holder.mContext, mediaTemp.fileName))
                     .resize(124, 124)
                     .into(holder.imageView);
         }

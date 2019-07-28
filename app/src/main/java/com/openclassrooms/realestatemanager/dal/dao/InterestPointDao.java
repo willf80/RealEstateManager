@@ -27,4 +27,7 @@ public abstract class InterestPointDao implements BaseDao<InterestPoint>{
 
     @Query("SELECT interestId FROM PropertyInterestPoints WHERE propertyId = :propertyId")
     public abstract LiveData<List<Long>> getPropertyInterestPointsIds(long propertyId);
+
+    @Query("DELETE FROM PropertyInterestPoints WHERE propertyId = :propertyId")
+    public abstract void deletePropertyInterestPoints(long propertyId);
 }

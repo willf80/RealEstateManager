@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -16,10 +15,9 @@ public class Media {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String label;
-    private String dataPath;
+    private String fileName;
     private boolean isCover;
 
-    @ColumnInfo
     private long propertyId; // FK
 
     public long getId() {
@@ -38,12 +36,12 @@ public class Media {
         this.label = label;
     }
 
-    public String getDataPath() {
-        return dataPath;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setDataPath(String dataPath) {
-        this.dataPath = dataPath;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public long getPropertyId() {
