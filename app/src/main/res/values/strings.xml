@@ -30,13 +30,16 @@
     <string name="save_modifications">Save modifications</string>
     <string name="measure_sq_m">sq m</string>
 
-    <string name="url_static_map">"https://maps.googleapis.com/maps/api/staticmap?center=%s&amp;zoom=14&amp;size=400x400&amp;key=%s"</string>
+    <string name="url_static_map">"https://maps.googleapis.com/maps/api/staticmap?center=%s&amp;zoom=14&amp;size=400x400&amp;markers=color:red&amp;key=%s"</string>
     <string name="google_api_key">AIzaSyBZcojlWxC2NYd9sgPiEWfL4WCpNi7Ve9c</string>
     <string name="flat">Flat</string>
     <string name="manhattan">Manhattan</string>
     <string name="price_example">$170,000,000</string>
 
     <string-array name="empty_list">
-        <item>Type list no loaded</item>
+        <item>Type list is not loaded</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
 </resources>

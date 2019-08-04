@@ -17,6 +17,7 @@ import com.openclassrooms.realestatemanager.models.Property;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements PropertyListFragment.OnFragmentDispatchListener {
 
@@ -50,17 +51,34 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.app_bar_add:
-                createNewProperty();
+                createNewPropertyActivity();
                 return true;
+
             case R.id.app_bar_search:
+                searchPropertyActivity();
                 return true;
+
+            case R.id.app_bar_settings:
+                settingsActivity();
+                return true;
+
             default:
-                return super.onOptionsItemSelected(item);
+                return false;
         }
     }
 
-    private void createNewProperty() {
+    private void createNewPropertyActivity() {
         Intent intent = new Intent(this, CreatePropertyActivity.class);
+        startActivity(intent);
+    }
+
+    private void searchPropertyActivity() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    private void settingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
@@ -92,6 +110,12 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.details_property_fragment, fragment);
         transaction.commit();
+    }
+
+    @OnClick(R.id.mapFab)
+    public void onMapFabClick() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 }
