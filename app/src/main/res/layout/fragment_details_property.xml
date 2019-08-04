@@ -169,4 +169,6 @@
         android:tint="@color/colorLight50"
         android:layout_gravity="bottom|start"/>
 
+    <include layout="@layout/property_sold_view"/>
+
 </FrameLayout>

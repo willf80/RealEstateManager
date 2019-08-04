@@ -24,11 +24,10 @@ class Property {
     var numberOfBedrooms: Int = 0
     var description: String? = null
     var addressLine2: String? = null
-    var isStatus: Boolean = false
-    var entryOfMarketDate: String? = null
+    var isSold: Boolean = false
     var createdDate: Date? = null
     var modifiedDate: Date? = null
-    var saleDate: Date? = null
+    var soldDate: Date? = null
     var propertyTypeId: Long = 0 //FK
     var userId: Long = 0 //FK
 }

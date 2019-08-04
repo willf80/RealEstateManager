@@ -6,6 +6,8 @@ import com.openclassrooms.realestatemanager.dal.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class PropertyRepository {
@@ -30,5 +32,9 @@ public class PropertyRepository {
 
     public LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId) {
         return mPropertyDao.getPropertyDisplayedInfo(propertyId);
+    }
+
+    public void markPropertyAsSold(long propertyId, Date date) {
+        mPropertyDao.update(propertyId, date, Calendar.getInstance().getTime());
     }
 }

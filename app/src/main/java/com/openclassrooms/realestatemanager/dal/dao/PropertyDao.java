@@ -9,8 +9,8 @@ import androidx.room.Transaction;
 
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
-import com.openclassrooms.realestatemanager.models.PropertyDisplayInfo;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -29,4 +29,7 @@ public abstract class PropertyDao implements BaseDao<Property>{
     @Transaction
     @Query("SELECT * FROM Property WHERE id = :propertyId")
     public abstract LiveData<PropertyDisplayAllInfo> getPropertyDisplayedInfo(long propertyId);
+
+    @Query("UPDATE Property SET soldDate = :soldDate, isSold = 1, modifiedDate = :nowDate WHERE id = :propertyId")
+    public abstract void update(long propertyId, Date soldDate, Date nowDate);
 }

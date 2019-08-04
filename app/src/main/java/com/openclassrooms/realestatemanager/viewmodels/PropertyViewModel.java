@@ -93,6 +93,12 @@ public class PropertyViewModel extends ViewModel {
         });
     }
 
+    public void markPropertyAsSold(final long propertyId, Date date) {
+        mExecutor.execute(() -> {
+            mPropertySource.markPropertyAsSold(propertyId, date);
+        });
+    }
+
     public void updateProperty(Context context, final long propertyId, final PropertyInfo propertyInfo) {
         mExecutor.execute(() -> {
 

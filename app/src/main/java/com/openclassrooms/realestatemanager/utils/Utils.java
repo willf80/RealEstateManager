@@ -39,13 +39,31 @@ public class Utils {
     }
 
     /**
-     * Conversion de la date d'aujourd'hui en un format plus approprié
-     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     * Conversion d'un prix d'un bien immobilier (Euros vers Dollars)
+     * @param euros
      * @return
      */
+    public static int convertEuroToDollar(int euros){
+        return (int) Math.round(euros / 0.812);
+    }
+
+    /**
+     * Conversion de la date d'aujourd'hui en un format plus approprié
+     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     * @return la date du jour au format jour/mois/année
+     */
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        return dateFormat.format(new Date());
+        return getTodayDate(new Date());
+    }
+
+    /**
+     * Conversion de la date d'aujourd'hui en un format plus approprié
+     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     * @return la date du jour au format jour/mois/année
+     */
+    public static String getTodayDate(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return dateFormat.format(date);
     }
 
     /**
@@ -71,6 +89,15 @@ public class Utils {
 
     public static String getEnglishCurrencyFormatted(double money){
         return String.format("%s%s", "$", getCurrency(Locale.US, money));
+    }
+
+    public static String getPropertySoldMessage(Date date, double money) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM dd',' yyyy", Locale.getDefault());
+
+        String moneyText = getEnglishCurrencyFormatted(money);
+        String dateString = simpleDateFormat.format(date);
+
+        return String.format("This property was sold for %s in %s", moneyText, dateString);
     }
 
     private static String getCurrency(Locale locale, double money) {
