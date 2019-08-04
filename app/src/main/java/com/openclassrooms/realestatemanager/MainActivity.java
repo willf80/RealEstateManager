@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
     private void settingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SettingsActivity.REQUEST_CODE);
     }
 
     @Override
@@ -129,6 +129,13 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
         transaction.commit();
     }
 
+    private void reloadPropertyListInFragment() {
+        PropertyListFragment fragment = (PropertyListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.list_property_fragment);
+        if(fragment == null) return;
+        fragment.updateCurrencyShowed();
+    }
+
     @OnClick(R.id.mapFab)
     public void onMapFabClick() {
         if(!Utils.isInternetAvailable(this)) {
@@ -142,4 +149,10 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == SettingsActivity.RESULT_CODE && requestCode == SettingsActivity.REQUEST_CODE) {
+            reloadPropertyListInFragment();
+        }
+    }
 }

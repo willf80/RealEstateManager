@@ -40,13 +40,14 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginBottom="8dp"-->
-                    <!--android:text="@string/title_description"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Title" />-->
+                <TextView
+                    android:id="@+id/propertyPriceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/price_example"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <TextView
                     android:id="@+id/descriptionTextView"

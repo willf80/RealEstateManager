@@ -30,14 +30,24 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
     private List<PropertyDisplayAllInfo> mPropertyList;
     private final OnDispatchListener mDispatchListener;
+    private boolean isCurrencyEuro;
 
-    public PropertyAdapter(List<PropertyDisplayAllInfo> propertyList, OnDispatchListener dispatchListener) {
+    private Context mContext;
+
+    public PropertyAdapter(Context context, List<PropertyDisplayAllInfo> propertyList, OnDispatchListener dispatchListener) {
+        mContext = context;
         mPropertyList = propertyList;
         mDispatchListener = dispatchListener;
+        isCurrencyEuro = Utils.getCurrencySettings(context);
     }
 
     public void setPropertyList(List<PropertyDisplayAllInfo> propertyList) {
         mPropertyList = propertyList;
+        notifyDataSetChanged();
+    }
+
+    public void updateCurrency() {
+        isCurrencyEuro = Utils.getCurrencySettings(mContext);
         notifyDataSetChanged();
     }
 
@@ -65,9 +75,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         MediaTemp mediaTemp = propertyDisplayedInfo.getMediaTemp();
 
         String title = Utils.getPropertyTitle(property, propertyType);
-
-        String price = Utils.getEnglishCurrencyFormatted(property.getPrice());
-
+        String price = Utils.getCurrencyMoney(property.getPrice(), isCurrencyEuro);
 
         if(address != null) {
             String fullAddress = String.format(Locale.getDefault(),
@@ -112,6 +120,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            addressLine1TextView.setSelected(true);
         }
     }
 

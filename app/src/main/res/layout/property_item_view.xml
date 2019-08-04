@@ -47,8 +47,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/manhattan"
-                android:maxLines="1"
-                android:marqueeRepeatLimit="marquee_forever"/>
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/priceTextView"

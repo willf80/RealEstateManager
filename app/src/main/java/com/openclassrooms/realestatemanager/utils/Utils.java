@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.SettingsActivity;
 import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
@@ -79,6 +81,22 @@ public class Utils {
 
         return String.format(context.getString(R.string.url_static_map), fullAddress,
                 context.getString(R.string.google_api_key));
+    }
+
+    public static boolean getCurrencySettings(Context context) {
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(SettingsActivity.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return  sharedPreferences
+                .getBoolean(SettingsActivity.SHARED_PREF_KEY_IS_EURO, false);
+    }
+
+    public static String getCurrencyMoney(double money, boolean isEuro) {
+        if(isEuro) {
+            return getFrenchCurrencyFormatted(convertDollarToEuro((int) money));
+        }
+
+        return getEnglishCurrencyFormatted(money);
     }
 
     public static String getFrenchCurrencyFormatted(double money){

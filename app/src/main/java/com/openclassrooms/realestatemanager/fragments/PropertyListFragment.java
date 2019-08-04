@@ -77,7 +77,7 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
         configureViewModels();
 
-        mPropertyAdapter = new PropertyAdapter(mPropertyList,this);
+        mPropertyAdapter = new PropertyAdapter(getContext(), mPropertyList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPropertyAdapter);
 
@@ -89,6 +89,10 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
     private void loadData() {
         mPropertyViewModel.getAllPropertyDisplayedInfo()
                 .observe(this, this::onPropertyListLoaded);
+    }
+
+    public void updateCurrencyShowed() {
+        mPropertyAdapter.updateCurrency();
     }
 
     private void onPropertyListLoaded(List<PropertyDisplayAllInfo> propertyList) {
@@ -136,9 +140,16 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
         mPropertyList = propertyList;
     }
 
-    private void reloadData() {
+    public void reloadData() {
         if(propertyTypeLoaded && addressLoaded)
             mPropertyAdapter.setPropertyList(mPropertyList);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        mPropertyAdapter.notifyDataSetChanged();
     }
 
     @Override

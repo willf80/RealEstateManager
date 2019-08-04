@@ -154,13 +154,6 @@ public class MediaBoxView extends LinearLayout implements MediaTempAdapter.Media
         addMedia(mediaTemp, -1);
     }
 
-//    public void addMedia(List<MediaTemp> mediaTempList) {
-//        for (MediaTemp mediaTemp : mediaTempList) {
-//            addMedia(mediaTemp, -1);
-//        }
-//    }
-//
-//
 
     @Override
     public void onDeleteMedia(MediaTemp mediaTemp, int position) {

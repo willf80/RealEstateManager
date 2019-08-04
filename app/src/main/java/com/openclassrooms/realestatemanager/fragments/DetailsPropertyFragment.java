@@ -64,6 +64,9 @@ public class DetailsPropertyFragment extends Fragment {
     @BindView(R.id.soldPropertyMessageTextView)
     TextView soldPropertyMessageTextView;
 
+    @BindView(R.id.propertyPriceTextView)
+    TextView propertyPriceTextView;
+
     @BindView(R.id.descriptionTextView)
     TextView descriptionTextView;
 
@@ -93,6 +96,7 @@ public class DetailsPropertyFragment extends Fragment {
     private MediaAdapter mMediaAdapter;
     private List<Media> mMediaList;
     private PropertyViewModel mPropertyViewModel;
+    private boolean isEuro;
 
     public static DetailsPropertyFragment newInstance(long propertyId) {
         DetailsPropertyFragment fragment = new DetailsPropertyFragment();
@@ -133,6 +137,8 @@ public class DetailsPropertyFragment extends Fragment {
         mMediaRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         mMediaRecyclerView.setAdapter(mMediaAdapter);
 
+        isEuro = Utils.getCurrencySettings(getContext());
+
         loadData();
 
         return view;
@@ -164,6 +170,9 @@ public class DetailsPropertyFragment extends Fragment {
 
         numberOfBedroomsPropertyOptionView.setDescription(String.format(Locale.getDefault(),
                 "%d", property.getNumberOfBedrooms()));
+
+        String priceText = String.format("Price : %s", Utils.getCurrencyMoney(property.getPrice(), isEuro));
+        propertyPriceTextView.setText(priceText);
 
         checkIfPropertyIsSold(property);
 
