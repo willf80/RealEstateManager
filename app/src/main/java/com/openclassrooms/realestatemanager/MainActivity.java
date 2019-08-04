@@ -6,14 +6,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.fragments.DetailsPropertyFragment;
 import com.openclassrooms.realestatemanager.fragments.PropertyListFragment;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,9 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @BindView(R.id.mapFab)
+    FloatingActionButton mapFab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,17 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
         if(mDetailsFrameLayout != null) {
             Log.i("Estate", "mDetailsFrameLayout cool !");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(Utils.isInternetAvailable(this)){
+            mapFab.show();
+        }else{
+            mapFab.hide();
         }
     }
 
@@ -114,6 +131,13 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
     @OnClick(R.id.mapFab)
     public void onMapFabClick() {
+        if(!Utils.isInternetAvailable(this)) {
+            Toast.makeText(this,
+                    "Internet is not available, please make sure it has been activated",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }

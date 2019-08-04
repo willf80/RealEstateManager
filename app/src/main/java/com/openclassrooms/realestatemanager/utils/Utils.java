@@ -1,26 +1,20 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.graphics.Bitmap;
-import android.net.wifi.WifiManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.UUID;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -69,12 +63,16 @@ public class Utils {
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     * @param context
-     * @return
+     * @param context application context
+     * @return true s'il y a connexion internet et false dans le cas contraire
      */
-    public static Boolean isInternetAvailable(Context context){
-        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
+    public static boolean isInternetAvailable(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        return activeNetwork != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
     public static String buildFullAddressMapImageUrl(Context context, String fullAddress){
