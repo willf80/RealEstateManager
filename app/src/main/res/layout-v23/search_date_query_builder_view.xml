@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/searchTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/entry_of_market_date"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:entries="@array/search_options"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/searchOptionLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dateMinTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_min"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:foreground="?android:selectableItemBackground"
+            android:drawableTint="@color/colorAccent"
+            android:textColor="@android:color/black"
+            android:drawableEnd="@drawable/ic_access_time_black_24dp"/>
+
+        <TextView
+            android:id="@+id/dateMaxTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_max"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:foreground="?android:selectableItemBackground"
+            android:drawableTint="@color/colorAccent"
+            android:textColor="@android:color/black"
+            android:drawableEnd="@drawable/ic_access_time_black_24dp"/>
+
+    </LinearLayout>
+</LinearLayout>
