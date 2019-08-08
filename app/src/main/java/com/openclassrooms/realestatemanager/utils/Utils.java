@@ -48,8 +48,8 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return la date du jour au format jour/mois/année
      */
-    public static String getTodayDate(){
-        return getTodayDate(new Date());
+    public static String convertDateToString(){
+        return convertDateToString(new Date());
     }
 
     /**
@@ -57,7 +57,7 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return la date du jour au format jour/mois/année
      */
-    public static String getTodayDate(Date date){
+    public static String convertDateToString(Date date){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return dateFormat.format(date);
     }

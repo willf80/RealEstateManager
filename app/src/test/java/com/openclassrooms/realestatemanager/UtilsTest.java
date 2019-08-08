@@ -18,7 +18,7 @@ public class UtilsTest {
         now.set(2019, 7, 7); // 07/08/2019
 
         // Act
-        String currentDateString = Utils.getTodayDate(now.getTime());
+        String currentDateString = Utils.convertDateToString(now.getTime());
 
         // Assert
         assertEquals("07/08/2019", currentDateString);
