@@ -1,9 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorLight50"
     tools:context=".SearchActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_title"
+            android:layout_marginBottom="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.openclassrooms.realestatemanager.views.SearchListQueryBuilderView
+                android:id="@+id/typeOfPropertySearchListQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/type_of_property"
+                app:query_table_name="PropertyType"
+                app:query_property_name="propertyTypeId" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    android:layout_marginBottom="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addressLine1EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/address_line"
+                        android:inputType="textPostalAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/or"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/postalCodeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/postal_code"
+                        android:inputType="textPostalAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.openclassrooms.realestatemanager.views.SearchQueryBuilderView
+                android:id="@+id/priceSearchQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/price"
+                app:query_table_name="Property"
+                app:query_property_name="price"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.openclassrooms.realestatemanager.views.SearchListQueryBuilderView
+                android:id="@+id/nearbyPointsSearchListQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/nearby_points_of_interest"
+                app:query_table_name="PropertyInterestPoints"
+                app:query_property_name="interestId"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+            <com.openclassrooms.realestatemanager.views.SearchDateQueryBuilderView
+                android:id="@+id/entryOfMarketSearchDateQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/entry_of_market_date"
+                app:query_table_name="Property"
+                app:query_property_name="createdDate" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+            <com.openclassrooms.realestatemanager.views.SearchDateQueryBuilderView
+                android:id="@+id/soldSearchDateQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="Date of sell"
+                app:query_table_name="Property"
+                app:query_property_name="soldDate"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+            <com.openclassrooms.realestatemanager.views.SearchQueryBuilderView
+                android:id="@+id/mediaSearchQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/title_media"
+                app:query_table_name="Media"
+                app:query_property_name="propertyId"
+                app:query_type="Count"/>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:textColor="@color/colorPrimaryDark"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

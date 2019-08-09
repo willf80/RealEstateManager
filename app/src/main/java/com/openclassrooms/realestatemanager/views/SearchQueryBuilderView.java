@@ -32,6 +32,7 @@ public class SearchQueryBuilderView extends LinearLayout {
     EditText minValueEditText;
     EditText maxValueEditText;
 
+
     public SearchQueryBuilderView(Context context) {
         super(context);
         init(null, 0);
@@ -95,12 +96,12 @@ public class SearchQueryBuilderView extends LinearLayout {
         });
     }
 
-    private long convertStringToLong(String value){
+    private int convertStringToInt(String value){
         if(value == null || value.equals("")|| value.equals("-")){
             return 0;
         }
 
-        return Long.parseLong(value);
+        return Integer.parseInt(value);
     }
 
     private void minValueEditTextListener() {
@@ -113,8 +114,8 @@ public class SearchQueryBuilderView extends LinearLayout {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String maxText = maxValueEditText.getText().toString();
-                long min = convertStringToLong(s.toString());
-                long max = convertStringToLong(maxText);
+                int min = convertStringToInt(s.toString());
+                int max = convertStringToInt(maxText);
 
                 if(min > max){
                     maxValueEditText.setText(String.format(Locale.getDefault(), "%d", min));
@@ -138,8 +139,8 @@ public class SearchQueryBuilderView extends LinearLayout {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String minText = minValueEditText.getText().toString();
-                long max = convertStringToLong(s.toString());
-                long min = convertStringToLong(minText);
+                int max = convertStringToInt(s.toString());
+                int min = convertStringToInt(minText);
 
                 if(min > max){
                     minValueEditText.setText(String.format(Locale.getDefault(), "%d", max));
@@ -172,6 +173,91 @@ public class SearchQueryBuilderView extends LinearLayout {
                 maxValueEditText.setVisibility(VISIBLE);
                 minValueEditText.setHint(getContext().getString(R.string.min));
                 break;
+        }
+    }
+
+    public boolean isUsed() {
+        switch (mSpinner.getSelectedItemPosition()){
+            case 1:
+            case 2:
+                return !minValueEditText.getText().toString().isEmpty();
+
+            case 3:
+                return !minValueEditText.getText().toString().isEmpty()
+                        &&
+                        !maxValueEditText.getText().toString().isEmpty();
+
+            default:
+                return false;
+        }
+    }
+
+    public String getSign() {
+        switch (mSpinner.getSelectedItemPosition()){
+            case 1:
+                return " <= ";
+
+            case 2:
+                return " >= ";
+
+            case 3:
+                return " BETWEEN ";
+
+            default:
+                return null;
+        }
+    }
+
+    public QueryData getData() {
+        switch (mSpinner.getSelectedItemPosition()){
+            case 1:
+            case 2:
+                String valueText = minValueEditText.getText().toString();
+                return new QueryData(convertStringToInt(valueText));
+
+            case 3:
+                String minText = minValueEditText.getText().toString();
+                String maxText = maxValueEditText.getText().toString();
+
+                return new QueryData(convertStringToInt(minText),
+                        convertStringToInt(maxText));
+
+            default:
+                return null;
+        }
+    }
+
+
+    public class QueryData{
+        private int minValue;
+        private int maxValue;
+
+        public QueryData() {
+        }
+
+        QueryData(int minValue) {
+            this.minValue = minValue;
+        }
+
+        QueryData(int minValue, int maxValue) {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+        }
+
+        public int getMinValue() {
+            return minValue;
+        }
+
+        public void setMinValue(int minValue) {
+            this.minValue = minValue;
+        }
+
+        public int getMaxValue() {
+            return maxValue;
+        }
+
+        public void setMaxValue(int maxValue) {
+            this.maxValue = maxValue;
         }
     }
 

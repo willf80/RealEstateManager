@@ -21,10 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SearchActivity"
-            android:label="@string/search"/>
-        <activity android:name=".SettingsActivity"
-            android:label="@string/settings"/>
+        <activity android:name=".SearchResultActivity"
+            android:label="@string/results"/>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/search" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -54,7 +58,7 @@
         </activity>
         <activity
             android:name=".PropertyDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

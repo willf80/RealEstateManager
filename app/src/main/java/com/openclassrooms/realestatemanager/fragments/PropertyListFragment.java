@@ -145,12 +145,6 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
             mPropertyAdapter.setPropertyList(mPropertyList);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        mPropertyAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onAttach(Context context) {

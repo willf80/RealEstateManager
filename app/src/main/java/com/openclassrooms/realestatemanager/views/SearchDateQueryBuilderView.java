@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class SearchDateQueryBuilderView extends LinearLayout {
 
@@ -187,6 +188,84 @@ public class SearchDateQueryBuilderView extends LinearLayout {
                 dateMaxTextView.setVisibility(VISIBLE);
                 dateMinTextView.setHint(getContext().getString(R.string.date_min));
                 break;
+        }
+    }
+
+    public boolean isUsed() {
+        switch (spinner.getSelectedItemPosition()){
+            case 1:
+            case 2:
+                return dateMin != null;
+
+            case 3:
+                return dateMin != null && dateMax != null;
+
+            default:
+                return false;
+        }
+    }
+
+    public String getSign() {
+        switch (spinner.getSelectedItemPosition()){
+            case 1:
+                return " <= ";
+
+            case 2:
+                return " >= ";
+
+            case 3:
+                return " BETWEEN ";
+
+            default:
+                return null;
+        }
+    }
+
+    public QueryData getData() {
+        switch (spinner.getSelectedItemPosition()){
+            case 1:
+            case 2:
+                return new QueryData(dateMin.getTime());
+
+            case 3:
+                return new QueryData(dateMin.getTime(), dateMax.getTime());
+
+            default:
+                return null;
+        }
+    }
+
+
+    public class QueryData{
+        private Date startDate;
+        private Date endDate;
+
+        public QueryData() {
+        }
+
+        QueryData(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        QueryData(Date startDate, Date endDate) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
         }
     }
 
