@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.repositories.InterestPointRepository
 import com.openclassrooms.realestatemanager.repositories.MediaRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
+import com.openclassrooms.realestatemanager.repositories.RawQueryRepository;
 import com.openclassrooms.realestatemanager.utils.FileHelper;
 
 import java.util.Calendar;
@@ -38,23 +39,21 @@ public class PropertyViewModel extends ViewModel {
     private final InterestPointRepository mInterestPointRepository;
     private final MediaRepository mMediaRepository;
     private final AddressRepository mAddressRepository;
+    private final RawQueryRepository mRawQueryRepository;
     private final Executor mExecutor;
 
     public PropertyViewModel(PropertyRepository propertySource, PropertyTypeRepository typeSource,
                              InterestPointRepository interestPointSource,
                              MediaRepository mediaRepository, AddressRepository addressRepository,
-                             Executor executor) {
+                             RawQueryRepository rawQueryRepository, Executor executor) {
         mPropertySource = propertySource;
         mTypeSource = typeSource;
         mInterestPointRepository = interestPointSource;
         mMediaRepository = mediaRepository;
         mAddressRepository = addressRepository;
+        mRawQueryRepository = rawQueryRepository;
         mExecutor = executor;
     }
-
-//    public LiveData<List<Property>> getProperties() {
-//        return mPropertySource.getAllProperties();
-//    }
 
     public LiveData<List<PropertyDisplayAllInfo>> getAllPropertyDisplayedInfo(){
         return mPropertySource.getAllPropertyDisplayedInfo();
@@ -219,6 +218,10 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<List<Long>> getPropertyInterestPointsIds(long propertyId) {
         return mInterestPointRepository.getPropertyInterestPoints(propertyId);
+    }
+
+    public LiveData<List<PropertyDisplayAllInfo>> searchProperties(String query, List<Object> params){
+        return mRawQueryRepository.searchProperties(query, params);
     }
 
     private void deletePropertyMedia(long propertyId) {

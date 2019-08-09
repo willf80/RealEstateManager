@@ -8,6 +8,7 @@ import com.openclassrooms.realestatemanager.repositories.InterestPointRepository
 import com.openclassrooms.realestatemanager.repositories.MediaRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyTypeRepository;
+import com.openclassrooms.realestatemanager.repositories.RawQueryRepository;
 import com.openclassrooms.realestatemanager.repositories.UserRepository;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 
@@ -16,37 +17,42 @@ import java.util.concurrent.Executors;
 
 public class Injection {
 
-    public static PropertyRepository providePropertyDataSource(Context context) {
+    private static RawQueryRepository rawQueryDataSource(Context context) {
+        AppDatabase appDatabase = AppDatabase.getInstance(context);
+        return new RawQueryRepository(appDatabase.rowDao());
+    }
+
+    private static PropertyRepository providePropertyDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new PropertyRepository(appDatabase.propertyDao());
     }
 
-    public static PropertyTypeRepository providePropertyTypeDataSource(Context context) {
+    private static PropertyTypeRepository providePropertyTypeDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new PropertyTypeRepository(appDatabase.propertyTypeDao());
     }
 
-    public static InterestPointRepository provideInterestPointDataSource(Context context) {
+    private static InterestPointRepository provideInterestPointDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new InterestPointRepository(appDatabase.interestPointDao());
     }
 
-    public static UserRepository provideUserDataSource(Context context) {
+    private static UserRepository provideUserDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new UserRepository(appDatabase.userDao());
     }
 
-    public static MediaRepository provideMediaDataSource(Context context) {
+    private static MediaRepository provideMediaDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new MediaRepository(appDatabase.mediaDao());
     }
 
-    public static AddressRepository provideAddressDataSource(Context context) {
+    private static AddressRepository provideAddressDataSource(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         return new AddressRepository(appDatabase.addressDao());
     }
 
-    public static Executor provideExecutor() {
+    private static Executor provideExecutor() {
         return Executors.newSingleThreadExecutor();
     }
 
@@ -57,11 +63,13 @@ public class Injection {
         InterestPointRepository dataSourceInterestPoint = provideInterestPointDataSource(context);
         MediaRepository dataSourceMedia = provideMediaDataSource(context);
         AddressRepository dataSourceAddress = provideAddressDataSource(context);
+        RawQueryRepository dataSourceRawQuery = rawQueryDataSource(context);
 
         Executor executor = provideExecutor();
 
         return new ViewModelFactory(dataSourceProperty, dataSourcePropertyType,
-                dataSourceInterestPoint, dataSourceUser, dataSourceMedia, dataSourceAddress, executor);
+                dataSourceInterestPoint, dataSourceUser, dataSourceMedia,
+                dataSourceAddress, dataSourceRawQuery, executor);
     }
 
 }
