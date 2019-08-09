@@ -14,6 +14,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.openclassrooms.realestatemanager.dal.dao.AddressDao;
 import com.openclassrooms.realestatemanager.dal.dao.PropertyTypeDao;
+import com.openclassrooms.realestatemanager.dal.dao.RawDao;
 import com.openclassrooms.realestatemanager.dal.dao.UserDao;
 import com.openclassrooms.realestatemanager.dal.dao.InterestPointDao;
 import com.openclassrooms.realestatemanager.dal.dao.MediaDao;
@@ -51,6 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MediaDao mediaDao();
     public abstract PropertyDao propertyDao();
     public abstract PropertyTypeDao propertyTypeDao();
+    public abstract RawDao rowDao();
 
     // INSTANCE
     public static synchronized AppDatabase getInstance(Context context) {
