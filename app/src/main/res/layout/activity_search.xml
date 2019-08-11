@@ -32,9 +32,21 @@
                 android:id="@+id/typeOfPropertySearchListQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="@string/type_of_property"
-                app:query_table_name="PropertyType"
-                app:query_property_name="propertyTypeId" />
+                app:query_view_title="@string/type_of_property" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:contentPadding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.openclassrooms.realestatemanager.views.SearchQueryBuilderView
+                android:id="@+id/surfaceSearchQueryBuilderView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:query_view_title="@string/surface" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -99,9 +111,7 @@
                 android:id="@+id/priceSearchQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="@string/price"
-                app:query_table_name="Property"
-                app:query_property_name="price"/>
+                app:query_view_title="@string/price_in_dollars" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -115,9 +125,7 @@
                 android:id="@+id/nearbyPointsSearchListQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="@string/nearby_points_of_interest"
-                app:query_table_name="PropertyInterestPoints"
-                app:query_property_name="interestId"/>
+                app:query_view_title="@string/nearby_points_of_interest" />
         </androidx.cardview.widget.CardView>
 
 
@@ -131,9 +139,7 @@
                 android:id="@+id/entryOfMarketSearchDateQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="@string/entry_of_market_date"
-                app:query_table_name="Property"
-                app:query_property_name="createdDate" />
+                app:query_view_title="@string/entry_of_market_date" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -146,11 +152,8 @@
                 android:id="@+id/soldSearchDateQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="Date of sell"
-                app:query_table_name="Property"
-                app:query_property_name="soldDate"/>
+                app:query_view_title="Date of sale" />
         </androidx.cardview.widget.CardView>
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -162,10 +165,7 @@
                 android:id="@+id/mediaSearchQueryBuilderView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:query_view_title="@string/title_media"
-                app:query_table_name="Media"
-                app:query_property_name="propertyId"
-                app:query_type="Count"/>
+                app:query_view_title="@string/title_media" />
         </androidx.cardview.widget.CardView>
 
         <Button

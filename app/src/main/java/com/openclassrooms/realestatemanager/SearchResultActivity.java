@@ -16,7 +16,6 @@ import com.openclassrooms.realestatemanager.models.PropertyDisplayAllInfo;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -75,10 +74,10 @@ public class SearchResultActivity extends BaseActivity implements PropertyAdapte
 
     private void doSearch(){
         mPropertyViewModel.searchProperties(query, params)
-                .observe(this, this::result);
+                .observe(this, this::fetchResults);
     }
 
-    private void result(List<PropertyDisplayAllInfo> propertyList){
+    private void fetchResults(List<PropertyDisplayAllInfo> propertyList){
         for (PropertyDisplayAllInfo padi : propertyList) {
             Property property = padi.getProperty();
             assert property != null;

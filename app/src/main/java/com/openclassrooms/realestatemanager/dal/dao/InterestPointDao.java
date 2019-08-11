@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public abstract class InterestPointDao implements BaseDao<InterestPoint>{
 
-    @Query("SELECT * FROM InterestPoint")
+    @Query("SELECT * FROM InterestPoint ORDER BY label ASC")
     public abstract LiveData<List<InterestPoint>> getInterestPointList();
 
     @Query("SELECT * FROM InterestPoint WHERE id IN (:interestPointIds)")

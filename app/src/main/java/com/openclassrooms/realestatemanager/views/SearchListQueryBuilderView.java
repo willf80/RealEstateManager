@@ -15,21 +15,18 @@ import androidx.annotation.Nullable;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.ISearchListItem;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchListQueryBuilderView extends LinearLayout {
 
     private String mTitle;
-    private String mTableName;
-    private String mPropertyName;
 
     private LinearLayout searchListOptionLayout;
     private TextView searchTitleView;
 
     private List<? extends ISearchListItem> mSearchListItems;
-    private List<Integer> mSelectedItemList;
+    private List<Long> mSelectedItemList;
 
     public SearchListQueryBuilderView(Context context) {
         super(context);
@@ -61,12 +58,6 @@ public class SearchListQueryBuilderView extends LinearLayout {
         mTitle = a.getString(
                 R.styleable.SearchQuery_query_view_title);
 
-        mTableName = a.getString(
-                R.styleable.SearchQuery_query_table_name);
-
-        mPropertyName = a.getString(
-                R.styleable.SearchQuery_query_property_name);
-
         mSelectedItemList = new ArrayList<>();
 
         a.recycle();
@@ -84,7 +75,7 @@ public class SearchListQueryBuilderView extends LinearLayout {
         checkBox.setTag(searchListItem.getId());
 
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Integer tag = (int)buttonView.getTag();
+            Long tag = (Long) buttonView.getTag();
 
             if(isChecked){
                 mSelectedItemList.add(tag);
@@ -103,39 +94,43 @@ public class SearchListQueryBuilderView extends LinearLayout {
         for (int i = 0; i < mSearchListItems.size(); i++) {
             searchListOptionLayout.addView(createItemView(mSearchListItems.get(i)));
         }
-    }
 
-    public String buildQuery() {
-        if(mTableName == null || mPropertyName == null) {
-            throw new InvalidParameterException("Please set table name and property name");
-        }
-
-        if(mSelectedItemList.size() <= 0) {
-            return null;
-        }
-
-        StringBuilder selected = new StringBuilder();
-        for (int i = 0; i < mSelectedItemList.size(); i++) {
-            selected.append(mSelectedItemList.get(i));
-
-            if(i < mSearchListItems.size() - 1)
-                selected.append(",");
-        }
-
-        String query = mTableName + "." + mPropertyName;// + " IN(";
-        if(mSelectedItemList.size() == 1){
-            query += " = " + mSelectedItemList.get(0);
-        }else{
-            query += " IN(" + selected.toString() + ")";
-        }
-
-        return query;
+        invalidate();
     }
 
     public String getSign() {
         if(mSelectedItemList.size() == 0) return null;
         if(mSelectedItemList.size() == 1) return " = ";
         return " IN ";
+    }
+
+    public String buildConditionsFromQuery(String columnName, List<Object> queryParams){
+        StringBuilder builder = new StringBuilder();
+        builder.append(" ( ");
+        builder.append(columnName);
+        builder.append(" ");
+        builder.append(getSign());
+        if(" IN ".equalsIgnoreCase(getSign())){
+
+            builder.append("(");
+            for (int i = 0; i < mSelectedItemList.size(); i++) {
+                builder.append("'");
+                builder.append(mSelectedItemList.get(i));
+                builder.append("'");
+
+                if(i + 1 < mSelectedItemList.size()){
+                    builder.append(",");
+                }
+            }
+            builder.append(")");
+
+        }else{
+            builder.append(" ? ");
+            queryParams.add(getData());
+        }
+        builder.append(" ) ");
+
+        return builder.toString();
     }
 
     public Object getData() {
@@ -162,23 +157,7 @@ public class SearchListQueryBuilderView extends LinearLayout {
         invalidateView();
     }
 
-    public void setTableName(String tableName) {
-        mTableName = tableName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        mPropertyName = propertyName;
-    }
-
     public String getTitle() {
         return mTitle;
-    }
-
-    public String getTableName() {
-        return mTableName;
-    }
-
-    public String getPropertyName() {
-        return mPropertyName;
     }
 }

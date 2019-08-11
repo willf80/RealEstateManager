@@ -93,6 +93,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         holder.priceTextView.setText(price);
         holder.titleTextView.setText(title);
         holder.itemView.setOnClickListener(v -> mDispatchListener.onItemClick(property));
+
+        if(property.isSold()){
+            holder.soldTextView.setVisibility(View.VISIBLE);
+        }else{
+            holder.soldTextView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -113,6 +119,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
 
         @BindView(R.id.addressLine1TextView)
         TextView addressLine1TextView;
+
+        @BindView(R.id.soldTextView)
+        TextView soldTextView;
 
         Context mContext;
 

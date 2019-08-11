@@ -53,6 +53,7 @@
     <string name="search">Search</string>
     <string name="results">Results</string>
     <string name="settings">Settings</string>
+    <string name="sold">sold</string>
     <string name="property_sold_text">Property sold $100,000 in may 20 2019</string>
     <string name="convert_currency_to_euro">Display currencies in euro (€)</string>
     <string name="current_currency_is_the_dollar">Current currency is displayed in the dollar ($)</string>

@@ -19,13 +19,11 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 public class SearchDateQueryBuilderView extends LinearLayout {
 
     String mTitle;
-    String mTableName;
-    String mPropertyName;
 
     Spinner spinner;
     LinearLayout searchOptionLayout;
@@ -67,13 +65,6 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
         mTitle = a.getString(
                 R.styleable.SearchQuery_query_view_title);
-
-        mTableName = a.getString(
-                R.styleable.SearchQuery_query_table_name);
-
-        mPropertyName = a.getString(
-                R.styleable.SearchQuery_query_property_name);
-
 
         a.recycle();
 
@@ -125,7 +116,6 @@ public class SearchDateQueryBuilderView extends LinearLayout {
     }
 
     private void dateMaxListener() {
-
         dateMaxTextView.setOnClickListener(v -> {
             Calendar now = Calendar.getInstance();
 
@@ -191,6 +181,28 @@ public class SearchDateQueryBuilderView extends LinearLayout {
         }
     }
 
+    public String buildConditionsFromQuery(String propertyName, List<Object> queryParams) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" ( ");
+        builder.append(propertyName);
+        builder.append(" ");
+        builder.append(getSign());
+
+        SearchDateQueryBuilderView.QueryData queryData = getData();
+
+        if(" BETWEEN ".equalsIgnoreCase(getSign())){
+            builder.append(" ? AND ? ");
+            queryParams.add(queryData.getStartDate());
+            queryParams.add(queryData.getEndDate());
+        }else{
+            builder.append(" ? ");
+            queryParams.add(queryData.getStartDate());
+        }
+        builder.append(" ) ");
+
+        return builder.toString();
+    }
+
     public boolean isUsed() {
         switch (spinner.getSelectedItemPosition()){
             case 1:
@@ -225,10 +237,10 @@ public class SearchDateQueryBuilderView extends LinearLayout {
         switch (spinner.getSelectedItemPosition()){
             case 1:
             case 2:
-                return new QueryData(dateMin.getTime());
+                return new QueryData(dateMin.getTimeInMillis());
 
             case 3:
-                return new QueryData(dateMin.getTime(), dateMax.getTime());
+                return new QueryData(dateMin.getTimeInMillis(), dateMax.getTimeInMillis());
 
             default:
                 return null;
@@ -237,35 +249,28 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
 
     public class QueryData{
-        private Date startDate;
-        private Date endDate;
+        private long startDate;
+        private long endDate;
 
         public QueryData() {
         }
 
-        QueryData(Date startDate) {
+        QueryData(long startDate) {
             this.startDate = startDate;
         }
 
-        QueryData(Date startDate, Date endDate) {
+        QueryData(long startDate, long endDate) {
             this.startDate = startDate;
             this.endDate = endDate;
         }
 
-        public Date getStartDate() {
+        public long getStartDate() {
             return startDate;
         }
 
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
 
-        public Date getEndDate() {
+        public long getEndDate() {
             return endDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
         }
     }
 

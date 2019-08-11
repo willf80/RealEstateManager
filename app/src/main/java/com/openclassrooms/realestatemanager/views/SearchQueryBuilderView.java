@@ -18,13 +18,12 @@ import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.R;
 
+import java.util.List;
 import java.util.Locale;
 
 public class SearchQueryBuilderView extends LinearLayout {
 
     String mTitle;
-    String mTableName;
-    String mPropertyName;
 
     Spinner mSpinner;
     LinearLayout mSearchOptionLayout;
@@ -64,13 +63,6 @@ public class SearchQueryBuilderView extends LinearLayout {
 
         mTitle = a.getString(
                 R.styleable.SearchQuery_query_view_title);
-
-        mTableName = a.getString(
-                R.styleable.SearchQuery_query_table_name);
-
-        mPropertyName = a.getString(
-                R.styleable.SearchQuery_query_property_name);
-
 
         a.recycle();
 
@@ -152,6 +144,28 @@ public class SearchQueryBuilderView extends LinearLayout {
                 if(s.toString().contains("-")) maxValueEditText.setText("0");
             }
         });
+    }
+
+    public String buildConditionsFromQuery(String columnName, List<Object> queryParams){
+        StringBuilder builder = new StringBuilder();
+        builder.append(" ( ");
+        builder.append(columnName);
+        builder.append(" ");
+        builder.append(getSign());
+
+        QueryData queryData = getData();
+
+        if(" BETWEEN ".equalsIgnoreCase(getSign())){
+            builder.append(" ? AND ? ");
+            queryParams.add(queryData.getMinValue());
+            queryParams.add(queryData.getMaxValue());
+        }else{
+            builder.append(" ? ");
+            queryParams.add(queryData.getMinValue());
+        }
+        builder.append(" ) ");
+
+        return builder.toString();
     }
 
     private void performSpinnerActions(int position) {

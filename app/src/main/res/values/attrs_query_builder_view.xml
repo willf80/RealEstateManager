@@ -1,11 +1,5 @@
 <resources>
     <declare-styleable name="SearchQuery">
         <attr name="query_view_title" format="string|reference" />
-        <attr name="query_table_name" format="string|reference" />
-        <attr name="query_property_name" format="string|reference" />
-        <attr name="query_type" format="enum|reference">
-            <enum name="Compare" value="0"/>
-            <enum name="Count" value="1"/>
-        </attr>
     </declare-styleable>
 </resources>
