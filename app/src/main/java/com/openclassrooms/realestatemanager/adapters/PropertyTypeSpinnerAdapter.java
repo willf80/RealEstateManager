@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 
 import java.util.List;
@@ -53,12 +54,12 @@ public class PropertyTypeSpinnerAdapter extends BaseAdapter implements SpinnerAd
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return configure(position, convertView, android.R.layout.simple_spinner_dropdown_item);
+        return configure(position, convertView, R.layout.custom_spinner_item);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return configure(position, convertView, android.R.layout.simple_spinner_item);
+        return configure(position, convertView, R.layout.custom_spinner_item);
     }
 
     private View configure(int position, View convertView, int viewId) {
@@ -71,7 +72,7 @@ public class PropertyTypeSpinnerAdapter extends BaseAdapter implements SpinnerAd
 
             viewHolder = new ViewHolder();
 
-            viewHolder.text = convertView.findViewById(android.R.id.text1);
+            viewHolder.text = convertView.findViewById(R.id.text1);
 
 
             convertView.setTag(viewHolder);
