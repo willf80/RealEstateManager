@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager;
 import android.os.Bundle;
 
 import com.openclassrooms.realestatemanager.models.PropertyInfo;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 public class CreatePropertyActivity extends AbstractPropertyEditionActivity {
 
@@ -21,6 +22,7 @@ public class CreatePropertyActivity extends AbstractPropertyEditionActivity {
     @Override
     public void save(PropertyInfo propertyInfo) {
         mPropertyViewModel.createProperty(this, propertyInfo);
+        Utils.showNotification(this, "Property created successfully !");
         finish();
     }
 }

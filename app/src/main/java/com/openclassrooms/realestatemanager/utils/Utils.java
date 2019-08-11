@@ -1,9 +1,15 @@
 package com.openclassrooms.realestatemanager.utils;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.SettingsActivity;
@@ -99,11 +105,11 @@ public class Utils {
         return getEnglishCurrencyFormatted(money);
     }
 
-    public static String getFrenchCurrencyFormatted(double money){
+    private static String getFrenchCurrencyFormatted(double money){
         return String.format("%s%s", getCurrency(Locale.FRENCH, money), "€");
     }
 
-    public static String getEnglishCurrencyFormatted(double money){
+    private static String getEnglishCurrencyFormatted(double money){
         return String.format("%s%s", "$", getCurrency(Locale.US, money));
     }
 
@@ -136,5 +142,42 @@ public class Utils {
                 address.getAddressLine1(),
                 property.getAddressLine2(),
                 address.getPostalCode());
+    }
+
+    public static void showNotification(Context context, String notificationMessage){
+        String CHANNEL_ID = "default";
+
+        createNotificationChannel(context, CHANNEL_ID);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(notificationMessage)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(notificationMessage))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+        // notify user
+        notificationManagerCompat.notify(0, builder.build());
+    }
+
+    private static void createNotificationChannel(Context context, String channelId) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            CharSequence name = "default";
+            String description = "default";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
