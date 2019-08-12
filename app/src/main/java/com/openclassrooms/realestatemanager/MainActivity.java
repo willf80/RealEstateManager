@@ -21,6 +21,7 @@ import com.openclassrooms.realestatemanager.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 public class MainActivity extends BaseActivity implements PropertyListFragment.OnFragmentDispatchListener {
 
@@ -50,6 +51,8 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(mapFab == null) return;
 
         if(Utils.isInternetAvailable(this)){
             mapFab.show();

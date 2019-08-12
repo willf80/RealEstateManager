@@ -36,6 +36,7 @@
     <string name="url_static_map">"https://maps.googleapis.com/maps/api/staticmap?center=%s&amp;zoom=14&amp;size=400x400&amp;markers=color:red&amp;key=%s"</string>
 
     <string name="url_static_mapquest">"https://www.mapquestapi.com/staticmap/v5/map?center=%s&amp;locations=%s&amp;zoom=17&amp;type=map&amp;size=600,400@2x&amp;defaultMarker=marker-red-lg&amp;key=%s"</string>
+    <string name="url_geocodeapi_mapquest">"http://www.mapquestapi.com/geocoding/v1/address?outFormat=csv&amp;delimiter=|&amp;maxResults=1&amp;location=%s&amp;key=%s"</string>
     <string name="mapquest_api_key">wZV288Djj8UK4OrNeMJwG1slgixbvauE</string>
 
     <string name="flat">Flat</string>
@@ -70,5 +71,6 @@
     <string name="entry_of_market_date">Entry of market date</string>
     <string name="or">- OR -</string>
     <string name="item_1">Item 1</string>
+    <string name="invalid_address_text">Unable to load the map. Please check if it is valid address</string>
 
 </resources>

@@ -35,7 +35,6 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
     private OnFragmentDispatchListener mDispatchListener;
 
-//    private UserViewModel mUserViewModel;
     private PropertyViewModel mPropertyViewModel;
 
     private boolean addressLoaded = false;
@@ -55,10 +54,6 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
 
     private void configureViewModels() {
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(getContext());
-
-//        this.mUserViewModel = ViewModelProviders
-//                .of(this, viewModelFactory)
-//                .get(UserViewModel.class);
 
         this.mPropertyViewModel = ViewModelProviders
                 .of(this, viewModelFactory)
@@ -95,13 +90,8 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
         mPropertyAdapter.updateCurrency();
     }
 
-    private void onPropertyListLoaded(List<PropertyDisplayAllInfo> propertyList) {
-
-        for (PropertyDisplayAllInfo padi : propertyList) {
-            Property property = padi.getProperty();
-            assert property != null;
-
-            mPropertyViewModel.getSelectedMedia(property.getId())
+    private void loadMedia(PropertyDisplayAllInfo allInfo, Property property){
+        mPropertyViewModel.getSelectedMedia(property.getId())
                 .observe(this, media -> {
                     if(media != null) {
                         MediaTemp mediaTemp = new MediaTemp();
@@ -110,37 +100,51 @@ public class PropertyListFragment extends Fragment implements PropertyAdapter.On
                         mediaTemp.setLabel(media.getLabel());
                         mediaTemp.setFileName(media.getFileName());
 
-                        padi.setMediaTemp(mediaTemp);
+                        allInfo.setMediaTemp(mediaTemp);
                     }
                 });
+    }
 
-            mPropertyViewModel.getPropertyAddress(property.getId())
-                    .observe(this, addressDisplayedInfo ->
-                    {
-                        if(addressDisplayedInfo != null) {
-                            Iterator<Address> it = addressDisplayedInfo.getAddress().iterator();
-                            Address address = it.next();
-                            padi.setAddress(address);
+    private void loadPropertyAddress(PropertyDisplayAllInfo allInfo, Property property){
+        mPropertyViewModel.getPropertyAddress(property.getId())
+                .observe(this, addressDisplayedInfo ->
+                {
+                    if(addressDisplayedInfo != null) {
+                        Iterator<Address> it = addressDisplayedInfo.getAddress().iterator();
+                        Address address = it.next();
+                        allInfo.setAddress(address);
 
-                            addressLoaded = true;
-                            reloadData();
-                        }
-                    });
-
-            mPropertyViewModel.getPropertyType(property.getPropertyTypeId())
-                    .observe(this, propertyType ->
-                    {
-                        padi.setPropertyType(propertyType);
-                        propertyTypeLoaded = true;
+                        addressLoaded = true;
                         reloadData();
-                    });
+                    }
+                });
+    }
 
+    private void loadPropertyType(PropertyDisplayAllInfo allInfo, Property property){
+        mPropertyViewModel.getPropertyType(property.getPropertyTypeId())
+                .observe(this, propertyType ->
+                {
+                    allInfo.setPropertyType(propertyType);
+                    propertyTypeLoaded = true;
+                    reloadData();
+                });
+    }
+
+    private void onPropertyListLoaded(List<PropertyDisplayAllInfo> propertyList) {
+
+        for (PropertyDisplayAllInfo allInfo : propertyList) {
+            Property property = allInfo.getProperty();
+            assert property != null;
+
+            loadMedia(allInfo, property);
+            loadPropertyAddress(allInfo, property);
+            loadPropertyType(allInfo, property);
         }
 
         mPropertyList = propertyList;
     }
 
-    public void reloadData() {
+    private void reloadData() {
         if(propertyTypeLoaded && addressLoaded)
             mPropertyAdapter.setPropertyList(mPropertyList);
     }

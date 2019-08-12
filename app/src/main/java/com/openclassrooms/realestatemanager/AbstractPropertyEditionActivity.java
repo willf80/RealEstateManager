@@ -283,7 +283,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             return;
         }
 
-        String fullAddress = addressLine1  + ", New York, " + postalCode;
+        String fullAddress = addressLine1  + ", " + postalCode;
         try {
             fullAddress = URLEncoder.encode(fullAddress, "utf-8");
             getAddressMapImage(fullAddress);
@@ -295,6 +295,10 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     private void getAddressMapImage(String fullAddress) {
         // 1. Check if user are connected
+        if(!Utils.isInternetAvailable(this)){
+            Toast.makeText(this, "Internet is not available. Make sure your connection is activated",
+                    Toast.LENGTH_LONG).show();
+        }
 
         // 2. Call google map static maps API
         // 3. Show Map image
@@ -315,8 +319,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
                         invalidAddressTextView.setVisibility(View.VISIBLE);
 
                         // Invalid address
-                        // TODO : show standard message error for invalid address
-                        invalidAddressTextView.setText(e.getLocalizedMessage());
+                        // show standard message error for invalid address
+                        invalidAddressTextView.setText(getApplicationContext().getString(R.string.invalid_address_text));
                     }
                 });
     }
@@ -364,7 +368,6 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         if(data == null) return;
 
         if(resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case MediaBoxView.RESULT_ACTION_IMAGE_CAPTURE:
                     Bitmap tempSelectedBitmap = (Bitmap) data.getExtras().get("data");
