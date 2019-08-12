@@ -85,8 +85,9 @@ public class Utils {
 
     public static String buildFullAddressMapImageUrl(Context context, String fullAddress){
 
-        return String.format(context.getString(R.string.url_static_map), fullAddress,
-                context.getString(R.string.google_api_key));
+        return String.format(context.getString(R.string.url_static_mapquest),
+                fullAddress, fullAddress,
+                context.getString(R.string.mapquest_api_key));
     }
 
     public static boolean getCurrencySettings(Context context) {

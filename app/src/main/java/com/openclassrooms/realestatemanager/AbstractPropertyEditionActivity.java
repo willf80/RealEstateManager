@@ -283,7 +283,7 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             return;
         }
 
-        String fullAddress = addressLine1 + ", " + postalCode + ", New York";
+        String fullAddress = addressLine1  + ", New York, " + postalCode;
         try {
             fullAddress = URLEncoder.encode(fullAddress, "utf-8");
             getAddressMapImage(fullAddress);
@@ -454,11 +454,9 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     private void extractData() {
         mPropertyInfo = new PropertyInfo();
-        mPropertyInfo.setProperty(new Property());
-        mPropertyInfo.setAddress(new Address());
 
-        Property property = mPropertyInfo.getProperty();
-        Address address = mPropertyInfo.getAddress();
+        Property property = new Property();
+        Address address = new Address();
 
         property.setDescription(descriptionEditText.getText().toString());
 
@@ -472,6 +470,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
         address.setAddressLine1(addressLine1);
         address.setPostalCode(postalCode);
 
+        mPropertyInfo.setProperty(property);
+        mPropertyInfo.setAddress(address);
         mPropertyInfo.setPropertyType(mCurrentPropertyType);
         mPropertyInfo.setInterestPoints(mInterestPointsAddingView.getInterestPointList());
         mPropertyInfo.setMediaTempList(mMediaBoxView.getMediaTempList());
