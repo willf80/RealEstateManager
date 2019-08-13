@@ -139,7 +139,7 @@ public class Utils {
 
     public static String getPropertyCompleteAddress(Property property, Address address) {
         return String.format(Locale.getDefault(),
-                "%s, %s, New York, NY %s, United States",
+                "%s, %s, NY %s, United States",
                 address.getAddressLine1(),
                 property.getAddressLine2(),
                 address.getPostalCode());

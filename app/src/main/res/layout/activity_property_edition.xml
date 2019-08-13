@@ -12,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:paddingLeft="@dimen/property_details_horizontal"
+        android:paddingRight="@dimen/property_details_horizontal"
+        android:paddingTop="@dimen/property_details_vertical"
+        android:paddingBottom="@dimen/property_details_vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

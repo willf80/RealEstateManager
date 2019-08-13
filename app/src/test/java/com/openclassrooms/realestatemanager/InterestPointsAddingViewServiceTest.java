@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class InterestPointsAddingViewServiceTest {
 
-    InterestPointsAddingViewService mPointsAddingViewService;
+    private InterestPointsAddingViewService mPointsAddingViewService;
 
     @Before
     public void setUp() throws IllegalArgumentException {

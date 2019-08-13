@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,15 +14,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.openclassrooms.realestatemanager.fragments.DetailsPropertyFragment;
 import com.openclassrooms.realestatemanager.fragments.PropertyListFragment;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 public class MainActivity extends BaseActivity implements PropertyListFragment.OnFragmentDispatchListener {
 
@@ -43,16 +50,36 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
         setSupportActionBar(mToolbar);
 
-        if(mDetailsFrameLayout != null) {
-            Log.i("Estate", "mDetailsFrameLayout cool !");
-        }
+        setPermissions();
+    }
+
+    private void setPermissions(){
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                })
+                .withErrorListener(error -> {
+
+                })
+                .check();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(mapFab == null) return;
 
         if(Utils.isInternetAvailable(this)){
             mapFab.show();
@@ -143,7 +170,7 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
     public void onMapFabClick() {
         if(!Utils.isInternetAvailable(this)) {
             Toast.makeText(this,
-                    "Internet is not available, please make sure it has been activated",
+                    this.getString(R.string.internet_not_available),
                     Toast.LENGTH_LONG)
                     .show();
             return;

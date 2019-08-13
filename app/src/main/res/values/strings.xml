@@ -72,5 +72,6 @@
     <string name="or">- OR -</string>
     <string name="item_1">Item 1</string>
     <string name="invalid_address_text">Unable to load the map. Please check if it is valid address</string>
+    <string name="internet_not_available">Internet is not available, please make sure it has been activated</string>
 
 </resources>

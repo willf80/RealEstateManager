@@ -140,8 +140,6 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             throw new RuntimeException(toString() + " mode cannot be null.");
         }
 
-        setPermissions();
-
         // 1.Configuration
         configureViews();
 
@@ -191,28 +189,28 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     }
 
-    private void setPermissions(){
-        Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.CAMERA,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-
-                    }
-                })
-                .withErrorListener(error -> {
-
-                })
-                .check();
-    }
+//    private void setPermissions(){
+//        Dexter.withActivity(this)
+//                .withPermissions(Manifest.permission.CAMERA,
+//                        Manifest.permission.READ_CONTACTS,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.RECORD_AUDIO)
+//                .withListener(new MultiplePermissionsListener() {
+//                    @Override
+//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+//
+//                    }
+//                })
+//                .withErrorListener(error -> {
+//
+//                })
+//                .check();
+//    }
 
     private void listeners() {
         mCreatePropertyButton.setOnClickListener(v -> {
