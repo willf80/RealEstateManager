@@ -41,9 +41,7 @@ public class PrepopulateHelper {
         final String tableName = "InterestPoint";
 
         String[] listOfPointOfInterest = new String[]{
-                "Airport", "Restaurant", "Bank", "ATM", "Hotel", "Pub", "Bus station",
-                "Railway station", "Cinema", "Hospital", "College", "School", "Pharmacy",
-                "Supermarket", "Fuel", "Gym", "Place of worship", "Toilet", "Park", "stadium"
+                "Restaurant", "Bus station", "Metro", "School", "Supermarket", "Gym", "Park"
         };
 
         for (int i = 0; i < listOfPointOfInterest.length; i++) {
