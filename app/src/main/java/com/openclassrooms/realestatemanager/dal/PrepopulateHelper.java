@@ -40,27 +40,19 @@ public class PrepopulateHelper {
     public static void prepopulateInterestPointList(@NonNull SupportSQLiteDatabase db) {
         final String tableName = "InterestPoint";
 
-        ContentValues contentValues1 = new ContentValues();
-        contentValues1.put("id", 1);
-        contentValues1.put("label", "Metro");
+        String[] listOfPointOfInterest = new String[]{
+                "Airport", "Restaurant", "Bank", "ATM", "Hotel", "Pub", "Bus station",
+                "Railway station", "Cinema", "Hospital", "College", "School", "Pharmacy",
+                "Supermarket", "Fuel", "Gym", "Place of worship", "Toilet", "Park", "stadium"
+        };
 
-        ContentValues contentValues2 = new ContentValues();
-        contentValues2.put("id", 2);
-        contentValues2.put("label", "School");
+        for (int i = 0; i < listOfPointOfInterest.length; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("id", i + 1);
+            contentValues.put("label", listOfPointOfInterest[i]);
 
-        ContentValues contentValues3 = new ContentValues();
-        contentValues3.put("id", 3);
-        contentValues3.put("label", "Shops");
-
-        ContentValues contentValues4 = new ContentValues();
-        contentValues4.put("id", 4);
-        contentValues4.put("label", "Park");
-
-
-        db.insert(tableName, OnConflictStrategy.IGNORE, contentValues1);
-        db.insert(tableName, OnConflictStrategy.IGNORE, contentValues2);
-        db.insert(tableName, OnConflictStrategy.IGNORE, contentValues3);
-        db.insert(tableName, OnConflictStrategy.IGNORE, contentValues4);
+            db.insert(tableName, OnConflictStrategy.IGNORE, contentValues);
+        }
     }
 
 }
