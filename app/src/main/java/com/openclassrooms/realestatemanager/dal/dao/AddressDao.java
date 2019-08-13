@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.dal.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -31,4 +33,8 @@ public abstract class AddressDao implements BaseDao<Address>{
     @Transaction
     @Query("SELECT * FROM AddressProperties WHERE propertyId = :propertyId")
     public abstract LiveData<AddressDisplayedInfo> getAddressWithPropertyId(long propertyId);
+
+    // Content provider
+    @Query("SELECT * FROM AddressProperties WHERE propertyId = :propertyId")
+    public abstract Cursor getAddressWithCursor(long propertyId);
 }

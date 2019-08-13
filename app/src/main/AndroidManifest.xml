@@ -60,6 +60,31 @@
         <activity
             android:name=".PropertyDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyContentProvider"
+            android:name=".provider.PropertyContentProvider"
+            android:exported="true" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider.AddressContentProvider"
+            android:name=".provider.AddressContentProvider"
+            android:exported="true" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider.InterestPointContentProvider"
+            android:name=".provider.InterestPointContentProvider"
+            android:exported="true" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider.MediaContentProvider"
+            android:name=".provider.MediaContentProvider"
+            android:exported="true" />
+
+        <provider
+            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyTypeContentProvider"
+            android:name=".provider.PropertyTypeContentProvider"
+            android:exported="true" />
     </application>
 
 </manifest>

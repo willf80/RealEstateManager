@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder> {
 
-    List<Media> mMediaList;
+    private List<Media> mMediaList;
 
     public MediaAdapter(List<Media> mediaList) {
         mMediaList = mediaList;

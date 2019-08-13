@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.dal.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -30,4 +32,9 @@ public abstract class InterestPointDao implements BaseDao<InterestPoint>{
 
     @Query("DELETE FROM PropertyInterestPoints WHERE propertyId = :propertyId")
     public abstract void deletePropertyInterestPoints(long propertyId);
+
+    // Content provider
+    @Query("SELECT * FROM InterestPoint WHERE id = :interestPointId")
+    public abstract Cursor getInterestPointWithCursor(long interestPointId);
+
 }

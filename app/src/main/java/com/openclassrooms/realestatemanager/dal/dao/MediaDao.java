@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.dal.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
@@ -22,4 +24,8 @@ public abstract class MediaDao implements BaseDao<Media>{
 
     @Query("DELETE FROM Media WHERE propertyId = :propertyId")
     public abstract void deletePropertyMedia(long propertyId);
+
+    // Content provider
+    @Query("SELECT * FROM Media WHERE propertyId = :propertyId")
+    public abstract Cursor getMediaListWithCursor(long propertyId);
 }
