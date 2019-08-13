@@ -17,6 +17,8 @@ import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.PropertyType;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -139,10 +141,25 @@ public class Utils {
 
     public static String getPropertyCompleteAddress(Property property, Address address) {
         return String.format(Locale.getDefault(),
-                "%s, %s, NY %s, United States",
+                "%s, %s\n%s",
                 address.getAddressLine1(),
-                property.getAddressLine2(),
-                address.getPostalCode());
+                address.getPostalCode(),
+                property.getAddressLine2());
+    }
+
+    public static String getLocationAddressForStaticMap(Address address){
+        return getLocationAddressForStaticMap(address.getAddressLine1(), address.getPostalCode());
+    }
+
+    public static String getLocationAddressForStaticMap(String addressLine1, String postalCode){
+        String fullAddress = addressLine1  + ", " + postalCode;
+        try {
+            return URLEncoder.encode(fullAddress, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void showNotification(Context context, String notificationMessage){

@@ -1,5 +1,5 @@
 <resources>
     <declare-styleable name="SearchQuery">
-        <attr name="query_view_title" format="string|reference" />
+        <attr name="query_view_title" format="string" />
     </declare-styleable>
 </resources>

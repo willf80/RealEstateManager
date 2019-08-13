@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -33,6 +35,8 @@ import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ViewModelFactory;
 import com.openclassrooms.realestatemanager.views.PropertyOptionView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,6 +94,9 @@ public class DetailsPropertyFragment extends Fragment {
 
     @BindView(R.id.tagContainerLayout)
     TagContainerLayout tagContainerLayout;
+
+    @BindView(R.id.staticMapImageView)
+    ImageView staticMapImageView;
 
     private long mPropertyId;
 
@@ -220,9 +227,10 @@ public class DetailsPropertyFragment extends Fragment {
         Address address = it.next();
         info.setAddress(address);
 
-        String location = Utils.getPropertyCompleteAddress(property, address);
+        String fullAddress = Utils.getPropertyCompleteAddress(property, address);
 
-        locationPropertyOptionView.setDescription(location);
+        locationPropertyOptionView.setDescription(fullAddress);
+        getAddressMapImage(Utils.getLocationAddressForStaticMap(address));
     }
 
     private void fetchPropertyInterestPointsIds(List<Long> propertyInterestPointIds) {
@@ -237,6 +245,30 @@ public class DetailsPropertyFragment extends Fragment {
         }
 
         tagContainerLayout.setTags(tagList);
+    }
+
+    private void getAddressMapImage(String fullAddress) {
+        // Check if user are connected
+        if(!Utils.isInternetAvailable(getContext())){
+            return;
+        }
+
+        // Show Map image
+        Picasso.get()
+                .load(Utils.buildFullAddressMapImageUrl(getContext(), fullAddress))
+                .resize(400, 400)
+                .centerCrop()
+                .into(staticMapImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        staticMapImageView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        staticMapImageView.setVisibility(View.GONE);
+                    }
+                });
     }
 
     @OnClick(R.id.buyPropertyFab)

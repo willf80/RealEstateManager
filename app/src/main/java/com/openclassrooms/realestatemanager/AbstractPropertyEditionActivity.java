@@ -189,29 +189,6 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
 
     }
 
-//    private void setPermissions(){
-//        Dexter.withActivity(this)
-//                .withPermissions(Manifest.permission.CAMERA,
-//                        Manifest.permission.READ_CONTACTS,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE,
-//                        Manifest.permission.RECORD_AUDIO)
-//                .withListener(new MultiplePermissionsListener() {
-//                    @Override
-//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-//
-//                    }
-//                })
-//                .withErrorListener(error -> {
-//
-//                })
-//                .check();
-//    }
-
     private void listeners() {
         mCreatePropertyButton.setOnClickListener(v -> {
             if(canSave()) save(mPropertyInfo);
@@ -281,14 +258,8 @@ public abstract class AbstractPropertyEditionActivity extends BaseActivity{
             return;
         }
 
-        String fullAddress = addressLine1  + ", " + postalCode;
-        try {
-            fullAddress = URLEncoder.encode(fullAddress, "utf-8");
-            getAddressMapImage(fullAddress);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        String fullAddress = Utils.getLocationAddressForStaticMap(addressLine1, postalCode);
+        if(fullAddress != null) getAddressMapImage(fullAddress);
     }
 
     private void getAddressMapImage(String fullAddress) {
