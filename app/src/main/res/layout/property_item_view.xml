@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="94dp"
-            android:layout_height="match_parent"
+            android:layout_width="96dp"
+            android:layout_height="80dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/maison1"
@@ -33,27 +33,51 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Flat"
+                android:text="@string/flat"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:maxLines="2"
+                android:marqueeRepeatLimit="marquee_forever"/>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/addressLine1TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Manhattan" />
+                android:text="@string/manhattan"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true" />
 
-            <TextView
-                android:id="@+id/textView3"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="$170,000,000"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimaryDark" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/priceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_example"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/soldTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="@string/sold"
+                    android:padding="4dp"
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimaryDark" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

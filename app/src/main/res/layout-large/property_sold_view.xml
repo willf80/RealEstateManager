@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/propertySoldView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom"
+    app:contentPaddingLeft="@dimen/property_details_horizontal"
+    app:contentPaddingRight="@dimen/property_details_horizontal"
+    app:contentPaddingTop="@dimen/property_details_vertical"
+    app:contentPaddingBottom="@dimen/property_details_vertical"
+    app:cardBackgroundColor="@color/colorAccent"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/soldPropertyMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="@string/property_sold_text" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -2,6 +2,6 @@
     <declare-styleable name="PropertyOptionView">
         <attr name="prop_opt_title" format="string" />
         <attr name="prop_opt_description" format="string" />
-        <attr name="prop_opt_icon" format="integer|reference" />
+        <attr name="prop_opt_icon" format="integer" />
     </declare-styleable>
 </resources>

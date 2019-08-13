@@ -15,13 +15,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="94dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/title_media"
                 android:padding="16dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -37,28 +40,65 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <TextView
+                    android:id="@+id/propertyPriceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/price_example"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="@string/lorem"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/nearby_points_of_interest"/>
+
+                <co.lujun.androidtagview.TagContainerLayout
+                    android:id="@+id/tagContainerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="16dp"
+                    android:padding="10dp"
+                    app:container_enable_drag="false"
+                    app:container_background_color="@android:color/transparent"
+                    app:container_border_color="@android:color/transparent"
+                    app:container_border_radius="0dp"
+                    app:horizontal_interval="10dp"
+                    app:vertical_interval="10dp"
+                    app:tag_background_color="@color/colorPrimary"
+                    app:tag_border_color="@color/colorPrimary"
+                    app:tag_text_color="@color/colorLight50"
+                    app:tag_clickable="false"
+                    app:tag_selectable="false"
+                    app:tag_theme="none" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/title_description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <TextView
-                    android:id="@+id/propertyDescriptionTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lorem" />
+                    android:text="@string/property_details"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="32dp"
                     android:orientation="vertical">
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:id="@+id/surfacePropertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="450 sq m"
@@ -66,6 +106,7 @@
                         app:prop_opt_title="@string/surface" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:id="@+id/numberOfRoomsPropertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="8"
@@ -73,6 +114,7 @@
                         app:prop_opt_title="@string/number_of_rooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:id="@+id/numberOfBathroomsPropertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="2"
@@ -80,6 +122,7 @@
                         app:prop_opt_title="@string/number_of_bathrooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
+                        android:id="@+id/numberOfBedroomsPropertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="4"
@@ -87,19 +130,20 @@
                         app:prop_opt_title="@string/number_of_bedrooms" />
 
                     <com.openclassrooms.realestatemanager.views.PropertyOptionView
-                        android:id="@+id/propertyOptionView"
+                        android:id="@+id/locationPropertyOptionView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:prop_opt_description="@string/location_example"
                         app:prop_opt_title="@string/location" />
 
                     <ImageView
-                        android:id="@+id/staticMapImage"
+                        android:id="@+id/staticMapImageView"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/backgrounds/scenic"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -112,8 +156,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_edit_black_24dp"
+        app:srcCompat="@drawable/ic_edit_black_24dp"
         android:tint="@android:color/white"
         android:layout_gravity="bottom|end"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buyPropertyFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_shop_black_24dp"
+        android:tint="@color/colorLight50"
+        android:layout_gravity="bottom|start"/>
+
+    <include layout="@layout/property_sold_view"/>
 
 </FrameLayout>

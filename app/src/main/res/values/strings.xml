@@ -3,7 +3,12 @@
 
     <string name="title_media">Media</string>
     <string name="title_description">Description</string>
-    <string name="lorem">We and our partners use technology such as cookies on our site to personalise content and ads, provide social media features, and analyse our traffic. Click below to consent to the use of this technology across the web. You can change your mind and change your consent choices at anytime by returning to this site.</string>
+    <string name="lorem">
+        We and our partners use technology such as cookies on our site to
+        personalise content and ads, provide social media features, and analyse our traffic.
+        Click below to consent to the use of this technology across the web.
+        You can change your mind and change your consent choices at anytime by returning to this site.
+    </string>
     <string name="surface">Surface</string>
     <string name="number_of_rooms">Number of rooms</string>
     <string name="number_of_bathrooms">Number of bathrooms</string>
@@ -14,6 +19,64 @@
     <string name="property_details">Property details</string>
     <string name="title">Title</string>
     <string name="price">Price</string>
+    <string name="price_in_dollars">Price in dollar ($) currency</string>
     <string name="image_description">Image description</string>
     <string name="list_of_media_added">List of media added</string>
+    <string name="nearby_points_of_interest">Nearby points of interest</string>
+    <string name="add">Add</string>
+    <string name="country">Country</string>
+    <string name="united_states">United States</string>
+    <string name="city">City</string>
+    <string name="new_york">New York</string>
+    <string name="address">Address</string>
+    <string name="address_line">Address line</string>
+    <string name="address_line2">Apartment, floor, others</string>
+    <string name="postal_code">Postal code</string>
+    <string name="invalid_address">Invalid addressLine2</string>
+    <string name="create">Create</string>
+    <string name="save_modifications">Save modifications</string>
+    <string name="measure_sq_m">sq m</string>
+
+    <string name="google_api_key">AIzaSyBZcojlWxC2NYd9sgPiEWfL4WCpNi7Ve9c</string>
+    <string name="url_static_map">"https://maps.googleapis.com/maps/api/staticmap?center=%s&amp;zoom=14&amp;size=400x400&amp;markers=color:red&amp;key=%s"</string>
+
+    <string name="url_static_mapquest">"https://www.mapquestapi.com/staticmap/v5/map?center=%s&amp;locations=%s&amp;zoom=17&amp;type=map&amp;size=600,400@2x&amp;defaultMarker=marker-red-lg&amp;key=%s"</string>
+    <string name="url_geocodeapi_mapquest">"http://www.mapquestapi.com/geocoding/v1/address?outFormat=csv&amp;delimiter=|&amp;maxResults=1&amp;location=%s&amp;key=%s"</string>
+    <string name="mapquest_api_key">wZV288Djj8UK4OrNeMJwG1slgixbvauE</string>
+
+    <string name="flat">Flat</string>
+    <string name="manhattan">Manhattan</string>
+    <string name="price_example">$170,000,000</string>
+
+    <string-array name="empty_list">
+        <item>Type list is not loaded</item>
+    </string-array>
+
+    <string-array name="search_options">
+        <item>Undefined</item>
+        <item>Less or equal that</item>
+        <item>Greater or equal that</item>
+        <item>Between</item>
+    </string-array>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="search">Search</string>
+    <string name="results">Results</string>
+    <string name="settings">Settings</string>
+    <string name="sold">sold</string>
+    <string name="property_sold_text">Property sold $100,000 in may 20 2019</string>
+    <string name="convert_currency_to_euro">Display currencies in euro (€)</string>
+    <string name="current_currency_is_the_dollar">Current currency is displayed in the dollar ($)</string>
+    <string name="current_currency_is_the_euro">Current currency is displayed in the euro (€)</string>
+    <string name="search_title">Fill in the items you need to use for research</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="date_min">Start date</string>
+    <string name="date_max">End date</string>
+    <string name="entry_of_market_date">Entry of market date</string>
+    <string name="or">- OR -</string>
+    <string name="item_1">Item 1</string>
+    <string name="invalid_address_text">Unable to load the map. Please check if it is valid address</string>
+    <string name="internet_not_available">Internet is not available, please make sure it has been activated</string>
+
 </resources>
