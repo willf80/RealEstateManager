@@ -105,6 +105,10 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
                 searchPropertyActivity();
                 return true;
 
+            case R.id.app_bar_loan:
+                mortgageLoanSimulatorActivity();
+                return true;
+
             case R.id.app_bar_settings:
                 settingsActivity();
                 return true;
@@ -121,6 +125,11 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
 
     private void searchPropertyActivity() {
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    private void mortgageLoanSimulatorActivity() {
+        Intent intent = new Intent(this, MortgageSimulatorActivity.class);
         startActivity(intent);
     }
 
