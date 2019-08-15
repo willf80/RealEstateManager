@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.Locale;
 
@@ -150,11 +151,7 @@ public class MortgageSimulatorActivity extends BaseActivity {
         double capital = Double.parseDouble(amountString);
         double interestRate = Double.parseDouble(interestRateString);
 
-        double ratePerMonth = (interestRate / 100.0) / 12.0;
-        int totalMonth = year * 12;
-
-        double amountMonth = (capital * ratePerMonth) / (1 - Math.pow(1 + ratePerMonth, -totalMonth));
-
+        double amountMonth = Utils.simulateMortgageLoan(capital, interestRate, year);
         amountPerMonthTextView.setText(String.format(Locale.getDefault(), "%.2f $/month", amountMonth));
 
         showResultLayout();
