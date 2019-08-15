@@ -22,8 +22,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SearchResultActivity"
-            android:label="@string/results"/>
+        <activity
+            android:name=".MortgageSimulatorActivity"
+            android:label="@string/title_activity_mortgage_simulator"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.openclassrooms.realestatemanager.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SearchResultActivity"
+            android:label="@string/results" />
         <activity
             android:name=".SearchActivity"
             android:label="@string/search" />
@@ -62,28 +72,24 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyContentProvider"
             android:name=".provider.PropertyContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyContentProvider"
             android:exported="true" />
-
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.provider.AddressContentProvider"
             android:name=".provider.AddressContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager.provider.AddressContentProvider"
             android:exported="true" />
-
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.provider.InterestPointContentProvider"
             android:name=".provider.InterestPointContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager.provider.InterestPointContentProvider"
             android:exported="true" />
-
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.provider.MediaContentProvider"
             android:name=".provider.MediaContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager.provider.MediaContentProvider"
             android:exported="true" />
-
         <provider
-            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyTypeContentProvider"
             android:name=".provider.PropertyTypeContentProvider"
+            android:authorities="com.openclassrooms.realestatemanager.provider.PropertyTypeContentProvider"
             android:exported="true" />
     </application>
 

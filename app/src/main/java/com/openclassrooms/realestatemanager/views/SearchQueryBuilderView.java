@@ -17,17 +17,22 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.QueryData;
 
 import java.util.List;
-import java.util.Locale;
 
 public class SearchQueryBuilderView extends LinearLayout {
+    private static final int NOTHING = 0;
+    private static final int LESS_SIGN = 1;
+    private static final int GREATER_SIGN = 2;
+    private static final int BETWEEN_SIGN = 3;
 
     String mTitle;
 
     Spinner mSpinner;
     LinearLayout mSearchOptionLayout;
     TextView searchTitleView;
+    TextView errorTextView;
     EditText minValueEditText;
     EditText maxValueEditText;
 
@@ -55,6 +60,7 @@ public class SearchQueryBuilderView extends LinearLayout {
         searchTitleView = view.findViewById(R.id.searchTitleView);
         minValueEditText = view.findViewById(R.id.minValueEditText);
         maxValueEditText = view.findViewById(R.id.maxValueEditText);
+        errorTextView = view.findViewById(R.id.errorTextView);
 
         // Load attributes
         @SuppressLint("CustomViewStyleable")
@@ -96,6 +102,33 @@ public class SearchQueryBuilderView extends LinearLayout {
         return Integer.parseInt(value);
     }
 
+    public boolean isValidInputValues(){
+        String maxText = maxValueEditText.getText().toString();
+        String minText = minValueEditText.getText().toString();
+        int min = convertStringToInt(minText);
+        int max = convertStringToInt(maxText);
+
+        switch (mSpinner.getSelectedItemPosition()){
+            case LESS_SIGN:
+            case GREATER_SIGN:
+                return !minText.isEmpty();
+
+            case BETWEEN_SIGN:
+                return !(minText.isEmpty() && maxText.isEmpty()) && max >= min;
+
+            default:
+                return false;
+        }
+    }
+
+    private void showErrorMessage(){
+        if(!isValidInputValues()){
+            errorTextView.setVisibility(VISIBLE);
+        }else{
+            errorTextView.setVisibility(GONE);
+        }
+    }
+
     private void minValueEditTextListener() {
         minValueEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -105,13 +138,7 @@ public class SearchQueryBuilderView extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String maxText = maxValueEditText.getText().toString();
-                int min = convertStringToInt(s.toString());
-                int max = convertStringToInt(maxText);
-
-                if(min > max){
-                    maxValueEditText.setText(String.format(Locale.getDefault(), "%d", min));
-                }
+                showErrorMessage();
             }
 
             @Override
@@ -130,13 +157,7 @@ public class SearchQueryBuilderView extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String minText = minValueEditText.getText().toString();
-                int max = convertStringToInt(s.toString());
-                int min = convertStringToInt(minText);
-
-                if(min > max){
-                    minValueEditText.setText(String.format(Locale.getDefault(), "%d", max));
-                }
+                showErrorMessage();
             }
 
             @Override
@@ -170,51 +191,37 @@ public class SearchQueryBuilderView extends LinearLayout {
 
     private void performSpinnerActions(int position) {
         switch (position) {
-            case 0:
+            case NOTHING:
                 mSearchOptionLayout.setVisibility(GONE);
                 break;
 
-            case 1:
-            case 2:
+            case LESS_SIGN:
+            case GREATER_SIGN:
                 mSearchOptionLayout.setVisibility(VISIBLE);
                 maxValueEditText.setVisibility(GONE);
                 maxValueEditText.setText("");
                 minValueEditText.setHint("Value");
                 break;
 
-            case 3:
+            case BETWEEN_SIGN:
                 mSearchOptionLayout.setVisibility(VISIBLE);
                 maxValueEditText.setVisibility(VISIBLE);
                 minValueEditText.setHint(getContext().getString(R.string.min));
                 break;
         }
-    }
 
-    public boolean isUsed() {
-        switch (mSpinner.getSelectedItemPosition()){
-            case 1:
-            case 2:
-                return !minValueEditText.getText().toString().isEmpty();
-
-            case 3:
-                return !minValueEditText.getText().toString().isEmpty()
-                        &&
-                        !maxValueEditText.getText().toString().isEmpty();
-
-            default:
-                return false;
-        }
+        showErrorMessage();
     }
 
     public String getSign() {
         switch (mSpinner.getSelectedItemPosition()){
-            case 1:
+            case LESS_SIGN:
                 return " <= ";
 
-            case 2:
+            case GREATER_SIGN:
                 return " >= ";
 
-            case 3:
+            case BETWEEN_SIGN:
                 return " BETWEEN ";
 
             default:
@@ -224,12 +231,12 @@ public class SearchQueryBuilderView extends LinearLayout {
 
     public QueryData getData() {
         switch (mSpinner.getSelectedItemPosition()){
-            case 1:
-            case 2:
+            case LESS_SIGN:
+            case GREATER_SIGN:
                 String valueText = minValueEditText.getText().toString();
                 return new QueryData(convertStringToInt(valueText));
 
-            case 3:
+            case BETWEEN_SIGN:
                 String minText = minValueEditText.getText().toString();
                 String maxText = maxValueEditText.getText().toString();
 
@@ -238,40 +245,6 @@ public class SearchQueryBuilderView extends LinearLayout {
 
             default:
                 return null;
-        }
-    }
-
-
-    public class QueryData{
-        private int minValue;
-        private int maxValue;
-
-        public QueryData() {
-        }
-
-        QueryData(int minValue) {
-            this.minValue = minValue;
-        }
-
-        QueryData(int minValue, int maxValue) {
-            this.minValue = minValue;
-            this.maxValue = maxValue;
-        }
-
-        public int getMinValue() {
-            return minValue;
-        }
-
-        public void setMinValue(int minValue) {
-            this.minValue = minValue;
-        }
-
-        public int getMaxValue() {
-            return maxValue;
-        }
-
-        public void setMaxValue(int maxValue) {
-            this.maxValue = maxValue;
         }
     }
 

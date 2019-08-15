@@ -204,7 +204,7 @@ public class SearchActivity extends BaseActivity {
         }
 
         // JOIN Media if necessary
-        if(mediaSearchQueryBuilderView.isUsed()){
+        if(mediaSearchQueryBuilderView.isValidInputValues()){
             builder.append(joinMedia());
         }
 
@@ -328,7 +328,7 @@ public class SearchActivity extends BaseActivity {
             canAddLink = true;
         }
 
-        if(surfaceSearchQueryBuilderView.isUsed()){
+        if(surfaceSearchQueryBuilderView.isValidInputValues()){
             addSurfaceQuery(canAddLink, builder);
             canAddLink = true;
         }
@@ -338,7 +338,7 @@ public class SearchActivity extends BaseActivity {
             canAddLink = true;
         }
 
-        if(priceSearchQueryBuilderView.isUsed()){
+        if(priceSearchQueryBuilderView.isValidInputValues()){
             addPriceQuery(canAddLink, builder);
             canAddLink = true;
         }
@@ -362,7 +362,7 @@ public class SearchActivity extends BaseActivity {
         canSearch = canAddLink;
 
         boolean canReplaceWhere = false;
-        if(mediaSearchQueryBuilderView.isUsed()){
+        if(mediaSearchQueryBuilderView.isValidInputValues()){
             canReplaceWhere = addMediaQuery(canAddLink, builder);
         }
 

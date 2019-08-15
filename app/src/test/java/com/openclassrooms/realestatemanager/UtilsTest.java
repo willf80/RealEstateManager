@@ -50,6 +50,20 @@ public class UtilsTest {
         assertEquals(97000, Utils.convertDollarToEuro(119458));
     }
 
+    @Test
+    public void should_simulate_mortgage_loan() {
+        // Arrange
+        double capital = 1000000;
+        double rate = 4;
+        int years = 30;
+
+        // Act
+        double result = Utils.simulateMortgageLoan(capital, rate, years);
+
+        // Assert
+        assertEquals(4774.15, result);
+    }
+
 }
 
 

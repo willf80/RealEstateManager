@@ -63,6 +63,7 @@
     <string name="search">Search</string>
     <string name="results">Results</string>
     <string name="settings">Settings</string>
+    <string name="mortgage_loan">Mortgage simulator</string>
     <string name="sold">sold</string>
     <string name="property_sold_text">Property sold $100,000 in may 20 2019</string>
     <string name="convert_currency_to_euro">Display currencies in euro (€)</string>
@@ -78,5 +79,19 @@
     <string name="item_1">Item 1</string>
     <string name="invalid_address_text">Unable to load the map. Please check if it is valid address</string>
     <string name="internet_not_available">Internet is not available, please make sure it has been activated</string>
+    <string name="title_activity_mortgage_simulator">Mortgage simulator</string>
+    <string name="amount">Amount</string>
+    <string name="interest_rate">Interest rate</string>
+    <string name="duration_in_year">Duration in year</string>
+    <string name="simulate">Simulate</string>
+    <string name="calculator">Calculator</string>
+    <string name="mortgage_help_text">Indicate your desired amount, rate and duration below</string>
+    <string name="amount_per_month_example">- $/month</string>
+    <string name="your_monthly_payment_will_be">Your monthly payment will be</string>
+    <string name="rate_example">Rate : 1,57%</string>
+    <string name="credit_term">A credit commits you and must be repaid. Check your repayment capacity before you commit</string>
+    <string name="simulation_instructions">Please indicate your desired amount, rate and duration below and click on simulate button to do simulation</string>
+    <string name="error">Invalid input. Make sure you entered a valid value. Not supported in search !</string>
+    <string name="error_date">Invalid date. Make sure you have selected a valid date. Not supported in search !</string>
 
 </resources>

@@ -2,4 +2,6 @@
 <resources>
     <dimen name="property_details_horizontal">8dp</dimen>
     <dimen name="property_details_vertical">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="map_size">160dp</dimen>
 </resources>
