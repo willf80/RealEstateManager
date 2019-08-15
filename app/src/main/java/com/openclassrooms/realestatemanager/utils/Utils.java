@@ -198,4 +198,13 @@ public class Utils {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    public static double simulateMortgageLoan(double capital, double rate, int years){
+        double ratePerMonth = (rate / 100.0) / 12.0;
+        int totalMonth = years * 12;
+
+        double result =  (capital * ratePerMonth) / (1 - Math.pow(1 + ratePerMonth, -totalMonth));
+
+        return  ((long)(result * 100) / 100.0);
+    }
 }
