@@ -2,4 +2,5 @@
 <resources>
     <dimen name="property_details_horizontal">128dp</dimen>
     <dimen name="property_details_vertical">32dp</dimen>
+    <dimen name="map_size">260dp</dimen>
 </resources>

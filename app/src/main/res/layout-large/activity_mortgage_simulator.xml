@@ -98,6 +98,8 @@
         android:id="@+id/bottomSheetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/property_details_horizontal"
+        android:layout_marginRight="@dimen/property_details_horizontal"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="0dp"
         app:behavior_hideable="false"
@@ -132,58 +134,68 @@
                     tools:ignore="ContentDescription" />
             </LinearLayout>
 
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom">
-                <com.google.android.material.textfield.TextInputLayout
+                android:orientation="horizontal">
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/amountEditText"
+                    android:gravity="bottom"
+                    android:layout_weight="1">
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/amount"
-                        android:inputType="numberSigned" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_attach_money_black_24dp"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentEnd="true"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/amountEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/amount"
+                            android:inputType="numberSigned" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom">
-                <com.google.android.material.textfield.TextInputLayout
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_attach_money_black_24dp"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="1dp" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/interestRateEditText"
+                    android:gravity="bottom"
+                    android:layout_weight="1">
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/interest_rate"
-                        android:inputType="numberDecimal" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_percent"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentEnd="true"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/interestRateEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/interest_rate"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_percent"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView"
