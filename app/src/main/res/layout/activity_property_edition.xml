@@ -264,7 +264,7 @@
                 <ImageView
                     android:id="@+id/staticMapImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="@dimen/map_size"
                     android:scaleType="centerCrop"
                     tools:srcCompat="@tools:sample/backgrounds/scenic"
                     android:visibility="gone"
