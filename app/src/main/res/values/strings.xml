@@ -91,5 +91,7 @@
     <string name="rate_example">Rate : 1,57%</string>
     <string name="credit_term">A credit commits you and must be repaid. Check your repayment capacity before you commit</string>
     <string name="simulation_instructions">Please indicate your desired amount, rate and duration below and click on simulate button to do simulation</string>
+    <string name="error">Invalid input. Make sure you entered a valid value. Not supported in search !</string>
+    <string name="error_date">Invalid date. Make sure you have selected a valid date. Not supported in search !</string>
 
 </resources>

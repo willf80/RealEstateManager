@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +18,29 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.QueryData;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.Calendar;
 import java.util.List;
 
 public class SearchDateQueryBuilderView extends LinearLayout {
+    private static final int NOTHING = 0;
+    private static final int LESS_SIGN = 1;
+    private static final int GREATER_SIGN = 2;
+    private static final int BETWEEN_SIGN = 3;
 
-    String mTitle;
+    private String mTitle;
 
-    Spinner spinner;
-    LinearLayout searchOptionLayout;
-    TextView searchTitleView;
-    TextView dateMinTextView;
-    TextView dateMaxTextView;
+    private Spinner spinner;
+    private LinearLayout searchOptionLayout;
+    private TextView searchTitleView;
+    private TextView dateMinTextView;
+    private TextView dateMaxTextView;
 
-    Calendar dateMin;
-    Calendar dateMax;
+    private Calendar dateMin;
+    private Calendar dateMax;
+    private TextView errorTextView;
 
     public SearchDateQueryBuilderView(Context context) {
         super(context);
@@ -57,6 +65,7 @@ public class SearchDateQueryBuilderView extends LinearLayout {
         searchTitleView = view.findViewById(R.id.searchTitleView);
         dateMinTextView = view.findViewById(R.id.dateMinTextView);
         dateMaxTextView = view.findViewById(R.id.dateMaxTextView);
+        errorTextView = view.findViewById(R.id.errorTextView);
 
         // Load attributes
         @SuppressLint("CustomViewStyleable")
@@ -88,6 +97,43 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
         dateMinListener();
         dateMaxListener();
+        inputsChangeListener();
+    }
+
+    private void inputsChangeListener(){
+        dateMinTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showErrorMessage();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        dateMaxTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showErrorMessage();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void dateMinListener() {
@@ -156,15 +202,15 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
     private void performSpinnerActions(int position) {
         switch (position) {
-            case 0:
+            case NOTHING:
                 searchOptionLayout.setVisibility(GONE);
                 dateMin = null;
                 dateMax = null;
                 updateDateView();
                 break;
 
-            case 1:
-            case 2:
+            case LESS_SIGN:
+            case GREATER_SIGN:
                 searchOptionLayout.setVisibility(VISIBLE);
                 dateMaxTextView.setVisibility(GONE);
                 dateMaxTextView.setText("");
@@ -173,12 +219,14 @@ public class SearchDateQueryBuilderView extends LinearLayout {
                 updateDateView();
                 break;
 
-            case 3:
+            case BETWEEN_SIGN:
                 searchOptionLayout.setVisibility(VISIBLE);
                 dateMaxTextView.setVisibility(VISIBLE);
                 dateMinTextView.setHint(getContext().getString(R.string.date_min));
                 break;
         }
+
+        showErrorMessage();
     }
 
     public String buildConditionsFromQuery(String propertyName, List<Object> queryParams) {
@@ -188,28 +236,36 @@ public class SearchDateQueryBuilderView extends LinearLayout {
         builder.append(" ");
         builder.append(getSign());
 
-        SearchDateQueryBuilderView.QueryData queryData = getData();
+        QueryData queryData = getData();
 
         if(" BETWEEN ".equalsIgnoreCase(getSign())){
             builder.append(" ? AND ? ");
-            queryParams.add(queryData.getStartDate());
-            queryParams.add(queryData.getEndDate());
+            queryParams.add(queryData.getMinValue());
+            queryParams.add(queryData.getMaxValue());
         }else{
             builder.append(" ? ");
-            queryParams.add(queryData.getStartDate());
+            queryParams.add(queryData.getMinValue());
         }
         builder.append(" ) ");
 
         return builder.toString();
     }
 
+    private void showErrorMessage(){
+        if(!isUsed()){
+            errorTextView.setVisibility(VISIBLE);
+        }else{
+            errorTextView.setVisibility(GONE);
+        }
+    }
+
     public boolean isUsed() {
         switch (spinner.getSelectedItemPosition()){
-            case 1:
-            case 2:
+            case LESS_SIGN:
+            case GREATER_SIGN:
                 return dateMin != null;
 
-            case 3:
+            case BETWEEN_SIGN:
                 return dateMin != null && dateMax != null;
 
             default:
@@ -219,13 +275,13 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
     public String getSign() {
         switch (spinner.getSelectedItemPosition()){
-            case 1:
+            case LESS_SIGN:
                 return " <= ";
 
-            case 2:
+            case GREATER_SIGN:
                 return " >= ";
 
-            case 3:
+            case BETWEEN_SIGN:
                 return " BETWEEN ";
 
             default:
@@ -235,11 +291,11 @@ public class SearchDateQueryBuilderView extends LinearLayout {
 
     public QueryData getData() {
         switch (spinner.getSelectedItemPosition()){
-            case 1:
-            case 2:
+            case LESS_SIGN:
+            case GREATER_SIGN:
                 return new QueryData(dateMin.getTimeInMillis());
 
-            case 3:
+            case BETWEEN_SIGN:
                 return new QueryData(dateMin.getTimeInMillis(), dateMax.getTimeInMillis());
 
             default:
@@ -248,30 +304,26 @@ public class SearchDateQueryBuilderView extends LinearLayout {
     }
 
 
-    public class QueryData{
-        private long startDate;
-        private long endDate;
-
-        public QueryData() {
-        }
-
-        QueryData(long startDate) {
-            this.startDate = startDate;
-        }
-
-        QueryData(long startDate, long endDate) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
-
-        public long getStartDate() {
-            return startDate;
-        }
-
-
-        public long getEndDate() {
-            return endDate;
-        }
-    }
+//    public class QueryData{
+//        private long startDate;
+//        private long endDate;
+//
+//        QueryData(long startDate) {
+//            this.startDate = startDate;
+//        }
+//
+//        QueryData(long startDate, long endDate) {
+//            this.startDate = startDate;
+//            this.endDate = endDate;
+//        }
+//
+//        long getStartDate() {
+//            return startDate;
+//        }
+//
+//        long getEndDate() {
+//            return endDate;
+//        }
+//    }
 
 }
