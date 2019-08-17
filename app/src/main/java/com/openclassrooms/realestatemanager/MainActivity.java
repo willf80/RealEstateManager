@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity implements PropertyListFragment.O
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.READ_CONTACTS,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO)
