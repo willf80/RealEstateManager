@@ -1,7 +1,11 @@
 package com.openclassrooms.realestatemanager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,15 +13,25 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.openclassrooms.realestatemanager.injection.Injection;
 import com.openclassrooms.realestatemanager.models.Address;
 import com.openclassrooms.realestatemanager.models.MediaTemp;
@@ -47,6 +61,9 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
+    private static final float DEFAULT_ZOOM = 14.0f;
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
 
     private GoogleMap mMap;
     private PropertyViewModel mPropertyViewModel;
@@ -71,6 +88,12 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
 
     boolean isCurrencyEuro;
     PropertyDisplayAllInfo currentAllInfo;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private boolean mLocationPermissionGranted;
+    private LatLng mDefaultLocation = new LatLng(40.6971494,-74.2598642);
+    private Location mLastKnownLocation;
+    private CameraPosition mCameraPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +102,11 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         ButterKnife.bind(this);
         showReturnHome();
 
+        if (savedInstanceState != null) {
+            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -86,6 +114,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         isCurrencyEuro = Utils.getCurrencySettings(this);
+
+        // Construct a FusedLocationProviderClient.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         configureViewModels();
 
@@ -108,11 +139,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setAllGesturesEnabled(true);
         uiSettings.setZoomControlsEnabled(true);
-        uiSettings.setMyLocationButtonEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        LatLng center = new LatLng(40.6971494,-74.2598642);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
+
+        // Add a marker and move the camera
+        float zoom = DEFAULT_ZOOM;
+        if(mCameraPosition != null){
+            zoom = mCameraPosition.zoom;
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, zoom));
 
         mMap.setOnMarkerClickListener((marker) -> {
             currentAllInfo = (PropertyDisplayAllInfo) marker.getTag();
@@ -134,7 +168,90 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
             showDetailsInActivity(property.getId());
         });
 
+        updateLocationUI();
+
+        getDeviceLocation();
+
         loadData();
+    }
+
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        try {
+            if (mLocationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void getLocationPermission(){
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        mLocationPermissionGranted = true;
+                        updateLocationUI();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (mLocationPermissionGranted) {
+                Task locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = (Location) task.getResult();
+                        if(mLastKnownLocation == null) return;
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(mLastKnownLocation.getLatitude(),
+                                        mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    } else {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    }
+                });
+            }
+        } catch(SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        if (mMap != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
+            super.onSaveInstanceState(outState);
+        }
     }
 
     private void listeners(){
